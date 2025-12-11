@@ -4,14 +4,20 @@ import { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import { useProximityContainer } from '@/components/ProximityProvider'
+import VariableProximity from '@/components/VariableProximity'
+import CustomSelect from '@/components/CustomSelect'
+import CustomDateInput from '@/components/CustomDateInput'
 
 export default function Reservation() {
   const mainRef = useRef<HTMLElement>(null)
   const containerRef = useProximityContainer()
   const heroContainerRef = useRef<HTMLElement>(null)
-  const lodgifyContainerRef = useRef<HTMLDivElement>(null)
-  const [scriptLoaded, setScriptLoaded] = useState(false)
-  const [widgetReady, setWidgetReady] = useState(false)
+  const [arrivalDate, setArrivalDate] = useState('')
+  const [departureDate, setDepartureDate] = useState('')
+  const [guests, setGuests] = useState('2')
+  const [errors, setErrors] = useState<{ arrival?: string; departure?: string }>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
     if (mainRef.current && containerRef) {
@@ -19,132 +25,61 @@ export default function Reservation() {
     }
   }, [containerRef])
 
-  // Initialiser Lodgify après le chargement du script
-  useEffect(() => {
-    if (!scriptLoaded || !lodgifyContainerRef.current) return
+  // Date minimale : aujourd'hui
+  const today = new Date().toISOString().split('T')[0]
 
-    const initLodgify = () => {
-      const widget = document.getElementById('lodgify-search-bar')
-      if (!widget) {
-        console.error('❌ Div Lodgify non trouvé dans le DOM')
-        return
-      }
-
-      // Attendre que LodgifySearchBar soit disponible
-      let attempts = 0
-      const maxAttempts = 50 // 5 secondes max
-      
-      const checkLodgify = setInterval(() => {
-        attempts++
-        
-        if ((window as any).LodgifySearchBar) {
-          clearInterval(checkLodgify)
-          console.log('✅ LodgifySearchBar disponible')
-          
-          // Attendre encore un peu pour que le DOM soit complètement prêt
-          setTimeout(() => {
-            console.log('✅ Div Lodgify trouvé dans le DOM')
-            setWidgetReady(true)
-            
-            // Forcer l'initialisation si nécessaire
-            try {
-              if (typeof (window as any).LodgifySearchBar.init === 'function') {
-                console.log('🔄 Initialisation du widget Lodgify...')
-                ;(window as any).LodgifySearchBar.init()
-                
-                // Vérifier après 1 seconde si le widget s'est initialisé
-                setTimeout(() => {
-                  const widgetAfterInit = document.getElementById('lodgify-search-bar')
-                  if (widgetAfterInit && widgetAfterInit.children.length > 0) {
-                    console.log('✅ Widget Lodgify initialisé avec succès')
-                  } else {
-                    console.warn('⚠️ Widget Lodgify toujours vide après initialisation')
-                    // Réessayer une fois
-                    if (typeof (window as any).LodgifySearchBar.init === 'function') {
-                      ;(window as any).LodgifySearchBar.init()
-                    }
-                  }
-                }, 1000)
-              } else {
-                console.warn('⚠️ LodgifySearchBar.init n\'est pas une fonction')
-              }
-            } catch (e) {
-              console.error('❌ Erreur lors de l\'initialisation Lodgify:', e)
-            }
-          }, 300)
-        } else if (attempts >= maxAttempts) {
-          clearInterval(checkLodgify)
-          console.error('❌ LodgifySearchBar non disponible après 5 secondes')
-        }
-      }, 100)
-
-      // Timeout après 10 secondes
-      setTimeout(() => {
-        clearInterval(checkLodgify)
-      }, 10000)
+  const validateDates = () => {
+    const newErrors: { arrival?: string; departure?: string } = {}
+    
+    if (!arrivalDate) {
+      newErrors.arrival = 'Veuillez sélectionner une date d\'arrivée'
     }
-
-    initLodgify()
-  }, [scriptLoaded])
-
-  // Vérification périodique du widget
-  useEffect(() => {
-    if (!widgetReady) return
-
-    const checkWidget = setInterval(() => {
-      const widget = document.getElementById('lodgify-search-bar')
-      if (widget && widget.children.length === 0 && (window as any).LodgifySearchBar) {
-        console.log('🔄 Widget vide détecté, réinitialisation...')
-        try {
-          if (typeof (window as any).LodgifySearchBar.init === 'function') {
-            ;(window as any).LodgifySearchBar.init()
-          }
-        } catch (e) {
-          console.error('Erreur lors de la réinitialisation:', e)
-        }
+    
+    if (!departureDate) {
+      newErrors.departure = 'Veuillez sélectionner une date de départ'
+    }
+    
+    if (arrivalDate && departureDate) {
+      const arrival = new Date(arrivalDate)
+      const departure = new Date(departureDate)
+      
+      if (departure <= arrival) {
+        newErrors.departure = 'La date de départ doit être après la date d\'arrivée'
       }
-    }, 2000)
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
-    return () => clearInterval(checkWidget)
-  }, [widgetReady])
-
-  // Charger le script Lodgify de manière standard (comme recommandé par Lodgify)
-  useEffect(() => {
-    // Vérifier si le script existe déjà
-    if (document.querySelector('script[src*="lodgify-search-bar.js"]')) {
-      console.log('✅ Script Lodgify déjà présent')
-      setScriptLoaded(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitMessage(null)
+    
+    if (!validateDates()) {
       return
     }
-
-    // Créer une balise script standard (sans crossOrigin pour éviter les problèmes CORS)
-    const script = document.createElement('script')
-    script.src = 'https://widget.lodgify.com/lodgify-search-bar.js'
-    script.async = true
-    script.id = 'lodgify-search-bar-script'
-    // Ne pas utiliser crossOrigin pour éviter les problèmes CORS
     
-    script.onload = () => {
-      console.log('✅ Script Lodgify chargé avec succès')
-      setScriptLoaded(true)
-    }
+    setIsSubmitting(true)
     
-    script.onerror = (error) => {
-      console.error('❌ Erreur lors du chargement du script Lodgify:', error)
-      // Afficher un message d'aide
-      console.warn('💡 Si le problème persiste, vérifiez :')
-      console.warn('   1. Que l\'URL https://widget.lodgify.com/lodgify-search-bar.js est accessible')
-      console.warn('   2. Que votre connexion internet fonctionne')
-      console.warn('   3. Contactez le support Lodgify pour obtenir le bon code d\'intégration')
+    try {
+      // Simulation d'une soumission
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      setSubmitMessage({
+        type: 'success',
+        text: 'Merci pour votre demande. Nous vous contacterons bientôt.'
+      })
+      
+    } catch (error) {
+      setSubmitMessage({
+        type: 'error',
+        text: 'Une erreur est survenue. Veuillez réessayer.'
+      })
+    } finally {
+      setIsSubmitting(false)
     }
-
-    // Ajouter le script au head
-    document.head.appendChild(script)
-
-    return () => {
-      // Ne pas supprimer le script pour éviter les conflits
-    }
-  }, [])
+  }
 
   return (
     <main ref={mainRef} className="min-h-screen">
@@ -165,70 +100,104 @@ export default function Reservation() {
           </div>
         </div>
 
-        {/* Widget Lodgify centré */}
+        {/* Formulaire de réservation centré */}
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto w-full">
-          {scriptLoaded && widgetReady ? (
-            <div
-              ref={lodgifyContainerRef}
-              id="lodgify-search-bar"
-              data-website-id="622083"
-              data-language-code="en"
-              data-checkout-page-url="https://checkout.lodgify.com/theskynest/en/#/744274"
-              data-dates-check-in-label="Check-in"
-              data-dates-check-out-label="Check-out"
-              data-guests-counter-label="Guests"
-              data-guests-input-singular-label="{{NumberOfGuests}} guest"
-              data-guests-input-plural-label="{{NumberOfGuests}} guests"
-              data-location-input-label="Location"
-              data-search-button-label="Search"
-              data-dates-input-min-stay-tooltip-text='{"one":"Minimum {minStay} night","other":"Minimum {minStay} nights"}'
-              data-guests-breakdown-label="Guests"
-              data-adults-label='{"one":"adult","other":"adults"}'
-              data-adults-description="Ages {minAge} or above"
-              data-children-label='{"one":"child","other":"children"}'
-              data-children-description="Ages {minAge}-{maxAge}"
-              data-children-not-allowed-label="Not suitable for children"
-              data-infants-label='{"one":"infant","other":"infants"}'
-              data-infants-description="Under {maxAge}"
-              data-infants-not-allowed-label="Not suitable for infants"
-              data-pets-label='{"one":"pet","other":"pets"}'
-              data-pets-not-allowed-label="Not allowed"
-              data-done-label="Done"
-              data-new-tab="true"
-              data-version="stable"
-              data-has-guests-breakdown
-              suppressHydrationWarning
-            />
-          ) : (
-            <div className="bg-white/95 backdrop-blur-md rounded-lg p-8 text-center">
-              <h2 className="text-2xl font-serif text-gold mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-                Réservation
-              </h2>
-              <p className="text-gray-700 mb-6">
-                Le widget de réservation Lodgify est en cours de chargement...
-              </p>
-              <a
-                href="https://checkout.lodgify.com/theskynest/en/#/744274"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-8 py-4 bg-gold text-white font-semibold rounded-full hover:bg-gold-dark transition-all"
-              >
-                Réserver maintenant
-              </a>
-              {process.env.NODE_ENV === 'development' && (
-                <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded text-left text-sm">
-                  <p className="font-semibold text-yellow-800 mb-2">⚠️ Mode développement - Widget Lodgify non chargé</p>
-                  <p className="text-yellow-700 mb-2">L'URL du script Lodgify retourne une erreur 404.</p>
-                  <p className="text-yellow-700 mb-2">Pour résoudre ce problème :</p>
-                  <ol className="list-decimal list-inside text-yellow-700 space-y-1">
-                    <li>Contactez le support Lodgify pour obtenir le bon code d'intégration</li>
-                    <li>Vérifiez que l'URL du script est correcte dans votre compte Lodgify</li>
-                    <li>Utilisez le lien "Réserver maintenant" ci-dessus en attendant</li>
-                  </ol>
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 md:p-12 shadow-2xl">
+            <h2 className="text-2xl md:text-3xl font-serif text-gold mb-6 text-center" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+              <VariableProximity
+                label="Réservez votre séjour"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 700"
+                containerRef={null}
+                radius={100}
+                falloff="linear"
+              />
+            </h2>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-3 gap-6">
+                <CustomDateInput
+                  label="Arrivée"
+                  className="w-full"
+                  value={arrivalDate}
+                  onChange={setArrivalDate}
+                  min={today}
+                  error={errors.arrival}
+                />
+                <CustomDateInput
+                  label="Départ"
+                  className="w-full"
+                  value={departureDate}
+                  onChange={setDepartureDate}
+                  min={arrivalDate || today}
+                  error={errors.departure}
+                />
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-700">
+                    <VariableProximity
+                      label="Voyageurs"
+                      fromFontVariationSettings="'wght' 400"
+                      toFontVariationSettings="'wght' 600"
+                      containerRef={null}
+                      radius={60}
+                      falloff="linear"
+                    />
+                  </label>
+                  <CustomSelect
+                    options={[
+                      { value: '1', label: '1 voyageur' },
+                      { value: '2', label: '2 voyageurs' },
+                      { value: '3', label: '3 voyageurs' },
+                      { value: '4', label: '4 voyageurs' },
+                      { value: '5', label: '5+ voyageurs' },
+                    ]}
+                    className="w-full"
+                    value={guests}
+                    onChange={setGuests}
+                    name="guests"
+                  />
+                </div>
+              </div>
+              
+              {submitMessage && (
+                <div className={`p-4 rounded-lg ${
+                  submitMessage.type === 'success' 
+                    ? 'bg-green-50 text-green-700 border border-green-200' 
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}>
+                  <p className="text-sm">
+                    <VariableProximity
+                      label={submitMessage.text}
+                      fromFontVariationSettings="'wght' 400"
+                      toFontVariationSettings="'wght' 500"
+                      containerRef={null}
+                      radius={60}
+                      falloff="linear"
+                    />
+                  </p>
                 </div>
               )}
-            </div>
-          )}
+              
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full px-8 py-4 bg-gold text-white rounded-full font-semibold transition-all transform shadow-lg ${
+                  isSubmitting 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'hover:bg-gold-dark hover:scale-105'
+                }`}
+              >
+                <VariableProximity
+                  label={isSubmitting ? 'Traitement...' : 'Vérifier la disponibilité'}
+                  fromFontVariationSettings="'wght' 400"
+                  toFontVariationSettings="'wght' 600"
+                  containerRef={null}
+                  radius={70}
+                  falloff="linear"
+                />
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </main>
