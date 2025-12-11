@@ -237,7 +237,6 @@ const ScrollStack = ({
         smoothWheel: true,
         touchMultiplier: 2,
         infinite: false,
-        gestureOrientationHandler: true,
         normalizeWheel: true,
         wheelMultiplier: 1,
         touchInertiaMultiplier: 35,
