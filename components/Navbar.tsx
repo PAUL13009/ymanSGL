@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import VariableProximity from './VariableProximity'
 
 export default function Navbar() {
@@ -33,13 +34,13 @@ export default function Navbar() {
         }`}>
           <div className="flex-1"></div>
           <div className={`hidden md:flex items-center transition-all duration-500 ease-out ${
-            isOnHero ? 'space-x-10' : 'space-x-8'
+            isOnHero ? 'space-x-8' : 'space-x-6'
           }`}>
-            <a href="/" className={`transition-all duration-500 ease-out hover:opacity-80 ${
-              isOnHero ? 'text-gold' : (scrolled ? 'text-gold' : 'text-white')
-            } ${isOnHero ? 'text-lg' : 'text-base'}`}>
+            <a href="/" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
               <VariableProximity
-                label="Villa"
+                label="Accueil"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 600"
                 containerRef={null}
@@ -47,11 +48,11 @@ export default function Navbar() {
                 falloff="linear"
               />
             </a>
-            <a href="#galerie" className={`transition-all duration-500 ease-out hover:opacity-80 ${
-              isOnHero ? 'text-gold' : (scrolled ? 'text-gold' : 'text-white')
-            } ${isOnHero ? 'text-lg' : 'text-base'}`}>
+            <a href="#a-propos" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
               <VariableProximity
-                label="Galerie"
+                label="À propos"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 600"
                 containerRef={null}
@@ -59,11 +60,81 @@ export default function Navbar() {
                 falloff="linear"
               />
             </a>
-            <a href="/pack" className={`transition-all duration-500 ease-out hover:opacity-80 ${
-              isOnHero ? 'text-gold' : (scrolled ? 'text-gold' : 'text-white')
-            } ${isOnHero ? 'text-lg' : 'text-base'}`}>
+            <a href="#services" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
               <VariableProximity
-                label="Pack"
+                label="Services"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 600"
+                containerRef={null}
+                radius={60}
+                falloff="linear"
+              />
+            </a>
+            <a href="#a-vendre" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
+              <VariableProximity
+                label="À vendre"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 600"
+                containerRef={null}
+                radius={60}
+                falloff="linear"
+              />
+            </a>
+            <a href="/" className="flex items-center justify-center">
+              <Image
+                src="/images/Logo-removebg-preview.png"
+                alt="L'Agence Y L"
+                width={isOnHero ? 120 : 100}
+                height={isOnHero ? 120 : 100}
+                className="transition-all duration-500 ease-out"
+                priority
+              />
+            </a>
+            <a href="#a-louer" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
+              <VariableProximity
+                label="À louer"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 600"
+                containerRef={null}
+                radius={60}
+                falloff="linear"
+              />
+            </a>
+            <a href="#estimation" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
+              <VariableProximity
+                label="Estimation"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 600"
+                containerRef={null}
+                radius={60}
+                falloff="linear"
+              />
+            </a>
+            <a href="#equipe" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
+              <VariableProximity
+                label="Équipe"
+                fromFontVariationSettings="'wght' 400"
+                toFontVariationSettings="'wght' 600"
+                containerRef={null}
+                radius={60}
+                falloff="linear"
+              />
+            </a>
+            <a href="#contact" className={`transition-all duration-500 ease-out hover:opacity-80 text-white ${
+              isOnHero ? 'text-lg' : 'text-base'
+            }`}>
+              <VariableProximity
+                label="Contact"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 600"
                 containerRef={null}
@@ -72,27 +143,7 @@ export default function Navbar() {
               />
             </a>
           </div>
-          <div className="flex-1 flex justify-end">
-            <a 
-              href="/reservation"
-              className={`rounded-full font-semibold transition-all duration-500 ease-out ${
-                isOnHero ? 'px-8 py-3 text-base' : 'px-6 py-2 text-sm'
-              } ${
-                scrolled 
-                  ? 'bg-gold text-white hover:bg-gold-dark' 
-                  : 'bg-gold text-white hover:bg-gold-dark'
-              }`}
-            >
-              <VariableProximity
-                label="Réserver"
-                fromFontVariationSettings="'wght' 400"
-                toFontVariationSettings="'wght' 600"
-                containerRef={null}
-                radius={60}
-                falloff="linear"
-              />
-            </a>
-          </div>
+          <div className="flex-1"></div>
         </div>
       </div>
     </nav>

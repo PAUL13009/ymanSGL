@@ -16,13 +16,13 @@ interface HeroProps {
 }
 
 export default function Hero({ 
-  title = "Le Nid Céleste",
-  subtitle = "Une villa exceptionnelle en bambou au cœur de Bali",
-  buttonText = "Découvrir",
+  title = "L'agence Y L",
+  subtitle = "Votre agence immobilière de confiance",
+  buttonText = "Découvrir nos biens",
   buttonLink = "#a-propos",
   id = "accueil",
-  backgroundImage = "/images/hero.jpg",
-  alt = "Villa en bambou à Bali - Le Nid Céleste"
+  backgroundImage = "/images/maison15esejour2.webp",
+  alt = "Agence immobilière Y L - Intérieur moderne"
 }: HeroProps = {}) {
   const containerRef = useRef<HTMLElement>(null)
 

@@ -1,8 +1,20 @@
 'use client'
 
 import { useInView, useMotionValue, useSpring } from 'framer-motion'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import VariableProximity from './VariableProximity'
+import { useCallback, useEffect, useRef } from 'react'
+
+interface CountUpProps {
+  to: number
+  from?: number
+  direction?: 'up' | 'down'
+  delay?: number
+  duration?: number
+  className?: string
+  startWhen?: boolean
+  separator?: string
+  onStart?: () => void
+  onEnd?: () => void
+}
 
 export default function CountUp({
   to,
@@ -14,23 +26,9 @@ export default function CountUp({
   startWhen = true,
   separator = '',
   onStart,
-  onEnd,
-  containerRef
-}: {
-  to: number
-  from?: number
-  direction?: 'up' | 'down'
-  delay?: number
-  duration?: number
-  className?: string
-  startWhen?: boolean
-  separator?: string
-  onStart?: () => void
-  onEnd?: () => void
-  containerRef?: React.RefObject<HTMLElement> | null | undefined
-}) {
+  onEnd
+}: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null)
-  const [displayValue, setDisplayValue] = useState<string>('')
   const motionValue = useMotionValue(direction === 'down' ? to : from)
 
   const damping = 20 + 40 * (1 / duration)
@@ -77,8 +75,9 @@ export default function CountUp({
   )
 
   useEffect(() => {
-    const initialValue = formatValue(direction === 'down' ? to : from)
-    setDisplayValue(initialValue)
+    if (ref.current) {
+      ref.current.textContent = formatValue(direction === 'down' ? to : from)
+    }
   }, [from, to, direction, formatValue])
 
   useEffect(() => {
@@ -105,23 +104,14 @@ export default function CountUp({
 
   useEffect(() => {
     const unsubscribe = springValue.on('change', (latest) => {
-      setDisplayValue(formatValue(latest))
+      if (ref.current) {
+        ref.current.textContent = formatValue(latest)
+      }
     })
 
     return () => unsubscribe()
   }, [springValue, formatValue])
 
-  return (
-    <span className={className} ref={ref}>
-      <VariableProximity
-        label={displayValue}
-        fromFontVariationSettings="'wght' 300"
-        toFontVariationSettings="'wght' 500"
-        containerRef={containerRef || null}
-        radius={60}
-        falloff="linear"
-      />
-    </span>
-  )
+  return <span className={className} ref={ref} />
 }
 

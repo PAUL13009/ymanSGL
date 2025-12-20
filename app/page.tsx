@@ -5,6 +5,7 @@ import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Gallery from '@/components/Gallery'
 import Features from '@/components/Features'
+import Team from '@/components/Team'
 import LocationSection from '@/components/LocationSection'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
@@ -27,6 +28,7 @@ export default function Home() {
       <About />
       <Features />
       <Gallery />
+      <Team />
       <LocationSection />
       <Footer />
     </main>

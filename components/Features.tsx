@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import CountUp from './CountUp'
 import FadeContent from './FadeContent'
 import VariableProximity from './VariableProximity'
 
@@ -21,46 +20,35 @@ export default function Features() {
   const features: FeatureData[] = [
     {
       image: "/images/DSC04823.jpg",
-      imageAlt: "Connectivité - Le Nid Céleste",
-      title: "Connectivité",
-      subtitle: "Technologie de pointe",
+      imageAlt: "Estimation - Agence Y L",
+      title: "Estimation",
+      subtitle: "Valorisons votre bien",
       details: [
-        "Starlink à plus de 150 Mbps",
-        "Projecteur et téléviseur 4K",
-        "Espace de travail dédié"
+        "Estimation gratuite de la valeur de votre bien",
+        "Analyse du marché local",
+        "Accompagnement de A à Z"
       ]
     },
     {
       image: "/images/terrasse.jpg",
-      imageAlt: "Confort - Le Nid Céleste",
-      title: "Confort",
-      subtitle: "Bien-être et détente",
+      imageAlt: "Vente immobilière - Agence Y L",
+      title: "Vente immobilière",
+      subtitle: "Votre projet de vente, encadré de A à Z",
       details: [
-        "Climatisation intégrale",
-        "Piscine à débordement de 60 m²",
-        "Averses de pluie"
+        "Accompagnement personnalisé tout au long du projet",
+        "Estimation fiable et conseils au bon prix",
+        "Transaction sécurisée jusqu'à la signature"
       ]
     },
     {
       image: "/images/DSC04839.JPG",
-      imageAlt: "Emplacement - Le Nid Céleste",
-      title: "Emplacement",
-      subtitle: "Cadre exceptionnel",
+      imageAlt: "Location immobilière - Agence Y L",
+      title: "Location immobilière",
+      subtitle: "Une location sécurisée, sans stress",
       details: [
-        "Vues du mont Agung",
-        "Cadre de jungle",
-        "Confidentialité totale"
-      ]
-    },
-    {
-      image: "/images/DSC04868.jpg",
-      imageAlt: "Expérience - Le Nid Céleste",
-      title: "Expérience",
-      subtitle: "Services et équipements premium",
-      details: [
-        "Cuisine équipée et barbecue",
-        "Services de conciergerie",
-        "Parking privé"
+        "Mise en location et recherche de locataires qualifiés",
+        "Accompagnement pour trouver le bien idéal",
+        "Gestion complète du dossier locatif"
       ]
     },
   ]
@@ -80,13 +68,13 @@ export default function Features() {
   const currentFeature = features[currentFeatureIndex]
 
   return (
-    <section className="pt-24 pb-16 bg-stone-50">
+    <section className="pt-20 pb-20 bg-stone-50">
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-gold mb-4 max-w-4xl mx-auto" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-4 max-w-4xl mx-auto" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
               <VariableProximity
-                label="Caractéristiques de la villa"
+                label="Découvrez les services de l'Agence Y L"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 700"
                 containerRef={null}
@@ -94,16 +82,6 @@ export default function Features() {
                 falloff="linear"
               />
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              <VariableProximity
-                label="Tout ce dont vous avez besoin pour un séjour inoubliable"
-                fromFontVariationSettings="'wght' 300"
-                toFontVariationSettings="'wght' 500"
-                containerRef={null}
-                radius={80}
-                falloff="linear"
-              />
-            </p>
           </div>
 
           <div key={currentFeatureIndex} className="animate-fade-in">
@@ -123,7 +101,7 @@ export default function Features() {
               <div className="space-y-6">
                 {/* Titre principal */}
                 <div>
-                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif text-gold mb-2" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif mb-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
                     <VariableProximity
                       label={currentFeature.title}
                       fromFontVariationSettings="'wght' 400"
@@ -133,7 +111,7 @@ export default function Features() {
                       falloff="linear"
                     />
                   </h3>
-                  <p className="text-xl md:text-2xl text-gold">
+                  <p className="text-xl md:text-2xl" style={{ color: '#4682B4' }}>
                     <VariableProximity
                       label={currentFeature.subtitle}
                       fromFontVariationSettings="'wght' 400"
@@ -151,7 +129,7 @@ export default function Features() {
                     <ul className="space-y-3 text-gray-700">
                       {currentFeature.details.map((detail, index) => (
                         <li key={index} className="flex items-start gap-3">
-                          <span className="text-gold mt-1">•</span>
+                          <span className="mt-1" style={{ color: '#4682B4' }}>•</span>
                           <span className="leading-relaxed">
                             <VariableProximity
                               label={detail}
@@ -173,7 +151,16 @@ export default function Features() {
               <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 flex gap-2 hidden md:flex" style={{ marginLeft: 'calc(8rem / 2 + 28rem)' }}>
                 <button 
                   onClick={handlePrevious}
-                  className="w-10 h-10 border border-gold text-gold flex items-center justify-center hover:bg-gold hover:text-white transition-all"
+                  className="w-10 h-10 flex items-center justify-center transition-all"
+                  style={{ border: '1px solid #4682B4', color: '#4682B4' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#4682B4';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#4682B4';
+                  }}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -181,7 +168,16 @@ export default function Features() {
                 </button>
                 <button 
                   onClick={handleNext}
-                  className="w-10 h-10 border border-gold text-gold flex items-center justify-center hover:bg-gold hover:text-white transition-all"
+                  className="w-10 h-10 flex items-center justify-center transition-all"
+                  style={{ border: '1px solid #4682B4', color: '#4682B4' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#4682B4';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#4682B4';
+                  }}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -196,118 +192,28 @@ export default function Features() {
                 <button
                   key={index}
                   onClick={() => handleGoToFeature(index)}
-                  className={`transition-all duration-300 ${
+                  className={`transition-all duration-300 rounded-full ${
                     index === currentFeatureIndex
-                      ? 'w-8 h-1 bg-gold'
-                      : 'w-1 h-1 bg-gray-300 hover:bg-gold/50'
-                  } rounded-full`}
+                      ? 'w-8 h-1'
+                      : 'w-1 h-1 bg-gray-300'
+                  }`}
+                  style={index === currentFeatureIndex ? { backgroundColor: '#4682B4' } : {}}
+                  onMouseEnter={(e) => {
+                    if (index !== currentFeatureIndex) {
+                      e.currentTarget.style.backgroundColor = 'rgba(70, 130, 180, 0.5)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (index !== currentFeatureIndex) {
+                      e.currentTarget.style.backgroundColor = '#d1d5db';
+                    }
+                  }}
                   aria-label={`Aller à la caractéristique ${index + 1}`}
                 />
               ))}
             </div>
           </div>
         </div>
-
-      {/* Section Statistiques - Pleine largeur */}
-      <div className="mt-8 bg-black py-12 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="flex flex-col items-center">
-              <div className="text-4xl md:text-5xl font-light text-white mb-2">
-                <CountUp to={2} duration={2} containerRef={null} />
-              </div>
-              <div className="text-sm md:text-base font-light text-white/80">
-                <VariableProximity
-                  label="Chambres"
-                  fromFontVariationSettings="'wght' 300"
-                  toFontVariationSettings="'wght' 500"
-                  containerRef={null}
-                  radius={60}
-                  falloff="linear"
-                />
-              </div>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="text-4xl md:text-5xl font-light text-white mb-2">
-                <CountUp to={120} duration={2} delay={0.2} containerRef={null} />
-                <span className="text-2xl md:text-3xl ml-1">
-                  <VariableProximity
-                    label="m²"
-                    fromFontVariationSettings="'wght' 300"
-                    toFontVariationSettings="'wght' 500"
-                    containerRef={null}
-                    radius={60}
-                    falloff="linear"
-                  />
-                </span>
-              </div>
-              <div className="text-sm md:text-base font-light text-white/80">
-                <VariableProximity
-                  label="Surface bâtie"
-                  fromFontVariationSettings="'wght' 300"
-                  toFontVariationSettings="'wght' 500"
-                  containerRef={null}
-                  radius={60}
-                  falloff="linear"
-                />
-              </div>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="text-4xl md:text-5xl font-light text-white mb-2">
-                <CountUp to={300} duration={2} delay={0.4} containerRef={null} />
-                <span className="text-2xl md:text-3xl ml-1">
-                  <VariableProximity
-                    label="m²"
-                    fromFontVariationSettings="'wght' 300"
-                    toFontVariationSettings="'wght' 500"
-                    containerRef={null}
-                    radius={60}
-                    falloff="linear"
-                  />
-                </span>
-              </div>
-              <div className="text-sm md:text-base font-light text-white/80">
-                <VariableProximity
-                  label="Superficie du terrain"
-                  fromFontVariationSettings="'wght' 300"
-                  toFontVariationSettings="'wght' 500"
-                  containerRef={null}
-                  radius={60}
-                  falloff="linear"
-                />
-              </div>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="text-4xl md:text-5xl font-light text-white mb-2 flex items-baseline">
-                <span>
-                  <VariableProximity
-                    label="+"
-                    fromFontVariationSettings="'wght' 300"
-                    toFontVariationSettings="'wght' 500"
-                    containerRef={null}
-                    radius={60}
-                    falloff="linear"
-                  />
-                </span>
-                <CountUp to={150} duration={2} delay={0.6} containerRef={null} />
-              </div>
-              <div className="text-sm md:text-base font-light text-white/80">
-                <VariableProximity
-                  label="Mbps Starlink"
-                  fromFontVariationSettings="'wght' 300"
-                  toFontVariationSettings="'wght' 500"
-                  containerRef={null}
-                  radius={60}
-                  falloff="linear"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       </FadeContent>
     </section>
   )

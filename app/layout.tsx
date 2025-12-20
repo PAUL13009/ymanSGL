@@ -17,6 +17,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Le Nid Céleste - Villa en Bambou à Bali',
   description: 'Découvrez Le Nid Céleste, une villa exceptionnelle en bambou nichée au cœur de Bali. Réservez votre séjour paradisiaque.',
+  icons: {
+    icon: '/images/Logo-removebg-preview.png',
+    shortcut: '/images/Logo-removebg-preview.png',
+    apple: '/images/Logo-removebg-preview.png',
+  },
 }
 
 export default function RootLayout({

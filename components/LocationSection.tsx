@@ -6,31 +6,22 @@ import VariableProximity from './VariableProximity'
 export default function LocationSection() {
   const containerRef = null
 
-  const locationInfos = [
+  const contactInfos = [
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>
       ),
-      text: "2h de l'aéroport Ngurah Rai"
+      text: "+33 6 61 73 64 38"
     },
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       ),
-      text: "À 30 minutes d'Ubud"
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      ),
-      text: "Cœur de l'Est de Bali"
+      text: "lagenceyl@gmail.com"
     },
     {
       icon: (
@@ -39,46 +30,19 @@ export default function LocationSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      text: "Vallée de Sidemen"
-    }
-  ]
-
-  const experiences = [
-    {
-      name: "Trekking au lever du soleil sur le mont Agung",
-      info: "Guides locaux disponibles"
-    },
-    {
-      name: "Palais d'eau de Tirta Gangga",
-      info: "20 minutes en voiture"
-    },
-    {
-      name: "Cascade de Tukad Cepung",
-      info: "25 minutes en voiture"
-    },
-    {
-      name: "Temple de Lempuyang (Portes du Ciel)",
-      info: "45 minutes en voiture"
-    },
-    {
-      name: "Virgin Beach (Pasir Putih)",
-      info: "30 minutes en voiture"
-    },
-    {
-      name: "Villages traditionnels d'orfèvres",
-      info: "10 minutes en voiture"
+      text: "142 Boulevard Notre Dame 13008 Marseille"
     }
   ]
 
   return (
-    <section id="localisation" className="py-24 bg-stone-50">
+    <section id="contact" className="pt-20 pb-20 bg-stone-50">
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Titre de la section */}
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-gold mb-4 max-w-4xl mx-auto" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-4 max-w-4xl mx-auto" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
               <VariableProximity
-                label="Localisation"
+                label="Contact"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 700"
                 containerRef={containerRef}
@@ -93,7 +57,7 @@ export default function LocationSection() {
             {/* Carte Google Maps - Colonne de gauche */}
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31592.27498482899!2d115.4307407!3d-8.5336143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2175a8f0e3b3b%3A0x8c3b3b3b3b3b3b3b!2sSidemen%2C%20Karangasem%2C%20Bali%2080864%2C%20Indon%C3%A9sie!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr"
+                src="https://www.google.com/maps?q=142+Boulevard+Notre+Dame,+13008+Marseille,+France&output=embed"
                 width="100%"
                 height="500"
                 style={{ border: 0 }}
@@ -104,72 +68,70 @@ export default function LocationSection() {
               />
             </div>
 
-            {/* Colonne de droite - Informations et Expériences */}
-            <div className="space-y-8">
-              {/* Informations de localisation */}
-              <div className="grid grid-cols-2 gap-4">
-                {locationInfos.map((info, index) => (
-                  <div key={index} className="bg-white rounded-lg p-4 shadow-md border border-bamboo-100 h-full flex items-center">
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="text-green-600 flex-shrink-0">
-                        {info.icon}
-                      </div>
-                      <p className="text-gray-700">
-                        <VariableProximity
-                          label={info.text}
-                          fromFontVariationSettings="'wght' 300"
-                          toFontVariationSettings="'wght' 500"
-                          containerRef={containerRef}
-                          radius={70}
-                          falloff="linear"
-                        />
-                      </p>
+            {/* Colonne de droite - Informations de contact */}
+            <div className="space-y-6">
+              {contactInfos.map((info, index) => (
+                <div key={index} className="bg-white rounded-lg p-6 shadow-md border border-gray-100">
+                  <div className="flex items-center gap-4">
+                    <div className="text-gray-600 flex-shrink-0">
+                      {info.icon}
                     </div>
+                    <p className="text-gray-900 text-lg">
+                      <VariableProximity
+                        label={info.text}
+                        fromFontVariationSettings="'wght' 400"
+                        toFontVariationSettings="'wght' 600"
+                        containerRef={containerRef}
+                        radius={80}
+                        falloff="linear"
+                      />
+                    </p>
                   </div>
-                ))}
-              </div>
-
-              {/* Expériences à proximité */}
-              <div>
-                <h3 className="text-2xl md:text-3xl font-light text-gold mb-6">
-                  <VariableProximity
-                    label="Expériences à proximité"
-                    fromFontVariationSettings="'wght' 300"
-                    toFontVariationSettings="'wght' 500"
-                    containerRef={containerRef}
-                    radius={100}
-                    falloff="linear"
-                  />
-                </h3>
-                <div className="space-y-4">
-                  {experiences.map((experience, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <span className="text-gold mt-1 flex-shrink-0">•</span>
-                      <div className="flex flex-col">
-                        <p className="text-gray-900 mb-1">
-                          <VariableProximity
-                            label={experience.name}
-                            fromFontVariationSettings="'wght' 400"
-                            toFontVariationSettings="'wght' 600"
-                            containerRef={containerRef}
-                            radius={80}
-                            falloff="linear"
-                          />
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          <VariableProximity
-                            label={experience.info}
-                            fromFontVariationSettings="'wght' 300"
-                            toFontVariationSettings="'wght' 400"
-                            containerRef={containerRef}
-                            radius={70}
-                            falloff="linear"
-                          />
-                        </p>
-                      </div>
-                    </div>
-                  ))}
                 </div>
+              ))}
+
+              {/* Icônes sociales */}
+              <div className="flex items-center justify-center gap-6 pt-4">
+                <a 
+                  href="https://www.instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-110"
+                  aria-label="Instagram"
+                >
+                  <svg className="w-8 h-8" fill="url(#instagram-gradient)" viewBox="0 0 24 24">
+                    <defs>
+                      <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#E4405F" />
+                        <stop offset="50%" stopColor="#C13584" />
+                        <stop offset="100%" stopColor="#833AB4" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+                <a 
+                  href="https://www.linkedin.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-110"
+                  aria-label="LinkedIn"
+                >
+                  <svg className="w-8 h-8" fill="#0077B5" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+                <a 
+                  href="https://www.facebook.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-110"
+                  aria-label="Facebook"
+                >
+                  <svg className="w-8 h-8" fill="#1877F2" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
