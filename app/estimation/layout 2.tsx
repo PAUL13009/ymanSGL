@@ -1,21 +1,21 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Vente immobilière Marseille | Méthode sérieuse et exigeante',
-  description: 'Vente immobilière Marseille : méthode structurée pour vendre votre appartement ou maison au bon prix. Analyse du marché réel, stratégie claire, suivi personnalisé. Évitez les ventes ratées.',
-  keywords: 'vente immobilière Marseille, vendre un bien immobilier à Marseille, vente appartement Marseille, vente maison Marseille, agence immobilière vente Marseille, vendre son bien à Marseille',
+  title: 'Estimation immobilière Marseille | Méthode sérieuse et humaine',
+  description: 'Estimation immobilière Marseille : méthode humaine et contextualisée pour votre appartement ou maison. Analyse du marché réel, prix cohérent et recommandation argumentée. Demandez votre pré-analyse.',
+  keywords: 'estimation immobilière Marseille, estimation appartement Marseille, estimation maison Marseille, estimer un bien immobilier à Marseille, prix immobilier Marseille, estimation bien immobilier Marseille',
   openGraph: {
-    title: 'Vente immobilière Marseille | Méthode sérieuse et exigeante',
-    description: 'Vente immobilière Marseille : méthode structurée pour vendre votre appartement ou maison au bon prix. Analyse du marché réel, stratégie claire, suivi personnalisé.',
+    title: 'Estimation immobilière Marseille | Méthode sérieuse et humaine',
+    description: 'Estimation immobilière Marseille : méthode humaine et contextualisée pour votre appartement ou maison. Analyse du marché réel, prix cohérent et recommandation argumentée.',
     type: 'website',
     locale: 'fr_FR',
   },
   alternates: {
-    canonical: 'https://lagenceyl.fr/vente',
+    canonical: 'https://lagenceyl.fr/estimation',
   },
 }
 
-export default function VenteLayout({
+export default function EstimationLayout({
   children,
 }: {
   children: React.ReactNode
@@ -31,7 +31,7 @@ export default function VenteLayout({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "L'Agence Y L",
-            "description": "Agence immobilière à Marseille spécialisée dans la vente immobilière avec méthode structurée et exigeante",
+            "description": "Agence immobilière à Marseille spécialisée dans l'estimation immobilière sérieuse et humaine",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Marseille",
@@ -41,7 +41,7 @@ export default function VenteLayout({
               "@type": "City",
               "name": "Marseille"
             },
-            "serviceType": "Vente immobilière",
+            "serviceType": "Estimation immobilière",
             "priceRange": "$$"
           })
         }}
@@ -52,7 +52,7 @@ export default function VenteLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
-            "serviceType": "Vente immobilière",
+            "serviceType": "Estimation immobilière",
             "provider": {
               "@type": "LocalBusiness",
               "name": "L'Agence Y L",
@@ -66,13 +66,11 @@ export default function VenteLayout({
               "@type": "City",
               "name": "Marseille"
             },
-            "description": "Vente immobilière à Marseille avec méthode structurée : analyse du bien, positionnement prix, stratégie de mise en vente, suivi et ajustements. Pour vendre votre appartement ou maison au bon prix."
+            "description": "Estimation immobilière humaine et contextualisée pour appartements et maisons à Marseille. Analyse du marché réel, prix cohérent et recommandation argumentée."
           })
         }}
       />
     </>
   )
 }
-
-
 

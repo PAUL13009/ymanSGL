@@ -28,13 +28,12 @@ export default function Navbar() {
 
   const menuItems = [
     { label: 'Accueil', link: '/', ariaLabel: 'Aller à la page d\'accueil' },
-    { label: 'À propos', link: '#a-propos', ariaLabel: 'Aller à la section À propos' },
-    { label: 'Services', link: '/#services', ariaLabel: 'Aller à la section Services' },
+    { label: 'À propos', link: '/a-propos', ariaLabel: 'Aller à la page À propos' },
+    { label: 'Services', link: '/services', ariaLabel: 'Aller à la page Services' },
     { label: 'À vendre', link: '/vente', ariaLabel: 'Aller à la page Vente' },
     { label: 'À louer', link: '/location', ariaLabel: 'Aller à la page Location' },
     { label: 'Estimation', link: '/estimation', ariaLabel: 'Aller à la page Estimation' },
-    { label: 'Équipe', link: '#equipe', ariaLabel: 'Aller à la section Équipe' },
-    { label: 'Contact', link: '#contact', ariaLabel: 'Aller à la section Contact' },
+    { label: 'Catalogue', link: '/catalogue', ariaLabel: 'Aller au catalogue des biens' },
   ]
 
   useEffect(() => {

@@ -209,7 +209,7 @@ export default function Gallery() {
           <div className="text-center mb-16">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mb-4 max-w-4xl mx-auto" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
               <VariableProximity
-                label="Une sélection de biens, pas un empilement d'annonces"
+                label="Quelques biens que nous avons accompagnés"
                 fromFontVariationSettings="'wght' 400"
                 toFontVariationSettings="'wght' 700"
                 containerRef={null}

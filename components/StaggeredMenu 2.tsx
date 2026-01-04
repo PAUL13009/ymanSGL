@@ -423,5 +423,3 @@ export const StaggeredMenu = ({
 
 export default StaggeredMenu
 
-
-

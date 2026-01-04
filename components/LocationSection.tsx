@@ -206,7 +206,7 @@ export default function LocationSection() {
                       className="w-full bg-transparent border-0 border-b focus:outline-none transition-colors pb-2 text-gray-800 disabled:opacity-50"
                       style={{ borderColor: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}
                     />
-                  </div>
+                      </div>
 
                   {/* Téléphone */}
                   <div>
@@ -223,7 +223,7 @@ export default function LocationSection() {
                       className="w-full bg-transparent border-0 border-b focus:outline-none transition-colors pb-2 text-gray-800 disabled:opacity-50"
                       style={{ borderColor: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}
                     />
-                  </div>
+                    </div>
 
                   {/* Pays de résidence */}
                   <div>
@@ -241,10 +241,10 @@ export default function LocationSection() {
                       style={{ borderColor: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}
                     />
                   </div>
-                </div>
+              </div>
 
                 {/* Description du projet */}
-                <div>
+              <div>
                   <label htmlFor="projet" className="block text-sm font-medium mb-3 text-gray-800" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Décrivez votre projet
                   </label>

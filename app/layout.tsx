@@ -15,8 +15,41 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Le Nid Céleste - Villa en Bambou à Bali',
-  description: 'Découvrez Le Nid Céleste, une villa exceptionnelle en bambou nichée au cœur de Bali. Réservez votre séjour paradisiaque.',
+  title: 'Estimation immobilière Marseille | Vente résidence principale',
+  description: 'Agence immobilière Marseille 6e : estimation réaliste et vente efficace de votre résidence principale. Méthode exigeante, prix du marché, accompagnement jusqu\'à la signature.',
+  keywords: [
+    'estimation immobilière Marseille',
+    'vente immobilière Marseille',
+    'agence immobilière 6e arrondissement',
+    'estimation bien immobilier Vauban',
+    'vendre appartement Marseille',
+    'vendre maison Marseille',
+    'prix immobilier Marseille',
+    'marché immobilier local',
+    'vendeur particulier Marseille',
+    'estimation réaliste bien immobilier'
+  ],
+  openGraph: {
+    title: 'Estimation immobilière Marseille | Vente résidence principale',
+    description: 'Agence immobilière Marseille 6e : estimation réaliste et vente efficace de votre résidence principale. Méthode exigeante, prix du marché.',
+    type: 'website',
+    locale: 'fr_FR',
+    siteName: "L'Agence YL",
+  },
+  alternates: {
+    canonical: 'https://www.agence-yl.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/images/Logo-removebg-preview.png',
     shortcut: '/images/Logo-removebg-preview.png',
