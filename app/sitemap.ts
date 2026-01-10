@@ -9,7 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/notre-methode',
     '/services',
     '/estimation',
-    '/estimation/formulaire',
     '/vente',
     '/location',
     '/catalogue',
