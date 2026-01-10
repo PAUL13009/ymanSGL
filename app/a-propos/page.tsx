@@ -19,7 +19,7 @@ export default function AProposPage() {
   const venteButtonRef = useScrollButtonAnimation()
   const estimationButtonRef = useScrollButtonAnimation()
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white" role="main">
       <Navbar />
       
       <Hero 
@@ -34,7 +34,7 @@ export default function AProposPage() {
       />
 
       {/* Section Pourquoi l'agence existe */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="pourquoi-agence-existe">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -42,17 +42,17 @@ export default function AProposPage() {
               <div className="relative h-[500px] md:h-[600px] overflow-hidden shadow-xl">
                 <Image
                   src="/images/Notre-Dame-de-la-Garde-Marseille.jpg"
-                  alt="Marseille - Notre-Dame de la Garde"
+                  alt="Vue de Notre-Dame de la Garde à Marseille depuis l'agence immobilière"
                   fill
                   className="object-cover"
                   priority
                 />
                 {/* Overlay sombre pour la lisibilité du texte */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="pourquoi-agence-existe" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Pourquoi l'agence existe ?
                     </h2>
                   </FadeContent>
@@ -88,12 +88,12 @@ export default function AProposPage() {
       </section>
 
       {/* Section Notre façon de travailler */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="notre-facon-de-travailler">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="notre-facon-de-travailler" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Notre façon de travailler
               </h2>
             </div>
@@ -102,41 +102,41 @@ export default function AProposPage() {
                 Chaque projet immobilier nécessite une méthode rigoureuse. Avant tout engagement, 
                 l'agence procède à une analyse complète qui comprend :
               </p>
-              <div className="grid md:grid-cols-3 gap-6 mt-8">
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl font-bold">1</span>
+              <div className="grid md:grid-cols-3 gap-6 mt-8" role="list">
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="estimation-realiste">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl font-bold" aria-hidden="true">1</span>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="estimation-realiste" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Estimation réaliste
                   </h3>
                   <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Basée sur l'analyse du bien, de son environnement et de son état.
                   </p>
+                </article>
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="contexte-juridique">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl font-bold" aria-hidden="true">2</span>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl font-bold">2</span>
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="contexte-juridique" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Contexte juridique
                   </h3>
                   <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Succession, divorce, vente classique, investissement. Chaque situation nécessite une approche adaptée.
                   </p>
+                </article>
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="marche-local">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl font-bold" aria-hidden="true">3</span>
                 </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl font-bold">3</span>
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="marche-local" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Marché local
                   </h3>
                   <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Analyse des biens similaires récemment vendus sur le même secteur pour établir une estimation précise.
                   </p>
+                </article>
                 </div>
-              </div>
               <p className="mt-8 text-center md:text-left">
                 Cette méthode permet d'identifier rapidement si un projet est viable et si l'agence 
                 peut l'accompagner efficacement. Aucun engagement n'est pris sans cette analyse préalable.
@@ -147,27 +147,27 @@ export default function AProposPage() {
       </section>
 
       {/* Section Une agence sélective par choix */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="agence-selective-par-choix">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mx-auto mb-6" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mx-auto mb-6" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="agence-selective-par-choix" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Une agence sélective par choix
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="grid md:grid-cols-2 gap-8 mb-8" role="list">
               {/* Accepté */}
-              <div className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group" style={{ borderColor: '#4682B4' }}>
+              <article className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group" style={{ borderColor: '#4682B4' }} role="listitem" aria-labelledby="agence-accepte">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl">✓</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✓</span>
                   </div>
-                  <h3 className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                  <h3 id="agence-accepte" className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                     L'agence accepte
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -179,8 +179,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les vendeurs réfléchis, avec un projet structuré</span>
                     </li>
                   </AnimatedContent>
@@ -195,8 +195,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les biens standards ou à forte valeur</span>
                     </li>
                   </AnimatedContent>
@@ -211,8 +211,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les résidences principales, investisseurs, successions</span>
                     </li>
                   </AnimatedContent>
@@ -227,25 +227,25 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les projets avec des objectifs réalistes et cohérents</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
               
               {/* Refusé */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group">
+              <article className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group" role="listitem" aria-labelledby="agence-refuse">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110">
-                    <span className="text-white text-xl">✗</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✗</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="agence-refuse" className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     L'agence refuse
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -257,8 +257,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les prix irréalistes, déconnectés du marché</span>
                     </li>
                   </AnimatedContent>
@@ -273,8 +273,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les mandats simples sans analyse préalable</span>
                     </li>
                   </AnimatedContent>
@@ -289,8 +289,8 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les projets flous ou non aboutis</span>
                     </li>
                   </AnimatedContent>
@@ -305,13 +305,13 @@ export default function AProposPage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les situations où l'agence ne peut pas apporter de valeur réelle</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
             </div>
             <div className="text-center mt-10">
               <p className="text-lg text-gray-600 italic max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -324,12 +324,12 @@ export default function AProposPage() {
       </section>
 
       {/* Section Un accompagnement transparent */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="accompagnement-transparent">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="accompagnement-transparent" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Un accompagnement transparent
               </h2>
             </div>
@@ -355,7 +355,7 @@ export default function AProposPage() {
       </section>
 
       {/* Section Expertise locale à Marseille */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="expertise-locale-marseille">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -368,17 +368,17 @@ export default function AProposPage() {
               >
                 <Image
                   src="/images/marseille-hauteur.jpg"
-                  alt="Marseille - Vue aérienne"
+                  alt="Vue aérienne de Marseille - Expertise immobilière locale 6e au 15e arrondissement"
                   fill
                   className="object-cover"
                   priority
                 />
                 {/* Overlay sombre pour la lisibilité du texte */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="expertise-locale-marseille" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Expertise locale à Marseille
                     </h2>
                   </FadeContent>
@@ -392,6 +392,7 @@ export default function AProposPage() {
                 >
                   <a
                     href="/estimation"
+                    aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isExpertiseImageHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -422,6 +423,8 @@ export default function AProposPage() {
                         width: '0%',
                         transition: 'width 0.5s ease-in-out'
                       }}
+                      aria-hidden="true"
+                      role="presentation"
                     ></span>
                   </a>
                 </div>
@@ -432,9 +435,11 @@ export default function AProposPage() {
                     isExpertiseImageAnimated ? 'opacity-100' : 'opacity-0'
                   }`}
                   style={{ zIndex: 10 }}
+                  aria-hidden="true"
                 >
                   <a
                     href="/estimation"
+                    aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isExpertiseImageAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -453,6 +458,8 @@ export default function AProposPage() {
                         width: isExpertiseImageAnimated ? '100%' : '0%',
                         transition: 'width 0.5s ease-in-out'
                       }}
+                      aria-hidden="true"
+                      role="presentation"
                     ></span>
                   </a>
                 </div>
@@ -462,10 +469,10 @@ export default function AProposPage() {
               <div className="space-y-8 order-2 md:order-1">
                 {/* Arrondissements avec animation de glissement */}
                 <div className="space-y-4 text-center md:text-left">
-                  <h3 className="text-xl font-semibold text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="arrondissements-intervention" className="text-xl font-semibold text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Arrondissements d'intervention
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-3" role="list">
                     <AnimatedContent 
                       direction="horizontal" 
                       distance={100} 
@@ -474,7 +481,7 @@ export default function AProposPage() {
                       delay={0}
                       threshold={0.2}
                     >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200">
+                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
                         <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           6e arrondissement
                         </p>
@@ -488,7 +495,7 @@ export default function AProposPage() {
                       delay={0.1}
                       threshold={0.2}
                     >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200">
+                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
                         <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           7e arrondissement
                         </p>
@@ -502,7 +509,7 @@ export default function AProposPage() {
                       delay={0.2}
                       threshold={0.2}
                     >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200">
+                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
                         <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           8e arrondissement
                         </p>
@@ -516,7 +523,7 @@ export default function AProposPage() {
                       delay={0.3}
                       threshold={0.2}
                     >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200">
+                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
                         <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           9e arrondissement
                         </p>
@@ -530,7 +537,7 @@ export default function AProposPage() {
                       delay={0.4}
                       threshold={0.2}
                     >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200">
+                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
                         <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           15e arrondissement
                         </p>
@@ -558,13 +565,13 @@ export default function AProposPage() {
       </section>
 
       {/* Section La fondatrice */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="la-fondatrice">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             {/* Titre */}
             <div className="mb-8 md:mb-12">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="la-fondatrice" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 La fondatrice
               </h2>
             </div>
@@ -579,7 +586,7 @@ export default function AProposPage() {
               >
                 <Image
                   src="/images/Yman.png"
-                  alt="Yman Lahlou, Directrice de l'Agence YL"
+                  alt="Yman Lahlou, Fondatrice et Directrice de l'Agence YL à Marseille"
                   fill
                   className="object-cover"
                   priority
@@ -592,6 +599,7 @@ export default function AProposPage() {
                 >
                   <a
                     href="mailto:lagenceyl@gmail.com"
+                    aria-label="Contacter Yman Lahlou, fondatrice de l'agence immobilière à Marseille par email"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isFondatriceImageHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -622,6 +630,8 @@ export default function AProposPage() {
                         width: '0%',
                         transition: 'width 0.5s ease-in-out'
                       }}
+                      aria-hidden="true"
+                      role="presentation"
                     ></span>
                   </a>
                 </div>
@@ -631,9 +641,11 @@ export default function AProposPage() {
                   className={`md:hidden absolute inset-0 flex items-end justify-center bg-black/40 transition-opacity duration-1000 ease-in-out pb-8 ${
                     isFondatriceImageAnimated ? 'opacity-100' : 'opacity-0'
                   }`}
+                  aria-hidden="true"
                 >
                   <a
                     href="mailto:lagenceyl@gmail.com"
+                    aria-label="Contacter Yman Lahlou, fondatrice de l'agence immobilière à Marseille par email"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isFondatriceImageAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -652,6 +664,8 @@ export default function AProposPage() {
                         width: isFondatriceImageAnimated ? '100%' : '0%',
                         transition: 'width 0.5s ease-in-out'
                       }}
+                      aria-hidden="true"
+                      role="presentation"
                     ></span>
                   </a>
                 </div>
@@ -687,7 +701,7 @@ export default function AProposPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-transform hover:scale-110"
-                aria-label="LinkedIn"
+                aria-label="Profil LinkedIn de Yman Lahlou, fondatrice de l'agence immobilière à Marseille"
               >
                 <svg
                   width="32"
@@ -695,6 +709,7 @@ export default function AProposPage() {
                   viewBox="0 0 24 24"
                   fill="#0077B5"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
@@ -706,7 +721,7 @@ export default function AProposPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-transform hover:scale-110"
-                aria-label="Facebook"
+                aria-label="Page Facebook de l'agence immobilière à Marseille"
               >
                 <svg
                   width="32"
@@ -714,6 +729,7 @@ export default function AProposPage() {
                   viewBox="0 0 24 24"
                   fill="#1877F2"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
@@ -725,7 +741,7 @@ export default function AProposPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-transform hover:scale-110"
-                aria-label="Instagram"
+                aria-label="Profil Instagram de l'agence immobilière à Marseille"
               >
                 <svg
                   width="32"
@@ -733,6 +749,7 @@ export default function AProposPage() {
                   viewBox="0 0 24 24"
                   fill="url(#instagram-gradient)"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
                 >
                   <defs>
                     <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -750,9 +767,10 @@ export default function AProposPage() {
       </section>
 
       {/* CTA Final discret */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="cta-final-a-propos">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-4xl mx-auto text-center">
+            <h2 id="cta-final-a-propos" className="sr-only">Contactez l'agence immobilière à Marseille</h2>
             <p className="text-lg text-gray-700 mb-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               Un projet immobilier mérite une vraie réflexion. Commencez par la bonne étape.
             </p>
@@ -761,6 +779,7 @@ export default function AProposPage() {
               <a
                 ref={venteButtonRef as any}
                 href="/vente"
+                aria-label="Accéder au service de vente immobilière à Marseille"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -830,6 +849,7 @@ export default function AProposPage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -840,6 +860,7 @@ export default function AProposPage() {
               <a
                 ref={estimationButtonRef as any}
                 href="/estimation"
+                aria-label="Demander une estimation immobilière gratuite à Marseille"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -909,6 +930,7 @@ export default function AProposPage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

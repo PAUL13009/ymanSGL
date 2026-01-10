@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 export default function NotreMethodePage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white" role="main">
       <Navbar />
       
       <Hero 
@@ -24,12 +24,12 @@ export default function NotreMethodePage() {
       />
 
       {/* Section Pourquoi une approche structurée est indispensable */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="approche-structuree-indispensable">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="approche-structuree-indispensable" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Pourquoi une approche structurée est indispensable
               </h2>
             </div>
@@ -63,12 +63,12 @@ export default function NotreMethodePage() {
       </section>
 
       {/* Section Analyser avant d'agir */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="analyser-avant-agir">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="analyser-avant-agir" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Analyser avant d'agir
               </h2>
             </div>
@@ -78,27 +78,27 @@ export default function NotreMethodePage() {
                 Cette analyse préalable est indispensable pour déterminer si l'agence peut accompagner 
                 efficacement le projet.
               </p>
-              <div className="grid md:grid-cols-2 gap-6 mt-8">
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <div className="grid md:grid-cols-2 gap-6 mt-8" role="list">
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100" role="listitem" aria-labelledby="bien-lui-meme">
+                  <h3 id="bien-lui-meme" className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Le bien lui-même
                   </h3>
                   <p className="text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     État général, caractéristiques, points forts, contraintes éventuelles. 
                     Chaque détail compte pour établir une estimation réaliste.
                   </p>
-                </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                </article>
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100" role="listitem" aria-labelledby="environnement-bien">
+                  <h3 id="environnement-bien" className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     L'environnement
                   </h3>
                   <p className="text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Quartier, proximité des commodités, exposition, vis-à-vis, environnement 
                     immédiat. Le contexte influence directement la valeur et la capacité de vente.
                   </p>
-                </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                </article>
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100" role="listitem" aria-labelledby="marche-local-marseille">
+                  <h3 id="marche-local-marseille" className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Le marché local
                   </h3>
                   <p className="text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -106,9 +106,9 @@ export default function NotreMethodePage() {
                     Les prix réels du marché, pas les annonces. Les délais de vente constatés. 
                     L'offre et la demande sur le secteur.
                   </p>
-                </div>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                </article>
+                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100" role="listitem" aria-labelledby="contexte-juridique-personnel">
+                  <h3 id="contexte-juridique-personnel" className="text-xl font-semibold mb-2 text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Le contexte juridique et personnel
                   </h3>
                   <p className="text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -116,7 +116,7 @@ export default function NotreMethodePage() {
                     nécessite une approche adaptée. Les contraintes juridiques, les délais, 
                     les motivations du vendeur influencent la stratégie.
                   </p>
-                </div>
+                </article>
               </div>
               <p className="mt-8">
                 Cette analyse permet de déterminer si le prix envisagé est cohérent avec le marché réel, 
@@ -129,12 +129,12 @@ export default function NotreMethodePage() {
       </section>
 
       {/* Section Une approche sélective par choix */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="approche-selective-choix">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="approche-selective-choix" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Une approche sélective par choix
               </h2>
             </div>
@@ -149,18 +149,18 @@ export default function NotreMethodePage() {
                 à vendre ne sert ni le vendeur, ni l'agence.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="grid md:grid-cols-2 gap-8 mb-8" role="list">
               {/* Accepté */}
-              <div className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }}>
+              <article className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }} role="listitem" aria-labelledby="agence-accepte-approche">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl">✓</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✓</span>
                   </div>
-                  <h3 className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                  <h3 id="agence-accepte-approche" className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                     L'agence accepte
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -172,8 +172,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les projets avec un prix cohérent avec le marché réel</span>
                     </li>
                   </AnimatedContent>
@@ -188,8 +188,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les vendeurs réfléchis, ouverts à l'analyse et à la discussion</span>
                     </li>
                   </AnimatedContent>
@@ -204,8 +204,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les projets structurés, avec des objectifs clairs</span>
                     </li>
                   </AnimatedContent>
@@ -220,25 +220,25 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Les situations où l'agence peut apporter une valeur réelle</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
               
               {/* Refusé */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group">
+              <article className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group" role="listitem" aria-labelledby="agence-refuse-approche">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110">
-                    <span className="text-white text-xl">✗</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✗</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="agence-refuse-approche" className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     L'agence refuse
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -250,8 +250,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les prix irréalistes, déconnectés du marché</span>
                     </li>
                   </AnimatedContent>
@@ -266,8 +266,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les mandats simples sans analyse préalable</span>
                     </li>
                   </AnimatedContent>
@@ -282,8 +282,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les projets flous ou non aboutis</span>
                     </li>
                   </AnimatedContent>
@@ -298,13 +298,13 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Les situations où l'agence ne peut pas apporter de valeur</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
             </div>
             <div className="text-center mt-10">
               <p className="text-lg text-gray-600 italic max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -317,12 +317,12 @@ export default function NotreMethodePage() {
       </section>
 
       {/* Section Transparence et suivi */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="transparence-suivi">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="transparence-suivi" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Transparence et suivi
               </h2>
             </div>
@@ -358,27 +358,27 @@ export default function NotreMethodePage() {
       </section>
 
       {/* Section À qui s'adresse cette approche */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="qui-sadresse-approche">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="qui-sadresse-approche" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 À qui s'adresse cette approche
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-8" role="list">
               {/* Adaptée */}
-              <div className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }}>
+              <article className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }} role="listitem" aria-labelledby="approche-adaptee-si">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }}>
-                    <span className="text-white text-xl">✓</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✓</span>
                   </div>
-                  <h3 className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                  <h3 id="approche-adaptee-si" className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                     Cette approche est adaptée si
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -390,8 +390,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Vous souhaitez vendre avec une vision claire et réaliste du marché</span>
                     </li>
                   </AnimatedContent>
@@ -406,8 +406,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Vous êtes ouvert à l'analyse et à la discussion sur le prix</span>
                     </li>
                   </AnimatedContent>
@@ -422,8 +422,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Vous privilégiez la méthode à la précipitation</span>
                     </li>
                   </AnimatedContent>
@@ -438,8 +438,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Vous recherchez un accompagnement structuré et transparent</span>
                     </li>
                   </AnimatedContent>
@@ -454,25 +454,25 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.4}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Vous comprenez qu'un projet immobilier nécessite du temps et de la réflexion</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
               
               {/* Pas adaptée */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group">
+              <article className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group" role="listitem" aria-labelledby="approche-pas-adaptee-si">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" style={{ borderRadius: '50%', minWidth: '2.5rem', minHeight: '2.5rem' }}>
-                    <span className="text-white text-xl">✗</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" style={{ borderRadius: '50%', minWidth: '2.5rem', minHeight: '2.5rem' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✗</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="approche-pas-adaptee-si" className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Cette approche n'est probablement pas adaptée si
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -484,8 +484,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Vous souhaitez "tester le marché" sans engagement réel</span>
                     </li>
                   </AnimatedContent>
@@ -500,8 +500,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Vous refusez toute remise en question du prix envisagé</span>
                     </li>
                   </AnimatedContent>
@@ -516,8 +516,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Vous recherchez une validation plutôt qu'une analyse objective</span>
                     </li>
                   </AnimatedContent>
@@ -532,8 +532,8 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.3}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Vous comparez plusieurs agences uniquement sur des promesses de prix</span>
                     </li>
                   </AnimatedContent>
@@ -548,13 +548,13 @@ export default function NotreMethodePage() {
                     threshold={0.2}
                     delay={0.4}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Vous privilégiez la rapidité à la méthode</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
             </div>
             <div className="text-center mt-10">
               <p className="text-lg text-gray-600 italic max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -567,9 +567,10 @@ export default function NotreMethodePage() {
       </section>
 
       {/* CTA Final d'orientation */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="cta-final-orientation">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-4xl mx-auto text-center">
+            <h2 id="cta-final-orientation" className="sr-only">Découvrir les services de l'agence immobilière à Marseille</h2>
             <p className="text-lg text-gray-700 mb-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               Si cette approche correspond à votre projet, vous pouvez poursuivre votre réflexion 
               en découvrant nos services.
@@ -578,6 +579,7 @@ export default function NotreMethodePage() {
               {/* Bouton principal */}
               <a
                 href="/vente"
+                aria-label="Accéder au service de vente immobilière à Marseille"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -647,6 +649,7 @@ export default function NotreMethodePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -656,6 +659,7 @@ export default function NotreMethodePage() {
               {/* Bouton secondaire */}
               <a
                 href="/estimation"
+                aria-label="Demander une estimation immobilière gratuite à Marseille"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -725,6 +729,7 @@ export default function NotreMethodePage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

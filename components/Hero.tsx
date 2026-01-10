@@ -30,23 +30,24 @@ export default function Hero({
   secondaryButtonLink,
   id = "accueil",
   videoPath,
-  imagePath
+  imagePath,
+  imageAlt
 }: HeroProps = {}) {
   const containerRef = useRef<HTMLElement>(null)
   const heroButtonRef = useScrollButtonAnimation()
   const heroSecondaryButtonRef = useScrollButtonAnimation()
 
   return (
-    <section ref={containerRef as any} id={id} className="relative h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: 0, paddingTop: 0 }}>
+    <section ref={containerRef as any} id={id} className="relative h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: 0, paddingTop: 0 }} aria-labelledby="hero-title">
       {/* Image ou Vidéo de fond */}
       <div className="absolute inset-0 z-0">
         <div className="relative w-full h-full">
           {imagePath ? (
             <img
-              src={imagePath}
-              alt="Agence immobilière Marseille 6e arrondissement - Estimation et vente de résidence principale"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+                src={imagePath}
+                alt={imageAlt || "Agence immobilière à Marseille - Estimation, vente et location immobilière"}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
           ) : videoPath ? (
             <video
               autoPlay
@@ -54,11 +55,12 @@ export default function Hero({
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
+              aria-label="Présentation de l'agence immobilière à Marseille"
             >
               <source src={videoPath} type="video/mp4" />
             </video>
           ) : null}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" aria-hidden="true" role="presentation" />
         </div>
       </div>
 
@@ -76,7 +78,7 @@ export default function Hero({
           delay={0}
           className="mb-4 sm:mb-6 flex justify-center items-center"
         >
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light tracking-wide text-white text-center max-w-3xl mx-auto px-2">
+          <h1 id="hero-title" className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light tracking-wide text-white text-center max-w-3xl mx-auto px-2">
             <VariableProximity
               label={title}
               fromFontVariationSettings="'wght' 300"
@@ -148,6 +150,11 @@ export default function Hero({
               <a 
                 ref={heroButtonRef as any}
                 href={buttonLink === "#contact" ? "/analyse" : buttonLink}
+                aria-label={
+                  buttonText === "Faire estimer mon bien" ? "Faire estimer mon bien immobilier à Marseille gratuitement" :
+                  buttonText === "Voir les biens" ? "Voir les biens immobiliers à vendre et à louer à Marseille" :
+                  buttonText
+                }
                 className="group relative inline-block px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium overflow-hidden transition-all duration-500 backdrop-blur-md border border-white/30 w-full sm:w-auto max-w-xs md:max-w-md"
                 style={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -226,6 +233,7 @@ export default function Hero({
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -266,6 +274,7 @@ export default function Hero({
                 <a 
                   ref={heroSecondaryButtonRef as any}
                   href={secondaryButtonLink || "/catalogue"}
+                  aria-label={secondaryButtonText === "Découvrir nos biens" ? "Découvrir nos biens immobiliers à Marseille" : secondaryButtonText}
                   className="group relative inline-block px-6 py-3 sm:px-6 sm:py-3 rounded-full font-medium overflow-hidden transition-all duration-500 border-2 border-white/50 w-full sm:w-auto max-w-xs"
                   style={{ 
                     backgroundColor: 'transparent',
@@ -346,6 +355,7 @@ export default function Hero({
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -358,8 +368,8 @@ export default function Hero({
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce" aria-hidden="true" role="presentation">
+        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </div>

@@ -15,7 +15,7 @@ export default function ServicesPage() {
   const venteFinalButtonRef = useScrollButtonAnimation()
   const estimationFinalButtonRef = useScrollButtonAnimation()
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white" role="main">
       <Navbar />
       
       <Hero 
@@ -27,11 +27,12 @@ export default function ServicesPage() {
       />
 
       {/* Introduction - Cadre général */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="introduction-services">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="introduction-services" className="sr-only">Présentation des services immobiliers à Marseille</h2>
             </div>
             <div className="bg-stone-50 rounded-xl p-8 md:p-10 shadow-lg">
               <div className="text-lg text-gray-700 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -49,7 +50,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Service - Estimation immobilière */}
-      <section id="estimation" className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section id="estimation" className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="service-estimation">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -57,17 +58,17 @@ export default function ServicesPage() {
               <div className="relative h-[500px] md:h-[600px] overflow-hidden shadow-xl">
                 <Image
                   src="/images/DSC04823.jpg"
-                  alt="Estimation immobilière - Agence YL"
+                  alt="Service d'estimation immobilière à Marseille - Analyse de bien et étude de marché locale"
                   fill
                   className="object-cover"
                   priority
                 />
                 {/* Overlay sombre pour la lisibilité du texte */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="service-estimation" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Estimation immobilière
                     </h2>
                   </FadeContent>
@@ -87,21 +88,21 @@ export default function ServicesPage() {
                     Ce service s'adresse aux propriétaires souhaitant obtenir une vision réaliste et exploitable de la valeur de leur bien.
                   </p>
                 </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                <ul className="space-y-3 mb-8" role="list">
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Étude de marché locale approfondie
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Analyse du bien et de son contexte
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Estimation argumentée et cohérente
                     </span>
@@ -111,6 +112,7 @@ export default function ServicesPage() {
                   <a
                     ref={estimationButtonRef as any}
                     href="/estimation"
+                    aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
                     className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                   style={{
                     backgroundColor: 'white',
@@ -180,6 +182,7 @@ export default function ServicesPage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -193,7 +196,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Service - Vente immobilière */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="service-vente">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -205,16 +208,17 @@ export default function ServicesPage() {
                   muted
                   playsInline
                   className="absolute inset-0 w-full h-full object-cover"
+                  aria-label="Vidéo de présentation du service de vente immobilière à Marseille"
                 >
                   <source src="/videos/transaction.mov" type="video/mp4" />
                   <source src="/videos/transaction.mov" type="video/quicktime" />
                 </video>
                 {/* Overlay sombre pour la lisibilité du texte */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="service-vente" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Vente immobilière
                     </h2>
                   </FadeContent>
@@ -232,21 +236,21 @@ export default function ServicesPage() {
                     Nous accompagnons les vendeurs ayant un projet clair, un objectif réaliste et la volonté de s'inscrire dans un processus structuré.
                   </p>
                 </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                <ul className="space-y-3 mb-8" role="list">
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Analyse complète avant engagement
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Stratégie de commercialisation adaptée
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Suivi et reporting tout au long du processus
                     </span>
@@ -256,6 +260,7 @@ export default function ServicesPage() {
                   <a
                     ref={venteButtonRef as any}
                     href="/vente"
+                    aria-label="Découvrir le service de vente immobilière à Marseille"
                     className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                   style={{
                     backgroundColor: 'white',
@@ -325,6 +330,7 @@ export default function ServicesPage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -338,7 +344,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Service - Location immobilière */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="service-location">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -350,16 +356,17 @@ export default function ServicesPage() {
                   muted
                   playsInline
                   className="absolute inset-0 w-full h-full object-cover"
+                  aria-label="Vidéo de présentation du service de location immobilière à Marseille"
                 >
                   <source src="/videos/location.mov" type="video/mp4" />
                   <source src="/videos/location.mov" type="video/quicktime" />
                 </video>
                 {/* Overlay sombre pour la lisibilité du texte */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="service-location" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Location immobilière
                     </h2>
                   </FadeContent>
@@ -376,21 +383,21 @@ export default function ServicesPage() {
                     Nous accompagnons les propriétaires dans la recherche de locataires sérieux, avec une gestion structurée du dossier et un suivi transparent à chaque étape.
                   </p>
                 </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                <ul className="space-y-3 mb-8" role="list">
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Mise en location conforme et encadrée
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Sélection rigoureuse des dossiers
                     </span>
                   </li>
-                  <li className="flex items-start">
-                    <span className="mr-3" style={{ color: '#4682B4' }}>•</span>
+                  <li className="flex items-start" role="listitem">
+                    <span className="mr-3" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                     <span className="text-lg text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Communication claire avec le propriétaire
                     </span>
@@ -400,6 +407,7 @@ export default function ServicesPage() {
                   <a
                     ref={locationButtonRef as any}
                     href="/location"
+                    aria-label="Découvrir le service de location immobilière à Marseille"
                     className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                   style={{
                     backgroundColor: 'white',
@@ -469,6 +477,7 @@ export default function ServicesPage() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -482,27 +491,27 @@ export default function ServicesPage() {
       </section>
 
       {/* Bloc de filtrage - Pour qui / Pour qui pas */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="faits-pour-travailler-ensemble">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="faits-pour-travailler-ensemble" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                 Sommes-nous faits pour travailler ensemble ?
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="grid md:grid-cols-2 gap-8 mb-8" role="list">
               {/* Ce qui correspond */}
-              <div className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }}>
+              <article className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-blue-600 cursor-pointer group" style={{ borderColor: '#4682B4' }} role="listitem" aria-labelledby="correspond-approche">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4', aspectRatio: '1 / 1' }}>
-                    <span className="text-white text-xl">✓</span>
+                  <div className="w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4', aspectRatio: '1 / 1' }} aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✓</span>
                   </div>
-                  <h3 className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                  <h3 id="correspond-approche" className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
                     Ce qui correspond à notre approche
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -514,8 +523,8 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Projets clairs et structurés</span>
                     </li>
                   </AnimatedContent>
@@ -530,8 +539,8 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Objectifs réalistes</span>
                     </li>
                   </AnimatedContent>
@@ -546,25 +555,25 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }}>•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
                       <span>Volonté de s'appuyer sur une analyse professionnelle</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
               
               {/* Ce que nous refusons */}
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group">
+              <article className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group" role="listitem" aria-labelledby="refusons-services">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110">
-                    <span className="text-white text-xl">✗</span>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" role="presentation">
+                    <span className="text-white text-xl" aria-hidden="true">✗</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <h3 id="refusons-services" className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Ce que nous refusons
                   </h3>
                 </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
                   <AnimatedContent
                     distance={50}
                     direction="vertical"
@@ -576,8 +585,8 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Prix irréalistes</span>
                     </li>
                   </AnimatedContent>
@@ -592,8 +601,8 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0.1}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Mandats sans stratégie</span>
                     </li>
                   </AnimatedContent>
@@ -608,22 +617,23 @@ export default function ServicesPage() {
                     threshold={0.2}
                     delay={0.2}
                   >
-                    <li className="flex items-start">
-                      <span className="mr-3 mt-1 text-gray-500">•</span>
+                    <li className="flex items-start" role="listitem">
+                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
                       <span>Projets flous ou non aboutis</span>
                     </li>
                   </AnimatedContent>
                 </ul>
-              </div>
+              </article>
             </div>
           </div>
         </FadeContent>
       </section>
 
       {/* CTA Final - Orientation */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="cta-final-services">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-4xl mx-auto text-center">
+            <h2 id="cta-final-services" className="sr-only">Choisir un service immobilier à Marseille</h2>
             <p className="text-lg text-gray-700 mb-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               Chaque projet est différent.
               Le plus important est de choisir le service adapté à votre situation.
@@ -633,6 +643,7 @@ export default function ServicesPage() {
               <a
                 ref={venteFinalButtonRef as any}
                 href="/vente"
+                aria-label="Accéder au service de vente immobilière à Marseille"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -702,6 +713,7 @@ export default function ServicesPage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -712,6 +724,7 @@ export default function ServicesPage() {
               <a
                 ref={estimationFinalButtonRef as any}
                 href="/estimation"
+                aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
                 className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: 'white',
@@ -781,6 +794,7 @@ export default function ServicesPage() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

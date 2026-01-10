@@ -15,8 +15,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Estimation immobilière Marseille | Vente résidence principale',
-  description: 'Agence immobilière Marseille 6e : estimation réaliste et vente efficace de votre résidence principale. Méthode exigeante, prix du marché, accompagnement jusqu\'à la signature.',
+  title: 'Agence immobilière Marseille | Estimation, vente et location - L\'Agence YL',
+  description: 'Agence immobilière Marseille : estimation immobilière gratuite, vente et location accompagnées. Expertise locale, méthode structurée pour projets immobiliers clairs à Marseille et environs.',
   keywords: [
     'estimation immobilière Marseille',
     'vente immobilière Marseille',
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     'estimation réaliste bien immobilier'
   ],
   openGraph: {
-    title: 'Estimation immobilière Marseille | Vente résidence principale',
-    description: 'Agence immobilière Marseille 6e : estimation réaliste et vente efficace de votre résidence principale. Méthode exigeante, prix du marché.',
+    title: 'Agence immobilière Marseille | Estimation, vente et location - L\'Agence YL',
+    description: 'Agence immobilière Marseille : estimation immobilière gratuite, vente et location accompagnées. Expertise locale, méthode structurée pour projets immobiliers clairs à Marseille et environs.',
     type: 'website',
     locale: 'fr_FR',
     siteName: "L'Agence YL",
   },
   alternates: {
-    canonical: 'https://www.agence-yl.com',
+    canonical: 'https://www.agence-yl.fr',
   },
   robots: {
     index: true,

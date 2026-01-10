@@ -38,9 +38,9 @@ const defaultProperties: Property[] = [
   {
     id: 1,
     images: [
-      { src: '/images/DSC04823.jpg', alt: 'Appartement moderne - Vue extérieure' },
-      { src: '/images/DSC02414.jpg', alt: 'Appartement moderne - Séjour' },
-      { src: '/images/DSC02823.jpg', alt: 'Appartement moderne - Chambre' }
+      { src: '/images/DSC04823.jpg', alt: 'Appartement moderne à Marseille 13008 - Vue extérieure' },
+      { src: '/images/DSC02414.jpg', alt: 'Appartement moderne à Marseille 13008 - Séjour' },
+      { src: '/images/DSC02823.jpg', alt: 'Appartement moderne à Marseille 13008 - Chambre' }
     ],
     title: 'Appartement moderne',
     location: 'Marseille 13008',
@@ -53,9 +53,9 @@ const defaultProperties: Property[] = [
   {
     id: 2,
     images: [
-      { src: '/images/terrasse.jpg', alt: 'Maison avec terrasse - Vue extérieure' },
-      { src: '/images/DSC04844.jpg', alt: 'Maison avec terrasse - Intérieur' },
-      { src: '/images/DSC04848.jpg', alt: 'Maison avec terrasse - Jardin' }
+      { src: '/images/terrasse.jpg', alt: 'Maison avec terrasse à Marseille 13009 - Vue extérieure' },
+      { src: '/images/DSC04844.jpg', alt: 'Maison avec terrasse à Marseille 13009 - Intérieur' },
+      { src: '/images/DSC04848.jpg', alt: 'Maison avec terrasse à Marseille 13009 - Jardin' }
     ],
     title: 'Maison avec terrasse',
     location: 'Marseille 13009',
@@ -68,9 +68,9 @@ const defaultProperties: Property[] = [
   {
     id: 3,
     images: [
-      { src: '/images/DSC04839.JPG', alt: 'Villa de standing - Vue principale' },
-      { src: '/images/DSC04868.jpg', alt: 'Villa de standing - Piscine' },
-      { src: '/images/DSC04893.jpg', alt: 'Villa de standing - Salon' }
+      { src: '/images/DSC04839.JPG', alt: 'Villa de standing à Marseille 13013 - Vue principale' },
+      { src: '/images/DSC04868.jpg', alt: 'Villa de standing à Marseille 13013 - Piscine' },
+      { src: '/images/DSC04893.jpg', alt: 'Villa de standing à Marseille 13013 - Salon' }
     ],
     title: 'Villa de standing',
     location: 'Marseille 13013',
@@ -182,7 +182,7 @@ export default function Home() {
   }
 
   return (
-    <main ref={mainRef} className="min-h-screen">
+    <main ref={mainRef} className="min-h-screen" role="main">
       <Navbar />
       <Hero 
         title="Votre agence immobilière à Marseille au service de projets clairs et maîtrisés"
@@ -198,12 +198,12 @@ export default function Home() {
       <Features />
       
       {/* Section Biens à la une */}
-      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-white">
+      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-white" aria-labelledby="biens-a-la-une">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8 sm:mb-12 md:mb-16">
-              <div className="w-12 sm:w-16 h-1 bg-blue-600 mb-4 sm:mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 max-w-4xl mx-auto px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <div className="w-12 sm:w-16 h-1 bg-blue-600 mb-4 sm:mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="biens-a-la-une" className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 max-w-4xl mx-auto px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
                 <VariableProximity
                   label="Découvrez une sélection de biens actuellement proposés par l'agence"
                   fromFontVariationSettings="'wght' 400"
@@ -217,9 +217,9 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
               {loading ? (
-                <div className="col-span-full text-center py-8">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" style={{ borderColor: '#4682B4' }}></div>
-                  <p className="text-gray-600">Chargement des biens...</p>
+                <div className="col-span-full text-center py-8" role="status" aria-live="polite">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" style={{ borderColor: '#4682B4' }} aria-hidden="true"></div>
+                  <p className="text-gray-600" aria-label="Chargement des biens immobiliers en cours">Chargement des biens...</p>
                 </div>
               ) : displayProperties.length === 0 ? (
                 <div className="col-span-full text-center py-8 text-gray-500">
@@ -248,6 +248,7 @@ export default function Home() {
               <a
                 ref={catalogueButtonRef as any}
                 href="/catalogue"
+                aria-label="Voir tous nos biens immobiliers à Marseille"
                 className="group relative inline-block px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium overflow-hidden transition-all duration-500 w-full sm:w-auto max-w-xs mx-auto"
                 style={{
                   backgroundColor: 'white',
@@ -318,6 +319,7 @@ export default function Home() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -329,24 +331,26 @@ export default function Home() {
       </section>
 
       {/* Section Confiance */}
-      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-stone-50">
+      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-stone-50" aria-labelledby="message-fondatrice">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center mb-8 sm:mb-12">
               {/* Texte à gauche */}
               <div className="space-y-4 sm:space-y-6 order-2 md:order-1 text-center">
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
-                  "Nous ne promettons pas l'impossible.
-                </p>
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
-                  Nous privilégions les projets cohérents, avec des propriétaires impliqués et des objectifs réalistes.
-                </p>
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
-                  Chaque bien est étudié avant d'être accepté, afin de garantir une stratégie adaptée et un suivi sérieux."
-                </p>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-3 sm:mt-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Yman Lahlou, Directrice de l'Agence YL
-                </p>
+                <blockquote>
+                  <p id="message-fondatrice" className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
+                    "Nous ne promettons pas l'impossible.
+                  </p>
+                  <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
+                    Nous privilégions les projets cohérents, avec des propriétaires impliqués et des objectifs réalistes.
+                  </p>
+                  <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
+                    Chaque bien est étudié avant d'être accepté, afin de garantir une stratégie adaptée et un suivi sérieux."
+                  </p>
+                  <footer className="text-xs sm:text-sm md:text-base text-gray-600 mt-3 sm:mt-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <cite>Yman Lahlou, Directrice de l'Agence YL</cite>
+                  </footer>
+                </blockquote>
               </div>
               
               {/* Image à droite */}
@@ -358,7 +362,7 @@ export default function Home() {
               >
                 <Image
                   src="/images/Yman.png"
-                  alt="Yman Lahlou, Directrice de l'Agence YL"
+                  alt="Yman Lahlou, Directrice de l'Agence YL à Marseille"
                   fill
                   className="object-contain"
                   priority
@@ -371,6 +375,7 @@ export default function Home() {
                 >
                   <a
                     href="/notre-methode"
+                    aria-label="Comprendre notre approche immobilière à Marseille"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isConfianceImageHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -413,6 +418,7 @@ export default function Home() {
                 >
                   <a
                     href="/notre-methode"
+                    aria-label="Comprendre notre approche immobilière à Marseille"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isConfianceImageAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -441,7 +447,7 @@ export default function Home() {
       </section>
 
       {/* Section Présentation de l'agence */}
-      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-white">
+      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-white" aria-labelledby="presentation-agence">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center mb-8 sm:mb-12">
@@ -454,7 +460,7 @@ export default function Home() {
               >
                 <Image
                   src="/images/marseille-calanque.jpg"
-                  alt="Marseille - Calanques"
+                  alt="Vue des Calanques de Marseille depuis l'agence immobilière"
                   fill
                   className="object-cover"
                   priority
@@ -467,6 +473,7 @@ export default function Home() {
                 >
                   <a
                     href="/a-propos"
+                    aria-label="Découvrir l'agence immobilière à Marseille"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isImageHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -509,6 +516,7 @@ export default function Home() {
                 >
                   <a
                     href="/a-propos"
+                    aria-label="Découvrir l'agence immobilière à Marseille"
                     className={`inline-block relative font-medium cursor-pointer group ${
                       isAgenceImageAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                     }`}
@@ -534,6 +542,7 @@ export default function Home() {
               
               {/* Texte à droite */}
               <div className="space-y-4 sm:space-y-6 text-center">
+                <h3 id="presentation-agence" className="sr-only">Présentation de l'agence immobilière à Marseille</h3>
                 <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif italic px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
                   Implantée à Marseille, l'agence accompagne des projets immobiliers avec une approche structurée, locale et orientée résultats.
                 </p>
@@ -547,10 +556,11 @@ export default function Home() {
       </section>
 
       {/* Section CTA Final */}
-      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-stone-50">
+      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 bg-stone-50" aria-labelledby="cta-final">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8 sm:mb-12">
+              <h2 id="cta-final" className="sr-only">Contactez l'agence immobilière à Marseille</h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-700 font-light leading-relaxed px-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Un projet immobilier mérite une vraie réflexion. Commencez par la bonne étape.
               </p>
@@ -562,6 +572,7 @@ export default function Home() {
               <a
                 ref={estimationButtonRef as any}
                 href="/estimation"
+                aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
                 className="group relative inline-block px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium overflow-hidden transition-all duration-500 w-full sm:w-auto max-w-xs"
                 style={{
                   backgroundColor: 'white',
@@ -632,6 +643,7 @@ export default function Home() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -641,7 +653,8 @@ export default function Home() {
               {/* Bouton secondaire */}
               <a
                 ref={contactButtonRef as any}
-                href="#contact"
+                href="/analyse"
+                aria-label="Contacter l'agence immobilière à Marseille"
                 className="group relative inline-block px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium overflow-hidden transition-all duration-500 w-full sm:w-auto max-w-xs"
                 style={{
                   backgroundColor: 'white',
@@ -712,6 +725,7 @@ export default function Home() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

@@ -347,7 +347,7 @@ export default function CataloguePage() {
   }, [loading])
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white" role="main">
       <Navbar />
       
       <Hero 
@@ -356,22 +356,26 @@ export default function CataloguePage() {
         buttonText="Voir les biens"
         buttonLink="#biens"
         imagePath="/images/vue7e.png"
+        imageAlt="Catalogue de biens immobiliers à Marseille - Vente et location immobilière"
       />
 
       {/* Barre de filtrage */}
-      <section className="px-4 sm:px-6 lg:px-8 py-8 bg-stone-50 border-b border-gray-200">
+      <section className="px-4 sm:px-6 lg:px-8 py-8 bg-stone-50 border-b border-gray-200" aria-labelledby="filtres-catalogue">
         <FadeContent duration={500} ease="power2.out" threshold={0.1}>
           <div className="max-w-7xl mx-auto">
+            <h2 id="filtres-catalogue" className="sr-only">Filtres de recherche de biens immobiliers</h2>
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4" role="list">
                 {/* Statut */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-type" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Type
                   </label>
                   <select
+                    id="filter-type"
                     value={filters.status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
+                    aria-label="Filtrer par type de bien"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   >
@@ -382,75 +386,85 @@ export default function CataloguePage() {
                 </div>
 
                 {/* Prix minimum */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-min-price" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Budget min (€)
                   </label>
                   <input
+                    id="filter-min-price"
                     type="number"
                     value={filters.minPrice}
                     onChange={(e) => handleFilterChange('minPrice', e.target.value)}
                     placeholder="Ex: 200000"
+                    aria-label="Filtrer par prix minimum en euros"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   />
                 </div>
 
                 {/* Prix maximum */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-max-price" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Budget max (€)
                   </label>
                   <input
+                    id="filter-max-price"
                     type="number"
                     value={filters.maxPrice}
                     onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
                     placeholder="Ex: 500000"
+                    aria-label="Filtrer par prix maximum en euros"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   />
                 </div>
 
                 {/* Surface minimum */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-min-surface" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Surface min (m²)
                   </label>
                   <input
+                    id="filter-min-surface"
                     type="number"
                     value={filters.minSurface}
                     onChange={(e) => handleFilterChange('minSurface', e.target.value)}
                     placeholder="Ex: 50"
+                    aria-label="Filtrer par surface minimum en mètres carrés"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   />
                 </div>
 
                 {/* Nombre de pièces */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-min-rooms" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Pièces min
                   </label>
                   <input
+                    id="filter-min-rooms"
                     type="number"
                     value={filters.minRooms}
                     onChange={(e) => handleFilterChange('minRooms', e.target.value)}
                     placeholder="Ex: 2"
+                    aria-label="Filtrer par nombre minimum de pièces"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   />
                 </div>
 
                 {/* Localisation */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div role="listitem">
+                  <label htmlFor="filter-location" className="block text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Quartier
                   </label>
                   <input
+                    id="filter-location"
                     type="text"
                     value={filters.location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     placeholder="Ex: Marseille 13008"
+                    aria-label="Filtrer par quartier ou arrondissement"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                     list="locations-list"
@@ -468,6 +482,7 @@ export default function CataloguePage() {
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={resetFilters}
+                    aria-label="Réinitialiser tous les filtres de recherche"
                     className="px-6 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                     style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
                   >
@@ -481,12 +496,13 @@ export default function CataloguePage() {
       </section>
 
       {/* Résultats */}
-      <section id="biens" className="px-4 sm:px-6 lg:px-8 py-12 bg-white">
+      <section id="biens" className="px-4 sm:px-6 lg:px-8 py-12 bg-white" aria-labelledby="resultats-catalogue">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
+            <h2 id="resultats-catalogue" className="sr-only">Résultats de recherche de biens immobiliers à Marseille</h2>
             {/* Compteur de résultats */}
             <div className="mb-6">
-              <p className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <p className="text-sm text-gray-600" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="status" aria-live="polite">
                 {filteredProperties.length} {filteredProperties.length > 1 ? 'biens trouvés' : 'bien trouvé'}
                 {hasActiveFilters && ` (sur ${properties.length} au total)`}
               </p>
@@ -494,20 +510,21 @@ export default function CataloguePage() {
 
             {/* Grille de biens */}
             {loading ? (
-              <div className="col-span-full text-center py-16">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#4682B4' }}></div>
+              <div className="col-span-full text-center py-16" role="status" aria-live="polite" aria-busy="true">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
                 <p className="text-gray-600" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Chargement des biens...
                 </p>
               </div>
             ) : filteredProperties.length === 0 ? (
-              <div className="text-center py-16">
+              <div className="text-center py-16" role="status" aria-live="polite">
                 <p className="text-lg text-gray-700 mb-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Aucun bien ne correspond aux critères sélectionnés.
                 </p>
                 {hasActiveFilters && (
                   <button
                     onClick={resetFilters}
+                    aria-label="Réinitialiser tous les filtres pour afficher tous les biens immobiliers"
                     className="px-6 py-3 rounded-full font-semibold transition-all hover:shadow-lg"
                     style={{
                       backgroundColor: '#4682B4',
@@ -526,7 +543,7 @@ export default function CataloguePage() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Liste des biens immobiliers à Marseille">
                 {filteredProperties.map((property) => {
                   const currentIndex = currentImageIndex[property.id] || 0
                   
@@ -549,9 +566,10 @@ export default function CataloguePage() {
 
       {/* Message de qualification */}
       {!loading && filteredProperties.length > 0 && (
-        <section className="px-4 sm:px-6 lg:px-8 py-12 bg-stone-50">
+        <section className="px-4 sm:px-6 lg:px-8 py-12 bg-stone-50" aria-labelledby="qualification-catalogue">
           <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
             <div className="max-w-4xl mx-auto text-center">
+              <h2 id="qualification-catalogue" className="sr-only">Qualité de la sélection des biens immobiliers</h2>
               <p className="text-lg text-gray-700 italic" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Chaque bien présenté ici fait l'objet d'une analyse préalable et s'inscrit dans une stratégie cohérente avec le marché local.
               </p>
@@ -562,13 +580,14 @@ export default function CataloguePage() {
 
       {/* CTA stratégiques */}
       {!loading && (
-        <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white">
+        <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white" aria-labelledby="cta-strategiques-catalogue">
           <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
             <div className="max-w-4xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-8">
+              <h2 id="cta-strategiques-catalogue" className="sr-only">Actions complémentaires pour votre projet immobilier</h2>
+              <div className="grid md:grid-cols-2 gap-8" role="list">
                 {/* CTA Estimation */}
-                <div className="bg-stone-50 rounded-lg p-8 text-center">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                <article className="bg-stone-50 rounded-lg p-8 text-center" role="listitem" aria-labelledby="cta-estimation-catalogue">
+                  <h3 id="cta-estimation-catalogue" className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
                     Vous ne trouvez pas le bien correspondant à votre recherche ?
                   </h3>
                   <p className="text-gray-600 mb-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -577,6 +596,7 @@ export default function CataloguePage() {
                   <Link
                     ref={estimationCtaRef}
                     href="/estimation"
+                    aria-label="Faire estimer mon bien immobilier gratuitement à Marseille"
                     className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                     style={{
                       backgroundColor: 'white',
@@ -650,16 +670,17 @@ export default function CataloguePage() {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </span>
                   </Link>
-                </div>
+                </article>
 
                 {/* CTA Approche */}
-                <div className="bg-stone-50 rounded-lg p-8 text-center">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                <article className="bg-stone-50 rounded-lg p-8 text-center" role="listitem" aria-labelledby="cta-approche-catalogue">
+                  <h3 id="cta-approche-catalogue" className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
                     Vous avez un projet immobilier à Marseille ?
                   </h3>
                   <p className="text-gray-600 mb-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -668,6 +689,7 @@ export default function CataloguePage() {
                   <Link
                     ref={approcheCtaRef}
                     href="/notre-methode"
+                    aria-label="Découvrir notre approche immobilière structurée et transparente à Marseille"
                     className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
                     style={{
                       backgroundColor: 'white',
@@ -741,12 +763,13 @@ export default function CataloguePage() {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </span>
                   </Link>
-                </div>
+                </article>
               </div>
             </div>
           </FadeContent>

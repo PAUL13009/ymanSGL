@@ -25,7 +25,7 @@ export default function Features() {
   const features: FeatureData[] = [
     {
       image: "/images/DSC04823.jpg",
-      imageAlt: "Estimation - Agence Y L",
+      imageAlt: "Service d'estimation immobilière à Marseille - Agence YL",
       title: "Estimation",
       subtitle: "Valorisons votre bien",
       details: [
@@ -36,7 +36,7 @@ export default function Features() {
     },
     {
       video: "/videos/transaction.mov",
-      imageAlt: "Vente immobilière - Agence Y L",
+      imageAlt: "Service de vente immobilière à Marseille - Agence YL",
       title: "Vente immobilière",
       subtitle: "Votre projet de vente, encadré de A à Z",
       details: [
@@ -47,7 +47,7 @@ export default function Features() {
     },
     {
       video: "/videos/location.mov",
-      imageAlt: "Location immobilière - Agence Y L",
+      imageAlt: "Service de location immobilière à Marseille - Agence YL",
       title: "Location immobilière",
       subtitle: "Une location sécurisée, sans stress",
       details: [
@@ -73,12 +73,12 @@ export default function Features() {
   const currentFeature = features[currentFeatureIndex]
 
   return (
-    <section id="services" className="pt-8 pb-6 sm:pt-12 sm:pb-8 bg-stone-50">
+    <section id="services" className="pt-8 pb-6 sm:pt-12 sm:pb-8 bg-stone-50" aria-labelledby="services-title">
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <div className="w-12 sm:w-16 h-1 bg-blue-600 mb-4 sm:mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 max-w-4xl mx-auto px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
+            <div className="w-12 sm:w-16 h-1 bg-blue-600 mb-4 sm:mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
+            <h2 id="services-title" className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 max-w-4xl mx-auto px-2" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
               <VariableProximity
                 label="Une méthode immobilière, pas une liste de prestations"
                 fromFontVariationSettings="'wght' 400"
@@ -101,6 +101,7 @@ export default function Features() {
                     muted
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover"
+                    aria-label={`Vidéo de présentation du service ${currentFeature.title} - ${currentFeature.subtitle}`}
                   >
                     <source src={currentFeature.video} type="video/mp4" />
                     <source src={currentFeature.video} type="video/quicktime" />
@@ -177,7 +178,8 @@ export default function Features() {
                 <div className="pt-4 sm:pt-6">
                   <a
                     ref={featuresButtonRef as any}
-                    href={currentFeatureIndex === 0 ? "/estimation" : currentFeatureIndex === 1 ? "/vente" : currentFeatureIndex === 2 ? "/location" : "#contact"}
+                    href={currentFeatureIndex === 0 ? "/estimation" : currentFeatureIndex === 1 ? "/vente" : currentFeatureIndex === 2 ? "/location" : "/analyse"}
+                    aria-label={currentFeatureIndex === 0 ? "Faire une estimation immobilière à Marseille" : currentFeatureIndex === 1 ? "Vendre un bien immobilier à Marseille" : currentFeatureIndex === 2 ? "Louer un bien immobilier à Marseille" : "Contacter l'agence immobilière à Marseille"}
                     className="group relative inline-block px-6 py-3 sm:px-8 sm:py-4 rounded-full font-medium overflow-hidden transition-all duration-500 w-full sm:w-auto text-center"
                     style={{
                       backgroundColor: 'white',
@@ -257,6 +259,7 @@ export default function Features() {
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
@@ -280,7 +283,7 @@ export default function Features() {
                     }}
                     aria-label="Service précédent"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
@@ -298,7 +301,7 @@ export default function Features() {
                     }}
                     aria-label="Service suivant"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
@@ -319,8 +322,9 @@ export default function Features() {
                     e.currentTarget.style.backgroundColor = 'transparent';
                     e.currentTarget.style.color = '#4682B4';
                   }}
+                  aria-label="Service précédent"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
@@ -336,8 +340,9 @@ export default function Features() {
                     e.currentTarget.style.backgroundColor = 'transparent';
                     e.currentTarget.style.color = '#4682B4';
                   }}
+                  aria-label="Service suivant"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>

@@ -127,7 +127,7 @@ export default function VentePage() {
             "@type": "RealEstateAgent",
             "name": "L'Agence YL",
             "description": "Agence immobilière indépendante spécialisée dans l'estimation et la vente de biens immobiliers à Marseille, 6e arrondissement (Vauban) et quartiers limitrophes. Accompagnement des vendeurs particuliers de résidence principale avec une méthode exigeante basée sur l'analyse précise du marché immobilier local.",
-            "url": "https://www.agence-yl.com",
+            "url": "https://www.agence-yl.fr",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Marseille",
@@ -154,7 +154,7 @@ export default function VentePage() {
               "Accompagnement vendeur particulier"
             ],
             "priceRange": "$$",
-            "@id": "https://www.agence-yl.com/#organization"
+            "@id": "https://www.agence-yl.fr/#organization"
           })
         }}
       />
@@ -165,9 +165,9 @@ export default function VentePage() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "L'Agence YL",
-            "image": "https://www.agence-yl.com/images/Logo-removebg-preview.png",
-            "@id": "https://www.agence-yl.com",
-            "url": "https://www.agence-yl.com",
+            "image": "https://www.agence-yl.fr/images/Logo-removebg-preview.png",
+            "@id": "https://www.agence-yl.fr",
+            "url": "https://www.agence-yl.fr",
             "telephone": "+33-X-XX-XX-XX-XX",
             "address": {
               "@type": "PostalAddress",

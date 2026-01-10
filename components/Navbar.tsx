@@ -302,6 +302,7 @@ export default function Navbar() {
       
       <header 
         className="staggered-menu-header fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out" 
+        role="banner"
         style={{
           background: scrolled ? 'rgba(250, 250, 249, 0.95)' : 'transparent',
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
@@ -310,11 +311,11 @@ export default function Navbar() {
           pointerEvents: scrolled && !isOnHero ? 'none' : 'auto',
         }}
       >
-        <div className="sm-logo" style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, -50%)', top: 'calc(50% - 10px)', display: 'flex', alignItems: 'center' }}>
-          <a href="/" className="flex items-center justify-center">
+        <nav className="sm-logo" style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, -50%)', top: 'calc(50% - 10px)', display: 'flex', alignItems: 'center' }} role="navigation" aria-label="Navigation principale">
+          <a href="/" aria-label="Accueil - L'Agence YL, agence immobilière à Marseille" className="flex items-center justify-center">
             <Image
               src="/images/Logo-removebg-preview.png"
-              alt="L'Agence Y L"
+              alt="Logo L'Agence YL - Agence immobilière à Marseille"
               width={isOnHero ? 100 : 90}
               height={isOnHero ? 100 : 90}
               className="transition-all duration-500 ease-out rounded-full object-cover sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px]"
@@ -327,7 +328,7 @@ export default function Navbar() {
               priority
             />
           </a>
-        </div>
+        </nav>
         
         <button
           className="sm-toggle"
@@ -350,11 +351,13 @@ export default function Navbar() {
       </header>
 
       {/* Panel menu mobile */}
-      <aside
+      <nav
         id="staggered-menu-panel"
-        ref={panelRef}
+        ref={panelRef as any}
         className="staggered-menu-panel"
         aria-hidden={!menuOpen}
+        role="navigation"
+        aria-label="Menu de navigation"
       >
         {/* Bouton de fermeture mobile uniquement */}
         <button
@@ -367,7 +370,7 @@ export default function Navbar() {
           }}
           type="button"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -394,7 +397,7 @@ export default function Navbar() {
             ))}
           </ul>
         </div>
-      </aside>
+      </nav>
     </div>
   )
 }

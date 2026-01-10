@@ -14,6 +14,8 @@ interface PropertyImage {
 interface Property {
   id: string | number
   images: PropertyImage[]
+  title?: string
+  location?: string
   surface: string
   rooms: string
   bathrooms: string
@@ -29,7 +31,7 @@ interface PropertyCardProps {
 }
 
 export default function PropertyCard({ property, currentIndex, onPrevious, onNext, onGoToImage }: PropertyCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLElement>(null)
   
   // Fonction pour formater le prix avec des espaces entre les milliers
   const formatPrice = (price: string): string => {
@@ -54,10 +56,12 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
   }
   
   return (
-    <div
+    <article
       ref={cardRef}
       className="bg-white shadow-lg overflow-hidden transition-all duration-500 group cursor-pointer block relative hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1"
       style={{ aspectRatio: '1 / 1', minHeight: '300px' }}
+      role="listitem"
+      aria-labelledby={`property-${property.id}`}
     >
       {/* Carrousel d'images - 80% de la hauteur */}
       <div className="relative w-full" style={{ height: '80%' }}>
@@ -103,7 +107,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
                 }
               }}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -126,7 +130,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
                 }
               }}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -135,7 +139,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
 
         {/* Indicateurs de position */}
         {property.images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" role="list" aria-label="Indicateurs de navigation des images">
             {property.images.map((_, index) => (
               <button
                 key={index}
@@ -149,7 +153,9 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
                     ? 'w-8 h-1.5 bg-white'
                     : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/75'
                 }`}
-                aria-label={`Aller à l'image ${index + 1}`}
+                aria-label={`Aller à l'image ${index + 1} sur ${property.images.length}`}
+                role="listitem"
+                aria-current={index === currentIndex ? 'true' : 'false'}
               />
             ))}
           </div>
@@ -159,8 +165,8 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
       {/* Fine bande blanche en bas - 20% de la hauteur */}
       <div className="bg-white px-3 sm:px-4 py-2 sm:py-3 flex flex-col items-center justify-center gap-1.5 sm:gap-2 relative overflow-hidden" style={{ height: '20%' }}>
         {/* Informations de base */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap">
-          <span className="text-xs sm:text-sm text-gray-700 font-medium">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap" role="list" aria-label={`Caractéristiques du bien ${property.id}`}>
+          <span className="text-xs sm:text-sm text-gray-700 font-medium" role="listitem" aria-label={`Surface habitable : ${property.surface} mètres carrés`}>
             <CountUp
               to={parseInt(property.surface)}
               from={0}
@@ -170,7 +176,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
             />
             <span> m²</span>
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-medium">
+          <span className="text-xs sm:text-sm text-gray-700 font-medium" role="listitem" aria-label={`Nombre de chambres : ${property.rooms}`}>
             <CountUp
               to={parseInt(property.rooms)}
               from={0}
@@ -180,7 +186,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
             />
             <span> ch.</span>
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-medium">
+          <span className="text-xs sm:text-sm text-gray-700 font-medium" role="listitem" aria-label={`Nombre de salles de bain : ${property.bathrooms}`}>
             <CountUp
               to={parseInt(property.bathrooms)}
               from={0}
@@ -190,7 +196,7 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
             />
             <span> SDB</span>
           </span>
-          <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 ml-1 sm:ml-2">
+          <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 ml-1 sm:ml-2" role="listitem" aria-label={`Prix : ${formatPrice(property.price)} euros`}>
             {formatPrice(property.price)} €
           </span>
         </div>
@@ -198,6 +204,8 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
         {/* CTA "Voir le bien" - apparaît au survol en dessous */}
         <Link
           href={`/properties/${property.id}`}
+          id={`property-${property.id}`}
+          aria-label={`Voir les détails du bien immobilier : ${property.title || 'Bien'}, ${property.location || ''}, ${formatPrice(property.price)} euros`}
           className="text-xs sm:text-sm font-semibold opacity-100 translate-y-0 md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-500 ease-out"
           style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}
           onClick={(e) => {
@@ -214,6 +222,6 @@ export default function PropertyCard({ property, currentIndex, onPrevious, onNex
           />
         </Link>
       </div>
-    </div>
+    </article>
   )
 }

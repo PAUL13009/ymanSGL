@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Estimation immobilière Marseille | Méthode sérieuse et humaine',
-  description: 'Estimation immobilière Marseille : méthode humaine et contextualisée pour votre appartement ou maison. Analyse du marché réel, prix cohérent et recommandation argumentée. Demandez votre pré-analyse.',
-  keywords: 'estimation immobilière Marseille, estimation appartement Marseille, estimation maison Marseille, estimer un bien immobilier à Marseille, prix immobilier Marseille, estimation bien immobilier Marseille',
+  title: 'Estimation immobilière gratuite Marseille | Prix réel du marché - L\'Agence YL',
+  description: 'Estimation immobilière gratuite à Marseille basée sur les ventes réelles du marché. Analyse précise du bien et du secteur pour un prix vendable et réaliste. Expertise 6e-15e arrondissements.',
+  alternates: {
+    canonical: 'https://www.agence-yl.fr/estimation',
+  },
   openGraph: {
-    title: 'Estimation immobilière Marseille | Méthode sérieuse et humaine',
-    description: 'Estimation immobilière Marseille : méthode humaine et contextualisée pour votre appartement ou maison. Analyse du marché réel, prix cohérent et recommandation argumentée.',
+    title: 'Estimation immobilière gratuite Marseille | Prix réel du marché',
+    description: 'Estimation immobilière gratuite à Marseille basée sur les ventes réelles du marché. Analyse précise du bien et du secteur pour un prix vendable et réaliste.',
     type: 'website',
     locale: 'fr_FR',
-  },
-  alternates: {
-    canonical: 'https://lagenceyl.fr/estimation',
+    url: 'https://www.agence-yl.fr/estimation',
   },
 }
 
@@ -20,57 +20,5 @@ export default function EstimationLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <>
-      {children}
-      {/* Schema.org Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "L'Agence Y L",
-            "description": "Agence immobilière à Marseille spécialisée dans l'estimation immobilière sérieuse et humaine",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Marseille",
-              "addressCountry": "FR"
-            },
-            "areaServed": {
-              "@type": "City",
-              "name": "Marseille"
-            },
-            "serviceType": "Estimation immobilière",
-            "priceRange": "$$"
-          })
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": "Estimation immobilière",
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": "L'Agence Y L",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Marseille",
-                "addressCountry": "FR"
-              }
-            },
-            "areaServed": {
-              "@type": "City",
-              "name": "Marseille"
-            },
-            "description": "Estimation immobilière humaine et contextualisée pour appartements et maisons à Marseille. Analyse du marché réel, prix cohérent et recommandation argumentée."
-          })
-        }}
-      />
-    </>
-  )
+  return <>{children}</>
 }
-
