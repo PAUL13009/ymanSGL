@@ -421,10 +421,10 @@ export default function AdminDashboard() {
     
     // Si c'est un Timestamp Firebase, convertir en Date
     let date: Date
-    if (dateInput.toDate && typeof dateInput.toDate === 'function') {
-      date = dateInput.toDate()
-    } else if (dateInput instanceof Date) {
+    if (dateInput instanceof Date) {
       date = dateInput
+    } else if (dateInput && typeof dateInput === 'object' && 'toDate' in dateInput && typeof (dateInput as Timestamp).toDate === 'function') {
+      date = (dateInput as Timestamp).toDate()
     } else if (typeof dateInput === 'string') {
       date = new Date(dateInput)
     } else {
