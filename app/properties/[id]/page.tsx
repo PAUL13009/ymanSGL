@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { getPropertyById } from '@/lib/firebase-properties'
+import { Timestamp } from 'firebase/firestore'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -36,7 +37,7 @@ interface Property {
   consommation_energetique?: string
   emissions_ges?: string
   images: Array<{ src: string; alt: string }>
-  created_at?: string
+  created_at?: Date | Timestamp | string
 }
 
 export default function PropertyDetail() {
