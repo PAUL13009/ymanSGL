@@ -32,7 +32,7 @@ interface Property {
   digicode: boolean
   fibre_optique: boolean
   gardien: boolean
-  autres_prestations: string
+  autres_prestations: string | null
   consommation_energetique: string
   emissions_ges: string
   images: Array<{ src: string; alt: string }>
