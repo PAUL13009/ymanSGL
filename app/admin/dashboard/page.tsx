@@ -29,6 +29,7 @@ interface Property {
   rooms: string
   bathrooms: string
   type: string
+  status?: string
   images: Array<{ src: string; alt: string }>
   created_at?: string
   updated_at?: string
