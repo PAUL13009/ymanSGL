@@ -12,29 +12,29 @@ interface Property {
   price: string
   location: string
   status?: string
-  description: string
-  rooms: string
-  bathrooms: string
-  surface_habitable: string
-  surface_totale: string
-  parking: boolean
-  terrasse: boolean
-  piscine: boolean
-  ascenseur: boolean
-  cave: boolean
-  jardin: boolean
-  balcon: boolean
-  garage: boolean
-  climatisation: boolean
-  interphone: boolean
-  local_velo: boolean
-  internet: boolean
-  digicode: boolean
-  fibre_optique: boolean
-  gardien: boolean
-  autres_prestations: string | null
-  consommation_energetique: string
-  emissions_ges: string
+  description?: string
+  rooms?: string
+  bathrooms?: string
+  surface_habitable?: string
+  surface_totale?: string
+  parking?: boolean
+  terrasse?: boolean
+  piscine?: boolean
+  ascenseur?: boolean
+  cave?: boolean
+  jardin?: boolean
+  balcon?: boolean
+  garage?: boolean
+  climatisation?: boolean
+  interphone?: boolean
+  local_velo?: boolean
+  internet?: boolean
+  digicode?: boolean
+  fibre_optique?: boolean
+  gardien?: boolean
+  autres_prestations?: string | null
+  consommation_energetique?: string
+  emissions_ges?: string
   images: Array<{ src: string; alt: string }>
   created_at?: string
 }
@@ -459,7 +459,7 @@ export default function PropertyDetail() {
                   </div>
 
                   {/* DPE */}
-                  {(property.consommation_energetique !== 'Non renseigné' || property.emissions_ges !== 'Non renseigné') && (
+                  {(property.consommation_energetique && property.consommation_energetique !== 'Non renseigné') || (property.emissions_ges && property.emissions_ges !== 'Non renseigné') ? (
                     <div className="pt-6 border-t border-gray-200">
                       <div className="mb-6">
                         <div className="w-16 h-1 bg-black mb-4" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
@@ -468,13 +468,13 @@ export default function PropertyDetail() {
                         </h3>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                        {property.consommation_energetique !== 'Non renseigné' && (
+                        {property.consommation_energetique && property.consommation_energetique !== 'Non renseigné' && (
                           <div>
                             <p className="text-sm text-gray-600 mb-1">Consommation énergétique</p>
                             <p className="text-lg font-semibold">{property.consommation_energetique}</p>
                           </div>
                         )}
-                        {property.emissions_ges !== 'Non renseigné' && (
+                        {property.emissions_ges && property.emissions_ges !== 'Non renseigné' && (
                           <div>
                             <p className="text-sm text-gray-600 mb-1">Émissions de GES</p>
                             <p className="text-lg font-semibold">{property.emissions_ges}</p>
@@ -482,7 +482,7 @@ export default function PropertyDetail() {
                         )}
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               )}
 
