@@ -415,8 +415,21 @@ export default function AdminDashboard() {
     }
   }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+  const formatDate = (dateInput: string | Date | undefined | any) => {
+    if (!dateInput) return 'Date non disponible'
+    
+    // Si c'est un Timestamp Firebase, convertir en Date
+    let date: Date
+    if (dateInput.toDate && typeof dateInput.toDate === 'function') {
+      date = dateInput.toDate()
+    } else if (dateInput instanceof Date) {
+      date = dateInput
+    } else if (typeof dateInput === 'string') {
+      date = new Date(dateInput)
+    } else {
+      return 'Date invalide'
+    }
+    
     return new Intl.DateTimeFormat('fr-FR', {
       day: '2-digit',
       month: 'long',
