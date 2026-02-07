@@ -248,12 +248,6 @@ export interface AnalyseLead {
   notes?: string
   created_at?: Date | Timestamp
   updated_at?: Date | Timestamp
-}
-
-// Type pour AnalyseLead avec id requis (utilisé pour les données récupérées)
-export interface AnalyseLeadWithId extends Omit<AnalyseLead, 'id'> {
-  id: string
-}
   
   // Champs pour les estimations détaillées
   surface?: string | null
@@ -286,6 +280,11 @@ export interface AnalyseLeadWithId extends Omit<AnalyseLead, 'id'> {
   ajustement_prix_echelle?: number | null
   message_libre?: string | null
   photos_urls?: string[] | null
+}
+
+// Type pour AnalyseLead avec id requis (utilisé pour les données récupérées)
+export interface AnalyseLeadWithId extends Omit<AnalyseLead, 'id'> {
+  id: string
 }
 
 // Créer un lead d'analyse
