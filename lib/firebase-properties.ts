@@ -117,7 +117,7 @@ export const getFilteredProperties = async (
       let properties = querySnapshot.docs.map(doc => convertFirestoreProperty(doc))
       
       // Appliquer les filtres côté client pour les filtres complexes
-      if (filters.minPrice || filters.maxPrice || filters.minSurface || filters.minRooms || filters.location) {
+      if (filters && (filters.minPrice || filters.maxPrice || filters.minSurface || filters.minRooms || filters.location)) {
         properties = properties.filter(property => {
           // Filtre par prix
           if (filters.minPrice || filters.maxPrice) {
