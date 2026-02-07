@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { supabase } from '@/lib/supabase'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import app from '@/lib/firebase'
 
 interface PropertyFormData {
   // Informations de base
@@ -124,45 +125,85 @@ export default function PropertyForm({ onSubmit, onCancel, initialData }: Proper
     setSubmitting(true)
 
     try {
-      // Uploader les images vers Supabase Storage
+      // Vérifier les champs requis
+      if (!formData.title.trim()) {
+        throw new Error('Le titre est obligatoire')
+      }
+      if (!formData.price.trim()) {
+        throw new Error('Le prix est obligatoire')
+      }
+      if (!formData.location.trim()) {
+        throw new Error('La localisation est obligatoire')
+      }
+
+      // Uploader les images vers Firebase Storage
       const uploadedImages = []
       
       if (selectedPhotos.length > 0) {
+        console.log(`Upload de ${selectedPhotos.length} image(s)...`)
+        const storage = getStorage(app)
+        
         // Uploader chaque image
         for (let i = 0; i < selectedPhotos.length; i++) {
           const file = selectedPhotos[i]
-          const fileExt = file.name.split('.').pop()
+          
+          // Vérifier la taille du fichier (max 10MB)
+          if (file.size > 10 * 1024 * 1024) {
+            throw new Error(`L'image ${i + 1} est trop volumineuse (max 10MB)`)
+          }
+          
+          const fileExt = file.name.split('.').pop()?.toLowerCase()
+          if (!fileExt || !['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(fileExt)) {
+            throw new Error(`Le format de l'image ${i + 1} n'est pas supporté (jpg, png, webp, gif uniquement)`)
+          }
+          
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
           const filePath = `properties/${fileName}`
 
-          // Upload vers Supabase Storage
-          const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('property-images')
-            .upload(filePath, file, {
-              cacheControl: '3600',
-              upsert: false
+          try {
+            console.log(`Upload de l'image ${i + 1}/${selectedPhotos.length}...`)
+            // Upload vers Firebase Storage
+            const storageRef = ref(storage, filePath)
+            await uploadBytes(storageRef, file)
+
+            // Récupérer l'URL publique de l'image
+            const downloadURL = await getDownloadURL(storageRef)
+            console.log(`Image ${i + 1} uploadée avec succès:`, downloadURL)
+
+            uploadedImages.push({
+              src: downloadURL,
+              alt: `${formData.title} - Photo ${i + 1}`
             })
-
-          if (uploadError) {
+          } catch (uploadError: any) {
             console.error('Erreur upload image:', uploadError)
-            throw new Error(`Erreur lors de l'upload de l'image ${i + 1}: ${uploadError.message}`)
+            
+            let errorMsg = `Erreur lors de l'upload de l'image ${i + 1}`
+            if (uploadError.code === 'storage/unauthorized') {
+              errorMsg += ': Vous n\'avez pas l\'autorisation d\'uploader des images'
+            } else if (uploadError.code === 'storage/quota-exceeded') {
+              errorMsg += ': Quota de stockage dépassé'
+            } else if (uploadError.message) {
+              errorMsg += `: ${uploadError.message}`
+            }
+            
+            throw new Error(errorMsg)
           }
-
-          // Récupérer l'URL publique de l'image
-          const { data: { publicUrl } } = supabase.storage
-            .from('property-images')
-            .getPublicUrl(filePath)
-
-          uploadedImages.push({
-            src: publicUrl,
-            alt: `${formData.title} - Photo ${i + 1}`
-          })
         }
+        console.log(`${uploadedImages.length} image(s) uploadée(s) avec succès`)
       }
 
       // Combiner avec les images existantes (pour l'édition)
       const existingImages = initialData?.images || []
       const allImages = [...existingImages, ...uploadedImages]
+
+      // Vérifier qu'il y a au moins une image
+      if (allImages.length === 0) {
+        const confirmNoImage = confirm('Aucune image n\'a été ajoutée. Voulez-vous continuer sans image ?')
+        if (!confirmNoImage) {
+          setSubmitting(false)
+          return
+        }
+      }
 
       const propertyData = {
         ...formData,
@@ -171,6 +212,7 @@ export default function PropertyForm({ onSubmit, onCancel, initialData }: Proper
         surface: formData.surface_habitable,
       }
 
+      console.log('Soumission des données de la propriété...')
       await onSubmit(propertyData)
       
       // Nettoyer les previews après succès
@@ -179,7 +221,8 @@ export default function PropertyForm({ onSubmit, onCancel, initialData }: Proper
       setPhotoPreviews([])
     } catch (error: any) {
       console.error('Erreur lors de la soumission:', error)
-      alert(error.message || 'Erreur lors de l\'upload des images')
+      alert(error.message || 'Erreur lors de la soumission du formulaire')
+      // Ne pas réinitialiser submitting pour permettre à l'utilisateur de corriger les erreurs
     } finally {
       setSubmitting(false)
     }

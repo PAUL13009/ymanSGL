@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import FadeContent from './FadeContent'
 import VariableProximity from './VariableProximity'
 import PropertyCard from './PropertyCard'
-import { supabase } from '@/lib/supabase'
+import { getLimitedProperties } from '@/lib/firebase-properties'
 
 interface PropertyImage {
   src: string
@@ -119,7 +119,12 @@ const defaultProperties: Property[] = [
   },
 ]
 
-export default function Gallery() {
+interface GalleryProps {
+  maxProperties?: number
+  titleStyle?: 'default' | 'section'
+}
+
+export default function Gallery({ maxProperties, titleStyle = 'default' }: GalleryProps = {}) {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   
@@ -130,16 +135,11 @@ export default function Gallery() {
   const fetchProperties = async () => {
     setLoading(true)
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(6)
-
-      if (error) throw error
+      const limit = maxProperties || 6
+      const data = await getLimitedProperties(limit)
 
       // Transformer les données pour correspondre à l'interface
-      const transformedProperties: Property[] = (data || []).map((prop: any) => ({
+      const transformedProperties: Property[] = data.map((prop) => ({
         id: prop.id,
         images: prop.images || [],
         title: prop.title,
@@ -160,7 +160,8 @@ export default function Gallery() {
     }
   }
 
-  const displayProperties = properties.length > 0 ? properties : defaultProperties
+  const allProperties = properties.length > 0 ? properties : defaultProperties
+  const displayProperties = maxProperties ? allProperties.slice(0, maxProperties) : allProperties
 
   // État pour gérer l'index de l'image actuelle pour chaque propriété
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<string | number, number>>({})
@@ -207,16 +208,25 @@ export default function Gallery() {
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 max-w-4xl mx-auto" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-              <VariableProximity
-                label="Quelques biens que nous avons accompagnés"
-                fromFontVariationSettings="'wght' 400"
-                toFontVariationSettings="'wght' 700"
-                containerRef={null}
-                radius={100}
-                falloff="linear"
-              />
-            </h2>
+            {titleStyle === 'section' ? (
+              <>
+                <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Quelques biens que nous avons accompagnés
+                </h2>
+              </>
+            ) : (
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 max-w-4xl mx-auto" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <VariableProximity
+                  label="Quelques biens que nous avons accompagnés"
+                  fromFontVariationSettings="'wght' 400"
+                  toFontVariationSettings="'wght' 700"
+                  containerRef={null}
+                  radius={100}
+                  falloff="linear"
+                />
+              </h2>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AnimatedContent from '@/components/AnimatedContent'
 import FadeContent from '@/components/FadeContent'
-import { supabase } from '@/lib/supabase'
+// Migration vers Firebase - plus besoin d'import Supabase
 
 export default function EstimationFormulairePage() {
   const router = useRouter()

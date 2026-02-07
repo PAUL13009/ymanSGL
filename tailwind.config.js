@@ -36,6 +36,18 @@ module.exports = {
           DEFAULT: '#C9B037',
           light: '#D4C04A',
           dark: '#B8A030',
+        },
+        'beige': {
+          DEFAULT: '#F5E6D3',
+          50: '#F5E6D3',
+          100: '#F0DDC4',
+          200: '#E8D0B0',
+        },
+        'sable': {
+          DEFAULT: '#F5E6D3',
+          50: '#F5E6D3',
+          100: '#F0DDC4',
+          200: '#E8D0B0',
         }
       },
       fontFamily: {

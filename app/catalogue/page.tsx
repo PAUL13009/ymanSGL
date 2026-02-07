@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
 import FadeContent from '@/components/FadeContent'
 import PropertyCard from '@/components/PropertyCard'
+import Image from 'next/image'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
+import { getAllProperties } from '@/lib/firebase-properties'
+import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
 
 interface PropertyImage {
   src: string
@@ -41,9 +42,7 @@ export default function CataloguePage() {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<string | number, number>>({})
-  const estimationCtaRef = useRef<HTMLAnchorElement>(null)
-  const approcheCtaRef = useRef<HTMLAnchorElement>(null)
-  const observersRef = useRef<IntersectionObserver[]>([])
+  const ctaFinalButtonRef = useScrollButtonAnimation()
   
   const [filters, setFilters] = useState<Filters>({
     status: '',
@@ -62,14 +61,9 @@ export default function CataloguePage() {
   const fetchProperties = async () => {
     setLoading(true)
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const data = await getAllProperties()
 
-      if (error) throw error
-
-      const transformedProperties: Property[] = (data || []).map((prop: any) => ({
+      const transformedProperties: Property[] = data.map((prop) => ({
         id: prop.id,
         images: prop.images || [],
         title: prop.title,
@@ -222,140 +216,16 @@ export default function CataloguePage() {
     return Array.from(new Set(locations)).sort()
   }, [properties])
 
-  // Hook pour l'animation au scroll sur mobile uniquement pour les boutons CTA
-  useEffect(() => {
-    // Attendre que les boutons soient rendus (quand !loading)
-    if (loading) return
-
-    const isMobile = () => window.innerWidth < 768
-    if (!isMobile()) return
-
-    // Nettoyer les anciens observers
-    observersRef.current.forEach(observer => observer.disconnect())
-    observersRef.current = []
-
-    const triggerAnimation = (button: HTMLElement) => {
-      const fill = button.querySelector('.button-fill') as HTMLElement
-      const arrow = button.querySelector('.button-arrow') as HTMLElement
-      const text = button.querySelector('.button-text') as HTMLElement
-      const textSpan = button.querySelector('.button-text span') as HTMLElement
-
-      if (fill) {
-        fill.style.width = '100%'
-        fill.style.transform = 'translateX(-50%) scaleY(1)'
-      }
-      if (arrow) {
-        arrow.style.opacity = '1'
-        arrow.style.right = '-14px'
-      }
-      if (text) {
-        text.style.color = 'white'
-      }
-      if (textSpan) {
-        textSpan.style.transform = 'translateX(-8px)'
-      }
-    }
-
-    const resetAnimation = (button: HTMLElement) => {
-      const fill = button.querySelector('.button-fill') as HTMLElement
-      const arrow = button.querySelector('.button-arrow') as HTMLElement
-      const text = button.querySelector('.button-text') as HTMLElement
-      const textSpan = button.querySelector('.button-text span') as HTMLElement
-
-      if (fill) {
-        fill.style.width = '0%'
-        fill.style.transform = 'translateX(-50%) scaleY(0)'
-      }
-      if (arrow) {
-        arrow.style.opacity = '0'
-        arrow.style.right = '-30px'
-      }
-      if (text) {
-        text.style.color = '#4682B4'
-      }
-      if (textSpan) {
-        textSpan.style.transform = 'translateX(0)'
-      }
-    }
-
-    const setupObservers = (buttons: HTMLElement[]) => {
-      observersRef.current = buttons.map((button) => {
-        let isAnimated = false
-        
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (isMobile()) {
-                if (entry.isIntersecting && !isAnimated) {
-                  // Déclencher l'animation dès que le bouton est visible
-                  triggerAnimation(button)
-                  isAnimated = true
-                } else if (!entry.isIntersecting && isAnimated) {
-                  // Réinitialiser uniquement quand le bouton sort complètement du viewport
-                  resetAnimation(button)
-                  isAnimated = false
-                }
-              }
-            })
-          },
-          {
-            threshold: 0.01, // Déclencher dès que 1% du bouton est visible
-            rootMargin: '50px 0px' // Déclencher 50px avant que le bouton entre dans le viewport
-          }
-        )
-
-        observer.observe(button)
-        return observer
-      })
-    }
-
-    // Utiliser setTimeout pour s'assurer que les boutons sont dans le DOM
-    const timer = setTimeout(() => {
-      const buttons = [estimationCtaRef.current, approcheCtaRef.current].filter(Boolean) as HTMLElement[]
-      if (buttons.length === 0) {
-        // Si les boutons ne sont pas encore disponibles, réessayer
-        return
-      }
-
-      // Vérifier que les boutons ont bien les éléments nécessaires
-      const hasRequiredElements = buttons.every(button => {
-        const fill = button.querySelector('.button-fill')
-        const arrow = button.querySelector('.button-arrow')
-        const text = button.querySelector('.button-text')
-        return fill && arrow && text
-      })
-
-      if (!hasRequiredElements) {
-        // Si les éléments ne sont pas encore rendus, réessayer après un délai
-        setTimeout(() => {
-          const retryButtons = [estimationCtaRef.current, approcheCtaRef.current].filter(Boolean) as HTMLElement[]
-          if (retryButtons.length > 0) {
-            setupObservers(retryButtons)
-          }
-        }, 200)
-        return
-      }
-
-      setupObservers(buttons)
-    }, 300) // Délai augmenté pour s'assurer que les boutons sont rendus
-
-    return () => {
-      clearTimeout(timer)
-      observersRef.current.forEach(observer => observer.disconnect())
-      observersRef.current = []
-    }
-  }, [loading])
-
   return (
     <main className="min-h-screen bg-white" role="main">
       <Navbar />
       
       <Hero 
         title="Notre catalogue de biens"
-        subtitle="Une sélection de biens actuellement proposés par l'agence, étudiés et accompagnés selon notre approche."
+        subtitle=""
         buttonText="Voir les biens"
         buttonLink="#biens"
-        imagePath="/images/vue7e.png"
+        imagePath="/images/modern.webp"
         imageAlt="Catalogue de biens immobiliers à Marseille - Vente et location immobilière"
       />
 
@@ -578,205 +448,54 @@ export default function CataloguePage() {
         </section>
       )}
 
-      {/* CTA stratégiques */}
-      {!loading && (
-        <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white" aria-labelledby="cta-strategiques-catalogue">
-          <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-            <div className="max-w-4xl mx-auto">
-              <h2 id="cta-strategiques-catalogue" className="sr-only">Actions complémentaires pour votre projet immobilier</h2>
-              <div className="grid md:grid-cols-2 gap-8" role="list">
-                {/* CTA Estimation */}
-                <article className="bg-stone-50 rounded-lg p-8 text-center" role="listitem" aria-labelledby="cta-estimation-catalogue">
-                  <h3 id="cta-estimation-catalogue" className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-                    Vous ne trouvez pas le bien correspondant à votre recherche ?
-                  </h3>
-                  <p className="text-gray-600 mb-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Faites estimer votre bien pour connaître sa valeur réelle sur le marché.
-                  </p>
-                  <Link
-                    ref={estimationCtaRef}
-                    href="/estimation"
-                    aria-label="Faire estimer mon bien immobilier gratuitement à Marseille"
-                    className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                    style={{
-                      backgroundColor: 'white',
-                      color: '#4682B4',
-                      fontFamily: 'var(--font-poppins), sans-serif',
-                      fontSize: '1.125rem',
-                      textDecoration: 'none',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                      letterSpacing: '0.3px'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (window.innerWidth >= 768) {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '100%'
-                          fill.style.transform = 'translateX(-50%) scaleY(1)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '1'
-                          arrow.style.right = '-14px'
-                        }
-                        if (text) text.style.color = 'white'
-                        if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (window.innerWidth >= 768) {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '0%'
-                          fill.style.transform = 'translateX(-50%) scaleY(0)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '0'
-                          arrow.style.right = '-30px'
-                        }
-                        if (text) text.style.color = '#4682B4'
-                        if (textSpan) textSpan.style.transform = 'translateX(0)'
-                      }
-                    }}
-                  >
-                    {/* Fond bleu qui se remplit */}
-                    <span
-                      className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
-                      style={{
-                        width: '0%',
-                        backgroundColor: '#4682B4',
-                        transform: 'translateX(-50%) scaleY(0)',
-                        transformOrigin: 'center bottom',
-                        transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                        zIndex: 1
-                      }}
-                    ></span>
-                    
-                    {/* Contenu du bouton */}
-                    <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                      <span className="transition-transform duration-300">Faire estimer mon bien</span>
-                      <svg
-                        className="button-arrow absolute w-5 h-5 transition-all duration-300"
-                        style={{
-                          opacity: 0,
-                          right: '-30px',
-                          transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
-                        }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
-                  </Link>
-                </article>
-
-                {/* CTA Approche */}
-                <article className="bg-stone-50 rounded-lg p-8 text-center" role="listitem" aria-labelledby="cta-approche-catalogue">
-                  <h3 id="cta-approche-catalogue" className="text-xl font-semibold mb-4 text-gray-900" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-                    Vous avez un projet immobilier à Marseille ?
-                  </h3>
-                  <p className="text-gray-600 mb-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Découvrez notre approche structurée et transparente.
-                  </p>
-                  <Link
-                    ref={approcheCtaRef}
+      {/* CTA Final */}
+      <section className="relative min-h-screen flex items-center justify-center" aria-labelledby="cta-final-catalogue">
+        <div className="absolute inset-0 z-0">
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/modern.webp"
+              alt="L'Agence YL - Catalogue de biens immobiliers à Saint-Germain-en-Laye"
+              fill
+              className="object-cover"
+              loading="lazy"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/20" aria-hidden="true" role="presentation" />
+          </div>
+        </div>
+        <div className="relative z-10 w-full">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+              <h2 id="cta-final-catalogue" className="sr-only">Découvrir notre approche immobilière</h2>
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-light leading-relaxed px-2 mb-8 sm:mb-12 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                Vous avez un projet immobilier à Saint-Germain-en-Laye ?
+                <br />
+                Découvrez notre approche structurée et transparente.
+              </p>
+            </FadeContent>
+            <div className="flex justify-center items-center">
+              <div className="group/cta relative flex flex-col border border-white/60 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-white/90 hover:shadow-lg hover:shadow-white/10">
+                <div className="flex justify-center w-full">
+                  <a
+                    ref={ctaFinalButtonRef as any}
                     href="/notre-methode"
-                    aria-label="Découvrir notre approche immobilière structurée et transparente à Marseille"
-                    className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
+                    aria-label="Découvrir notre approche immobilière structurée et transparente"
+                    className="group relative inline-flex items-center text-white font-medium transition-all duration-300"
                     style={{
-                      backgroundColor: 'white',
-                      color: '#4682B4',
                       fontFamily: 'var(--font-poppins), sans-serif',
-                      fontSize: '1.125rem',
+                      fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
                       textDecoration: 'none',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                      letterSpacing: '0.3px'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (window.innerWidth >= 768) {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '100%'
-                          fill.style.transform = 'translateX(-50%) scaleY(1)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '1'
-                          arrow.style.right = '-14px'
-                        }
-                        if (text) text.style.color = 'white'
-                        if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (window.innerWidth >= 768) {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '0%'
-                          fill.style.transform = 'translateX(-50%) scaleY(0)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '0'
-                          arrow.style.right = '-30px'
-                        }
-                        if (text) text.style.color = '#4682B4'
-                        if (textSpan) textSpan.style.transform = 'translateX(0)'
-                      }
+                      letterSpacing: '0.5px',
                     }}
                   >
-                    {/* Fond bleu qui se remplit */}
-                    <span
-                      className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
-                      style={{
-                        width: '0%',
-                        backgroundColor: '#4682B4',
-                        transform: 'translateX(-50%) scaleY(0)',
-                        transformOrigin: 'center bottom',
-                        transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                        zIndex: 1
-                      }}
-                    ></span>
-                    
-                    {/* Contenu du bouton */}
-                    <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                      <span className="transition-transform duration-300">Découvrir notre approche</span>
-                      <svg
-                        className="button-arrow absolute w-5 h-5 transition-all duration-300"
-                        style={{
-                          opacity: 0,
-                          right: '-30px',
-                          transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
-                        }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
-                  </Link>
-                </article>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">Découvrir notre approche</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </FadeContent>
-        </section>
-      )}
-
-      <Footer />
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

@@ -1,9 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-import { User } from '@supabase/supabase-js'
+import { onAuthStateChange, waitForAuthInit, signOutAdmin, FirebaseUser } from '@/lib/firebase-auth'
+import { 
+  getAllPropertiesAdmin, 
+  createProperty, 
+  updateProperty, 
+  deleteProperty,
+  getAllContactMessages,
+  updateContactMessageRead,
+  deleteContactMessage,
+  getAllAnalyseLeads,
+  updateAnalyseLead,
+  deleteAnalyseLead
+} from '@/lib/firebase-admin'
 import Image from 'next/image'
 import PropertyForm from '@/components/PropertyForm'
 
@@ -115,8 +126,9 @@ interface EstimationLead {
 }
 
 export default function AdminDashboard() {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<FirebaseUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const authInitializedRef = useRef(false)
   const [properties, setProperties] = useState<Property[]>([])
   const [loadingProperties, setLoadingProperties] = useState(false)
   const [showAddForm, setShowAddForm] = useState(false)
@@ -131,27 +143,50 @@ export default function AdminDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    // Attendre un peu avant de vérifier pour laisser le temps à la session d'être chargée
-    const timer = setTimeout(() => {
-      checkUser()
-    }, 300)
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('Changement d\'état auth:', _event, session?.user?.email)
-      if (!session) {
+    // Attendre que Firebase Auth soit initialisé
+    waitForAuthInit().then((currentUser) => {
+      console.log('Auth initialisé, utilisateur:', currentUser?.email)
+      authInitializedRef.current = true
+      
+      if (!currentUser) {
         console.log('Pas de session, redirection vers login')
+        setLoading(false)
         setTimeout(() => {
           window.location.href = '/admin/login'
         }, 500)
       } else {
-        console.log('Session trouvée:', session.user.email)
-        setUser(session.user)
+        console.log('Session trouvée:', currentUser.email)
+        setUser(currentUser)
+        setLoading(false)
+      }
+    }).catch((error) => {
+      console.error('Erreur lors de l\'initialisation de l\'auth:', error)
+      setLoading(false)
+      setTimeout(() => {
+        window.location.href = '/admin/login'
+      }, 500)
+    })
+
+    // Continuer à écouter les changements d'état d'authentification
+    const unsubscribe = onAuthStateChange((currentUser) => {
+      // Ne traiter que si l'initialisation est déjà faite
+      if (authInitializedRef.current) {
+        console.log('Changement d\'état auth:', currentUser?.email)
+        
+        if (!currentUser) {
+          console.log('Session perdue, redirection vers login')
+          setUser(null)
+          setTimeout(() => {
+            window.location.href = '/admin/login'
+          }, 500)
+        } else {
+          setUser(currentUser)
+        }
       }
     })
 
     return () => {
-      clearTimeout(timer)
-      subscription.unsubscribe()
+      unsubscribe()
     }
   }, [router])
 
@@ -173,58 +208,16 @@ export default function AdminDashboard() {
     }
   }, [user, activeTab])
 
-  const checkUser = async () => {
-    try {
-      // Vérifier d'abord la session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-      
-      if (sessionError) {
-        console.error('Erreur de session:', sessionError)
-      }
-      
-      if (session && session.user) {
-        console.log('Session trouvée, utilisateur:', session.user.email)
-        setUser(session.user)
-        setLoading(false)
-        return
-      }
-
-      // Si pas de session, essayer de récupérer l'utilisateur
-      const { data: { user }, error: userError } = await supabase.auth.getUser()
-      
-      if (userError) {
-        console.error('Erreur utilisateur:', userError)
-      }
-      
-      if (user) {
-        console.log('Utilisateur trouvé:', user.email)
-        setUser(user)
-      } else {
-        console.log('Aucun utilisateur trouvé, redirection vers login')
-        // Attendre un peu avant de rediriger pour éviter les boucles
-        setTimeout(() => {
-          window.location.href = '/admin/login'
-        }, 500)
-      }
-    } catch (error) {
-      console.error('Erreur lors de la vérification:', error)
-      setTimeout(() => {
-        window.location.href = '/admin/login'
-      }, 500)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const fetchProperties = async () => {
     setLoadingProperties(true)
     try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
+      const data = await getAllPropertiesAdmin()
+      console.log('Propriétés récupérées:', data)
+      console.log('Nombre de propriétés:', data?.length || 0)
+      if (data && data.length > 0) {
+        console.log('Première propriété:', data[0])
+        console.log('Type/Status de la première propriété:', data[0].type || data[0].status)
+      }
       setProperties(data || [])
     } catch (error: any) {
       console.error('Error fetching properties:', error.message)
@@ -235,19 +228,31 @@ export default function AdminDashboard() {
 
   const handleSubmit = async (propertyData: any): Promise<void> => {
     try {
+      // Vérifier que l'utilisateur est connecté
+      if (!user) {
+        throw new Error('Vous devez être connecté pour publier une annonce')
+      }
+
+      // Vérifier les champs requis
+      if (!propertyData.title || !propertyData.price || !propertyData.location) {
+        throw new Error('Veuillez remplir tous les champs obligatoires (Titre, Prix, Localisation)')
+      }
+
       // Supprimer les champs qui n'existent pas dans la base de données
       const { photos, type, surface, ...dataWithoutExtras } = propertyData
       
-      // Préparer les données pour Supabase en respectant exactement la structure de la table
+      // Préparer les données pour Firebase en respectant exactement la structure de la collection
+      const statusValue = propertyData.status || 'À vendre'
       const processedData: any = {
-        title: propertyData.title,
-        price: propertyData.price,
-        location: propertyData.location,
-        status: propertyData.status || 'À vendre',
-        description: propertyData.description || null,
-        rooms: propertyData.rooms || null,
-        bathrooms: propertyData.bathrooms || null,
-        surface_habitable: propertyData.surface_habitable || null,
+        title: propertyData.title.trim(),
+        price: propertyData.price.trim(),
+        location: propertyData.location.trim(),
+        status: statusValue,
+        type: statusValue, // Ajouter type pour le filtrage dans le dashboard
+        description: propertyData.description?.trim() || null,
+        rooms: propertyData.rooms?.trim() || null,
+        bathrooms: propertyData.bathrooms?.trim() || null,
+        surface_habitable: propertyData.surface_habitable?.trim() || null,
         parking: propertyData.parking || false,
         terrasse: propertyData.terrasse || false,
         piscine: propertyData.piscine || false,
@@ -263,8 +268,8 @@ export default function AdminDashboard() {
         digicode: propertyData.digicode || false,
         fibre_optique: propertyData.fibre_optique || false,
         gardien: propertyData.gardien || false,
-        autres_prestations: propertyData.autres_prestations || null,
-        surface_totale: propertyData.surface_totale || null,
+        autres_prestations: propertyData.autres_prestations?.trim() || null,
+        surface_totale: propertyData.surface_totale?.trim() || null,
         consommation_energetique: propertyData.consommation_energetique || null,
         emissions_ges: propertyData.emissions_ges || null,
         images: propertyData.images || [],
@@ -279,29 +284,46 @@ export default function AdminDashboard() {
         }
       })
 
+      console.log('Publication de l\'annonce...', processedData)
+
       if (editingProperty) {
         // Mise à jour
-        const { error } = await supabase
-          .from('properties')
-          .update(processedData)
-          .eq('id', editingProperty.id)
-
-        if (error) throw error
+        console.log('Mise à jour de l\'annonce:', editingProperty.id)
+        await updateProperty(editingProperty.id, processedData)
+        alert('Annonce mise à jour avec succès !')
       } else {
         // Création
-        const { error } = await supabase
-          .from('properties')
-          .insert([processedData])
-
-        if (error) throw error
+        console.log('Création d\'une nouvelle annonce...')
+        const propertyId = await createProperty(processedData)
+        console.log('Annonce créée avec l\'ID:', propertyId)
+        alert('Annonce publiée avec succès !')
       }
 
+      // Fermer le formulaire
       setShowAddForm(false)
       setEditingProperty(null)
-      fetchProperties()
+      
+      // Attendre un peu pour que Firestore soit à jour, puis rafraîchir
+      setTimeout(async () => {
+        console.log('Rafraîchissement de la liste des propriétés...')
+        await fetchProperties()
+      }, 1000)
     } catch (error: any) {
-      console.error('Erreur:', error)
-      alert('Erreur: ' + error.message)
+      console.error('Erreur lors de la publication:', error)
+      
+      // Messages d'erreur plus détaillés
+      let errorMessage = 'Erreur lors de la publication de l\'annonce'
+      
+      if (error.code === 'permission-denied') {
+        errorMessage = 'Erreur d\'authentification. Veuillez vous reconnecter.'
+      } else if (error.code === 'unavailable') {
+        errorMessage = 'Service temporairement indisponible. Veuillez réessayer plus tard.'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
+      alert(errorMessage)
+      throw error // Re-lancer pour que le formulaire reste ouvert en cas d'erreur
     }
   }
 
@@ -309,12 +331,7 @@ export default function AdminDashboard() {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce bien ?')) return
 
     try {
-      const { error } = await supabase
-        .from('properties')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
+      await deleteProperty(id)
       fetchProperties()
     } catch (error: any) {
       alert('Erreur: ' + error.message)
@@ -327,20 +344,21 @@ export default function AdminDashboard() {
   }
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
-    router.push('/admin/login')
-    router.refresh()
+    try {
+      await signOutAdmin()
+      router.push('/admin/login')
+      router.refresh()
+    } catch (error: any) {
+      console.error('Erreur de déconnexion:', error)
+      // Rediriger quand même vers la page de login
+      router.push('/admin/login')
+    }
   }
 
   const fetchMessages = async () => {
     setLoadingMessages(true)
     try {
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
+      const data = await getAllContactMessages()
       setMessages(data || [])
     } catch (error: any) {
       console.error('Error fetching messages:', error.message)
@@ -351,12 +369,7 @@ export default function AdminDashboard() {
 
   const toggleMessageRead = async (id: string, currentReadStatus: boolean) => {
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .update({ read: !currentReadStatus })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateContactMessageRead(id, !currentReadStatus)
       fetchMessages()
     } catch (error: any) {
       console.error('Error updating message:', error.message)
@@ -368,12 +381,7 @@ export default function AdminDashboard() {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) return
 
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
+      await deleteContactMessage(id)
       fetchMessages()
     } catch (error: any) {
       alert('Erreur: ' + error.message)
@@ -383,14 +391,10 @@ export default function AdminDashboard() {
   const fetchLeads = async () => {
     setLoadingLeads(true)
     try {
-      const { data, error } = await supabase
-        .from('analyse_leads')
-        .select('*')
-        .or('type_demande.is.null,type_demande.eq.analyse')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setLeads(data || [])
+      // Récupérer tous les leads et filtrer côté client pour ceux sans type_demande ou avec type_demande = 'analyse'
+      const allLeads = await getAllAnalyseLeads()
+      const filteredLeads = allLeads.filter(lead => !lead.type_demande || lead.type_demande === 'analyse')
+      setLeads(filteredLeads || [])
     } catch (error: any) {
       console.error('Error fetching leads:', error.message)
     } finally {
@@ -401,13 +405,7 @@ export default function AdminDashboard() {
   const fetchEstimations = async () => {
     setLoadingEstimations(true)
     try {
-      const { data, error } = await supabase
-        .from('analyse_leads')
-        .select('*')
-        .eq('type_demande', 'estimation')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
+      const data = await getAllAnalyseLeads('estimation')
       setEstimations(data || [])
     } catch (error: any) {
       console.error('Error fetching estimations:', error.message)
@@ -418,12 +416,7 @@ export default function AdminDashboard() {
 
   const toggleLeadRead = async (id: string, currentReadStatus: boolean) => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ read: !currentReadStatus })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { read: !currentReadStatus })
       fetchLeads()
     } catch (error: any) {
       console.error('Error updating lead:', error.message)
@@ -433,12 +426,7 @@ export default function AdminDashboard() {
 
   const updateLeadStatus = async (id: string, newStatus: 'nouveau' | 'en_cours' | 'accepte' | 'refuse') => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ status: newStatus })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { status: newStatus })
       fetchLeads()
     } catch (error: any) {
       console.error('Error updating lead status:', error.message)
@@ -448,12 +436,7 @@ export default function AdminDashboard() {
 
   const updateLeadNotes = async (id: string, notes: string) => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ notes })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { notes })
       fetchLeads()
     } catch (error: any) {
       console.error('Error updating lead notes:', error.message)
@@ -465,12 +448,7 @@ export default function AdminDashboard() {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce lead ?')) return
 
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
+      await deleteAnalyseLead(id)
       fetchLeads()
     } catch (error: any) {
       alert('Erreur: ' + error.message)
@@ -479,12 +457,7 @@ export default function AdminDashboard() {
 
   const toggleEstimationRead = async (id: string, currentReadStatus: boolean) => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ read: !currentReadStatus })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { read: !currentReadStatus })
       fetchEstimations()
     } catch (error: any) {
       console.error('Error updating estimation:', error.message)
@@ -494,12 +467,7 @@ export default function AdminDashboard() {
 
   const updateEstimationStatus = async (id: string, newStatus: 'nouveau' | 'en_cours' | 'accepte' | 'refuse') => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ status: newStatus })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { status: newStatus })
       fetchEstimations()
     } catch (error: any) {
       console.error('Error updating estimation status:', error.message)
@@ -509,12 +477,7 @@ export default function AdminDashboard() {
 
   const updateEstimationNotes = async (id: string, notes: string) => {
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .update({ notes })
-        .eq('id', id)
-
-      if (error) throw error
+      await updateAnalyseLead(id, { notes })
       fetchEstimations()
     } catch (error: any) {
       console.error('Error updating estimation notes:', error.message)
@@ -526,12 +489,7 @@ export default function AdminDashboard() {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette demande d\'estimation ?')) return
 
     try {
-      const { error } = await supabase
-        .from('analyse_leads')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
+      await deleteAnalyseLead(id)
       fetchEstimations()
     } catch (error: any) {
       alert('Erreur: ' + error.message)
@@ -735,7 +693,10 @@ export default function AdminDashboard() {
             {/* Liste des biens */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-2xl font-serif mb-6" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
-                Liste des biens {activeTab === 'vendre' ? 'à vendre' : 'à louer'} ({properties.filter(p => (activeTab === 'vendre' ? p.type === 'À vendre' : p.type === 'À louer')).length})
+                Liste des biens {activeTab === 'vendre' ? 'à vendre' : 'à louer'} ({properties.filter(p => {
+                  const propertyStatus = p.type || p.status || ''
+                  return activeTab === 'vendre' ? propertyStatus === 'À vendre' : propertyStatus === 'À louer'
+                }).length})
               </h2>
 
               {loadingProperties ? (
@@ -743,14 +704,20 @@ export default function AdminDashboard() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4" style={{ borderColor: '#4682B4' }}></div>
               <p className="text-gray-600">Chargement des biens...</p>
             </div>
-              ) : properties.filter(p => activeTab === 'vendre' ? p.type === 'À vendre' : p.type === 'À louer').length === 0 ? (
+              ) : properties.filter(p => {
+                const propertyStatus = p.type || p.status || ''
+                return activeTab === 'vendre' ? propertyStatus === 'À vendre' : propertyStatus === 'À louer'
+              }).length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <p>Aucun bien {activeTab === 'vendre' ? 'à vendre' : 'à louer'} enregistré pour le moment.</p>
                   <p className="text-sm mt-2">Cliquez sur "Ajouter une annonce" pour commencer.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {properties.filter(p => activeTab === 'vendre' ? p.type === 'À vendre' : p.type === 'À louer').map((property) => (
+                  {properties.filter(p => {
+                    const propertyStatus = p.type || p.status || ''
+                    return activeTab === 'vendre' ? propertyStatus === 'À vendre' : propertyStatus === 'À louer'
+                  }).map((property) => (
                 <div key={property.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                   {property.images && property.images.length > 0 && property.images[0].src && (
                     <div className="relative h-48 w-full">

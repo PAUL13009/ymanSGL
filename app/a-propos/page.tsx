@@ -1,7 +1,6 @@
 'use client'
 
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
 import FadeContent from '@/components/FadeContent'
 import AnimatedContent from '@/components/AnimatedContent'
@@ -10,10 +9,13 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useScrollImageAnimation } from '@/hooks/useScrollImageAnimation'
 import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
+import Stepper, { Step } from '@/components/Stepper'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function AProposPage() {
   const [isFondatriceImageHovered, setIsFondatriceImageHovered] = useState(false)
   const [isExpertiseImageHovered, setIsExpertiseImageHovered] = useState(false)
+  const [selectiveToggleOn, setSelectiveToggleOn] = useState(false)
   const { imageRef: fondatriceImageRef, isAnimated: isFondatriceImageAnimated } = useScrollImageAnimation()
   const { imageRef: expertiseImageRef, isAnimated: isExpertiseImageAnimated } = useScrollImageAnimation()
   const venteButtonRef = useScrollButtonAnimation()
@@ -23,14 +25,14 @@ export default function AProposPage() {
       <Navbar />
       
       <Hero 
-        title="Une agence immobilière indépendante, fondée sur l'expérience et la méthode"
-        subtitle="Depuis plus de 10 ans, nous accompagnons des projets immobiliers à Marseille avec une approche structurée, exigeante et volontairement sélective."
+        title="Une agence immobilière expérimentée et méthodique"
+        subtitle=""
         buttonText="Faire estimer mon bien"
         buttonSubtext="Estimation gratuite – sans engagement"
         buttonLink="/estimation"
         secondaryButtonText="Découvrir nos biens"
         secondaryButtonLink="/catalogue"
-        imagePath="/images/vue7e.png"
+        imagePath="/images/modern.webp"
       />
 
       {/* Section Pourquoi l'agence existe */}
@@ -41,8 +43,8 @@ export default function AProposPage() {
               {/* Image à gauche avec titre superposé */}
               <div className="relative h-[500px] md:h-[600px] overflow-hidden shadow-xl">
                 <Image
-                  src="/images/Notre-Dame-de-la-Garde-Marseille.jpg"
-                  alt="Vue de Notre-Dame de la Garde à Marseille depuis l'agence immobilière"
+                  src="/images/loft.jpg"
+                  alt="Loft moderne - L'Agence YL, agence immobilière"
                   fill
                   className="object-cover"
                   priority
@@ -52,7 +54,7 @@ export default function AProposPage() {
                 {/* Titre superposé avec fade in - positionné à mi-hauteur */}
                 <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 id="pourquoi-agence-existe" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="pourquoi-agence-existe" className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-center text-white px-8 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Pourquoi l'agence existe ?
                     </h2>
                   </FadeContent>
@@ -60,7 +62,7 @@ export default function AProposPage() {
               </div>
               
               {/* Texte à droite */}
-              <div className="text-lg text-gray-700 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <div className="text-lg text-gray-800 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 <p>
                   L'Agence YL existe depuis environ 4 ans. Elle a été créée par sa présidente et fondatrice, 
                   qui exerce dans l'immobilier depuis plus de 10 ans.
@@ -75,7 +77,7 @@ export default function AProposPage() {
                   privilégie les projets clairs, réfléchis et réalistes. Cette approche volontairement 
                   sélective garantit un accompagnement de qualité et des résultats cohérents.
                 </p>
-                <div className="bg-stone-50 border-l-4 pl-6 py-4 mt-8" style={{ borderColor: '#4682B4' }}>
+                <div className="bg-stone-50 border-l-4 pl-6 py-4 mt-8" style={{ borderColor: '#000000' }}>
                   <p className="font-semibold text-gray-900 text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Aujourd'hui, l'agence assume pleinement cette sélectivité. Elle préfère accompagner 
                     moins de projets, mais mieux.
@@ -88,56 +90,55 @@ export default function AProposPage() {
       </section>
 
       {/* Section Notre façon de travailler */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="notre-facon-de-travailler">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="notre-facon-de-travailler">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
-              <h2 id="notre-facon-de-travailler" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="notre-facon-de-travailler" className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Notre façon de travailler
               </h2>
             </div>
-            <div className="text-lg text-gray-700 leading-relaxed space-y-6 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            <div className="text-lg text-gray-800 leading-relaxed space-y-6 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               <p>
                 Chaque projet immobilier nécessite une méthode rigoureuse. Avant tout engagement, 
                 l'agence procède à une analyse complète qui comprend :
               </p>
-              <div className="grid md:grid-cols-3 gap-6 mt-8" role="list">
-                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="estimation-realiste">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
-                    <span className="text-white text-xl font-bold" aria-hidden="true">1</span>
-                  </div>
-                  <h3 id="estimation-realiste" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Estimation réaliste
-                  </h3>
-                  <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Basée sur l'analyse du bien, de son environnement et de son état.
-                  </p>
-                </article>
-                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="contexte-juridique">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
-                    <span className="text-white text-xl font-bold" aria-hidden="true">2</span>
-                </div>
-                  <h3 id="contexte-juridique" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Contexte juridique
-                  </h3>
-                  <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Succession, divorce, vente classique, investissement. Chaque situation nécessite une approche adaptée.
-                  </p>
-                </article>
-                <article className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-blue-500 cursor-pointer group" role="listitem" aria-labelledby="marche-local">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto md:mx-0 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
-                    <span className="text-white text-xl font-bold" aria-hidden="true">3</span>
-                </div>
-                  <h3 id="marche-local" className="text-lg font-semibold mb-2 text-gray-900 transition-colors duration-300 group-hover:text-blue-600 text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Marché local
-                  </h3>
-                  <p className="text-gray-700 text-sm text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Analyse des biens similaires récemment vendus sur le même secteur pour établir une estimation précise.
-                  </p>
-                </article>
-                </div>
-              <p className="mt-8 text-center md:text-left">
+              <div className="mt-8 w-full flex justify-center [&_.stepper-step-default]:text-gray-800 [&_.stepper-step-default]:text-center">
+                <Stepper
+                  variant="light"
+                  backButtonText="Précédent"
+                  nextButtonText="Suivant"
+                  completeButtonText="Terminer"
+                  contentClassName="!mb-4"
+                >
+                  <Step>
+                    <h3 id="estimation-realiste" className="text-lg font-semibold mb-2 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Estimation réaliste
+                    </h3>
+                    <p className="text-gray-800 text-sm leading-relaxed text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Basée sur l'analyse du bien, de son environnement et de son état.
+                    </p>
+                  </Step>
+                  <Step>
+                    <h3 id="contexte-juridique" className="text-lg font-semibold mb-2 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Contexte juridique
+                    </h3>
+                    <p className="text-gray-800 text-sm leading-relaxed text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Succession, divorce, vente classique, investissement. Chaque situation nécessite une approche adaptée.
+                    </p>
+                  </Step>
+                  <Step>
+                    <h3 id="marche-local" className="text-lg font-semibold mb-2 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Marché local
+                    </h3>
+                    <p className="text-gray-800 text-sm leading-relaxed text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Analyse des biens similaires récemment vendus sur le même secteur pour établir une estimation précise.
+                    </p>
+                  </Step>
+                </Stepper>
+              </div>
+              <p className="mt-8 text-center">
                 Cette méthode permet d'identifier rapidement si un projet est viable et si l'agence 
                 peut l'accompagner efficacement. Aucun engagement n'est pris sans cette analyse préalable.
               </p>
@@ -151,170 +152,220 @@ export default function AProposPage() {
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mx-auto mb-6" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
-              <h2 id="agence-selective-par-choix" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-black mx-auto mb-6" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="agence-selective-par-choix" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Une agence sélective par choix
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 mb-8" role="list">
-              {/* Accepté */}
-              <article className="bg-gradient-to-br from-stone-50 to-white rounded-xl p-8 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer group" style={{ borderColor: '#4682B4' }} role="listitem" aria-labelledby="agence-accepte">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation">
-                    <span className="text-white text-xl" aria-hidden="true">✓</span>
-                  </div>
-                  <h3 id="agence-accepte" className="text-xl font-bold text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
-                    L'agence accepte
-                  </h3>
-                </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
-                      <span>Les vendeurs réfléchis, avec un projet structuré</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.1}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
-                      <span>Les biens standards ou à forte valeur</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.2}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
-                      <span>Les résidences principales, investisseurs, successions</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.3}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1" style={{ color: '#4682B4' }} aria-hidden="true">•</span>
-                      <span>Les projets avec des objectifs réalistes et cohérents</span>
-                    </li>
-                  </AnimatedContent>
-                </ul>
-              </article>
-              
-              {/* Refusé */}
-              <article className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-8 shadow-lg border-2 border-gray-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-gray-400 cursor-pointer group" role="listitem" aria-labelledby="agence-refuse">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" role="presentation">
-                    <span className="text-white text-xl" aria-hidden="true">✗</span>
-                  </div>
-                  <h3 id="agence-refuse" className="text-xl font-bold text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    L'agence refuse
-                  </h3>
-                </div>
-                <ul className="space-y-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
-                      <span>Les prix irréalistes, déconnectés du marché</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.1}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
-                      <span>Les mandats simples sans analyse préalable</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.2}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
-                      <span>Les projets flous ou non aboutis</span>
-                    </li>
-                  </AnimatedContent>
-                  <AnimatedContent
-                    distance={50}
-                    direction="vertical"
-                    reverse={false}
-                    duration={0.8}
-                    ease="power3.out"
-                    initialOpacity={0}
-                    animateOpacity={true}
-                    threshold={0.2}
-                    delay={0.3}
-                  >
-                    <li className="flex items-start" role="listitem">
-                      <span className="mr-3 mt-1 text-gray-500" aria-hidden="true">•</span>
-                      <span>Les situations où l'agence ne peut pas apporter de valeur réelle</span>
-                    </li>
-                  </AnimatedContent>
-                </ul>
-              </article>
+            <div className="flex flex-col items-center mb-8">
+              {/* Conteneur pour la transition fluide gauche ↔ droite */}
+              <div className="w-full max-w-xl relative overflow-hidden min-h-[22rem]">
+                <AnimatePresence initial={false}>
+                  {!selectiveToggleOn ? (
+                    <motion.article
+                      key="accepte"
+                      initial={{ x: '-100%' }}
+                      animate={{ x: 0 }}
+                      exit={{ x: '-100%' }}
+                      transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.45 }}
+                      className="absolute left-0 top-0 w-full bg-white rounded-xl p-8 shadow-lg border-2 border-gray-200 cursor-pointer group hover:border-gray-300 hover:shadow-xl transition-shadow duration-300"
+                      role="article"
+                      aria-labelledby="agence-accepte"
+                    >
+                      <div className="flex items-center justify-center mb-6">
+<div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110 bg-emerald-300" aria-hidden="true" role="presentation">
+                      <span className="text-white text-xl" aria-hidden="true">✓</span>
+                    </div>
+                    <h3 id="agence-accepte" className="text-xl font-bold text-center text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          L'agence accepte
+                        </h3>
+                      </div>
+                      <ul className="flex flex-col items-center gap-3" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium">
+                              Les vendeurs réfléchis, avec un projet structuré
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.1}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium">
+                              Les biens standards ou à forte valeur
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.2}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium">
+                              Les résidences principales, investisseurs, successions
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.3}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium">
+                              Les projets avec des objectifs réalistes et cohérents
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                      </ul>
+                    </motion.article>
+                  ) : (
+                    <motion.article
+                      key="refuse"
+                      initial={{ x: '100%' }}
+                      animate={{ x: 0 }}
+                      exit={{ x: '100%' }}
+                      transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.45 }}
+                      className="absolute left-0 top-0 w-full bg-white rounded-xl p-8 shadow-lg border-2 border-gray-200 cursor-pointer group hover:border-gray-400 hover:shadow-xl transition-shadow duration-300"
+                      role="article"
+                      aria-labelledby="agence-refuse"
+                    >
+                      <div className="flex items-center justify-center mb-6">
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-red-500 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" role="presentation">
+                          <span className="text-white text-xl" aria-hidden="true">✗</span>
+                        </div>
+                        <h3 id="agence-refuse" className="text-xl font-bold text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          Cette agence n'accepte pas
+                        </h3>
+                      </div>
+                      <ul className="flex flex-col items-center gap-3" style={{ fontFamily: 'var(--font-poppins), sans-serif' }} role="list">
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-red-500 px-5 py-2.5 text-center text-white text-sm font-medium">
+                              Les prix irréalistes, déconnectés du marché
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.1}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-red-500 px-5 py-2.5 text-center text-white text-sm font-medium">
+                              Les mandats simples sans analyse préalable
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.2}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-red-500 px-5 py-2.5 text-center text-white text-sm font-medium">
+                              Les projets flous ou non aboutis
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                        <AnimatedContent
+                          distance={50}
+                          direction="vertical"
+                          reverse={false}
+                          duration={0.8}
+                          ease="power3.out"
+                          initialOpacity={0}
+                          animateOpacity={true}
+                          threshold={0.2}
+                          delay={0.3}
+                        >
+                          <li className="w-full flex justify-center" role="listitem">
+                            <span className="inline-block rounded-full bg-red-500 px-5 py-2.5 text-center text-white text-sm font-medium">
+                              Les situations où l'agence ne peut pas apporter de valeur
+                            </span>
+                          </li>
+                        </AnimatedContent>
+                      </ul>
+                    </motion.article>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Toggle On/Off — design épuré et moderne */}
+              <div className="flex justify-center mt-10">
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={selectiveToggleOn}
+                  aria-label={selectiveToggleOn ? 'Désactiver' : 'Activer'}
+                  onClick={() => setSelectiveToggleOn((prev) => !prev)}
+                  className={`relative inline-flex items-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 transition-colors duration-300 ease-out w-[5rem] h-8 ${selectiveToggleOn ? 'bg-red-500' : 'bg-emerald-300'}`}
+                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+                >
+                  <span
+                    className="absolute left-1 top-1 w-6 h-6 rounded-full bg-white shadow-md transition-[transform] duration-300 ease-out"
+                    style={{ transform: selectiveToggleOn ? 'translateX(calc(5rem - 1.5rem - 0.5rem))' : 'translateX(0)' }}
+                  />
+                  <span className="sr-only">{selectiveToggleOn ? 'On' : 'Off'}</span>
+                </button>
+              </div>
             </div>
             <div className="text-center mt-10">
-              <p className="text-lg text-gray-600 italic max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <p className="text-lg text-gray-700 italic max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Cette sélectivité est un choix assumé. Elle garantit un accompagnement de qualité 
                 pour chaque projet accepté.
               </p>
@@ -324,17 +375,17 @@ export default function AProposPage() {
       </section>
 
       {/* Section Un accompagnement transparent */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="accompagnement-transparent">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="accompagnement-transparent">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
-              <h2 id="accompagnement-transparent" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="accompagnement-transparent" className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Un accompagnement transparent
               </h2>
             </div>
-            <div className="bg-white rounded-xl p-8 md:p-10 shadow-lg">
-              <div className="text-lg text-gray-700 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            <div className="bg-white rounded-xl p-8 md:p-10 shadow-lg border border-gray-200">
+              <div className="text-lg text-gray-800 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 <p>
                   L'agence privilégie une communication régulière et transparente avec les propriétaires. 
                   Chaque étape est expliquée, chaque décision est justifiée.
@@ -354,208 +405,65 @@ export default function AProposPage() {
         </FadeContent>
       </section>
 
-      {/* Section Expertise locale à Marseille */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="expertise-locale-marseille">
+      {/* Section Expertise à Saint-Germain-en-Laye */}
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="expertise-saint-germain">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Image - En premier sur mobile */}
-              <div 
+              <div
                 ref={expertiseImageRef}
                 className="relative h-[500px] md:h-[600px] overflow-hidden shadow-xl order-1 md:order-2"
-                onMouseEnter={() => setIsExpertiseImageHovered(true)}
-                onMouseLeave={() => setIsExpertiseImageHovered(false)}
               >
                 <Image
-                  src="/images/marseille-hauteur.jpg"
-                  alt="Vue aérienne de Marseille - Expertise immobilière locale 6e au 15e arrondissement"
+                  src="/images/chateau_saint_germain_en_laye.webp"
+                  alt="Château de Saint-Germain-en-Laye - Expertise immobilière locale"
                   fill
                   className="object-cover"
                   priority
                 />
                 {/* Overlay sombre pour la lisibilité du texte */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" role="presentation"></div>
-                {/* Titre superposé avec fade in - positionné à mi-hauteur */}
-                <div className="absolute inset-x-0 flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
+                {/* Titre + CTA centrés, CTA avec design hero (blur) */}
+                <div className="absolute inset-x-0 flex flex-col items-center justify-center gap-6 sm:gap-8" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 10 }}>
                   <FadeContent duration={2000} ease="power2.out" threshold={0.3} initialOpacity={0}>
-                    <h2 id="expertise-locale-marseille" className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-center text-white px-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                      Expertise locale à Marseille
+                    <h2 id="expertise-saint-germain" className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight text-center text-white px-8 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Expertise à
+                      <br />
+                      Saint-Germain-en-Laye
                     </h2>
                   </FadeContent>
-                </div>
-                {/* CTA overlay sur l'image - Desktop */}
-                <div 
-                  className={`hidden md:flex absolute inset-x-0 items-center justify-center transition-opacity duration-1000 ease-in-out ${
-                    isExpertiseImageHovered ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{ top: 'calc(50% + 2cm)', zIndex: 10 }}
-                >
-                  <a
-                    href="/estimation"
-                    aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
-                    className={`inline-block relative font-medium cursor-pointer group ${
-                      isExpertiseImageHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                    }`}
-                    style={{
-                      color: 'white',
-                      fontFamily: 'var(--font-poppins), sans-serif',
-                      fontSize: '1.125rem',
-                      textDecoration: 'none',
-                      transition: 'opacity 1s ease-in-out, transform 1s ease-in-out'
-                    }}
-                    onMouseEnter={(e) => {
-                      const underline = e.currentTarget.querySelector('.underline-animation') as HTMLElement
-                      if (underline) {
-                        underline.style.width = '100%'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      const underline = e.currentTarget.querySelector('.underline-animation') as HTMLElement
-                      if (underline) {
-                        underline.style.width = '0%'
-                      }
-                    }}
-                  >
-                    Estimer mon bien
-                    <span
-                      className="underline-animation absolute bottom-0 left-0 h-0.5 bg-white"
-                      style={{
-                        width: '0%',
-                        transition: 'width 0.5s ease-in-out'
-                      }}
-                      aria-hidden="true"
-                      role="presentation"
-                    ></span>
-                  </a>
-                </div>
-                
-                {/* CTA overlay sur l'image - Mobile */}
-                <div 
-                  className={`md:hidden absolute inset-x-0 bottom-0 flex items-end justify-center bg-black/40 transition-opacity duration-1000 ease-in-out pb-8 ${
-                    isExpertiseImageAnimated ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  style={{ zIndex: 10 }}
-                  aria-hidden="true"
-                >
-                  <a
-                    href="/estimation"
-                    aria-label="Faire estimer mon bien immobilier à Marseille gratuitement"
-                    className={`inline-block relative font-medium cursor-pointer group ${
-                      isExpertiseImageAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                    }`}
-                    style={{
-                      color: 'white',
-                      fontFamily: 'var(--font-poppins), sans-serif',
-                      fontSize: '1.125rem',
-                      textDecoration: 'none',
-                      transition: 'opacity 1s ease-in-out, transform 1s ease-in-out'
-                    }}
-                  >
-                    Estimer mon bien
-                    <span
-                      className="underline-animation absolute bottom-0 left-0 h-0.5 bg-white"
-                      style={{
-                        width: isExpertiseImageAnimated ? '100%' : '0%',
-                        transition: 'width 0.5s ease-in-out'
-                      }}
-                      aria-hidden="true"
-                      role="presentation"
-                    ></span>
-                  </a>
+                  <div className="group/cta relative flex flex-col border border-white/60 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm bg-white/5 transition-all duration-500 hover:border-white/90 hover:shadow-lg hover:shadow-white/10">
+                    <div className="flex justify-center w-full">
+                      <a
+                        href="/estimation"
+                        aria-label="Faire estimer mon bien immobilier à Saint-Germain-en-Laye gratuitement"
+                        className="group relative inline-flex items-center text-white font-medium transition-all duration-300"
+                        style={{
+                          fontFamily: 'var(--font-poppins), sans-serif',
+                          fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                          textDecoration: 'none',
+                          letterSpacing: '0.5px',
+                        }}
+                      >
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">Estimer mon bien</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
               
-              {/* Contenu à droite avec arrondissements animés */}
-              <div className="space-y-8 order-2 md:order-1">
-                {/* Arrondissements avec animation de glissement */}
-                <div className="space-y-4 text-center md:text-left">
-                  <h3 id="arrondissements-intervention" className="text-xl font-semibold text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Arrondissements d'intervention
-                  </h3>
-                  <div className="space-y-3" role="list">
-                    <AnimatedContent 
-                      direction="horizontal" 
-                      distance={100} 
-                      reverse={false}
-                      duration={0.8}
-                      delay={0}
-                      threshold={0.2}
-                    >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
-                        <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          6e arrondissement
-                        </p>
-                      </div>
-                    </AnimatedContent>
-                    <AnimatedContent 
-                      direction="horizontal" 
-                      distance={100} 
-                      reverse={false}
-                      duration={0.8}
-                      delay={0.1}
-                      threshold={0.2}
-                    >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
-                        <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          7e arrondissement
-                        </p>
-                      </div>
-                    </AnimatedContent>
-                    <AnimatedContent 
-                      direction="horizontal" 
-                      distance={100} 
-                      reverse={false}
-                      duration={0.8}
-                      delay={0.2}
-                      threshold={0.2}
-                    >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
-                        <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          8e arrondissement
-                        </p>
-                      </div>
-                    </AnimatedContent>
-                    <AnimatedContent 
-                      direction="horizontal" 
-                      distance={100} 
-                      reverse={false}
-                      duration={0.8}
-                      delay={0.3}
-                      threshold={0.2}
-                    >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
-                        <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          9e arrondissement
-                        </p>
-                      </div>
-                    </AnimatedContent>
-                    <AnimatedContent 
-                      direction="horizontal" 
-                      distance={100} 
-                      reverse={false}
-                      duration={0.8}
-                      delay={0.4}
-                      threshold={0.2}
-                    >
-                      <div className="bg-stone-50 rounded-lg p-4 border border-gray-200" role="listitem">
-                        <p className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          15e arrondissement
-                        </p>
-                      </div>
-                    </AnimatedContent>
-                  </div>
-                </div>
-                
-                <div className="text-lg text-gray-700 leading-relaxed text-center md:text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              {/* Contenu à gauche */}
+              <div className="space-y-6 order-2 md:order-1 text-center md:text-left">
+                <h2 className="text-2xl md:text-3xl font-light leading-tight text-black uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Une connaissance chirurgicale du patrimoine de Saint-Germain-en-Laye
+                </h2>
+                <div className="text-lg text-gray-800 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   <p>
-                    Cette spécialisation locale permet une analyse précise des prix, des délais de vente 
-                    et des attentes réelles des acheteurs sur ces secteurs spécifiques.
+                    Vendre ou acquérir un bien dans la cité royale ne s'improvise pas. Entre l'effervescence du centre-ville historique, le calme prisé du quartier d'Alsace ou la proximité immédiate du Lycée International, chaque rue possède sa propre dynamique de prix.
                   </p>
-                </div>
-                
-                <div className="bg-stone-50 border-l-4 pl-6 py-4 mt-8 text-center md:text-left" style={{ borderColor: '#4682B4' }}>
-                  <p className="text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    L'agence YL est spécialisée dans la vente d'appartements et de maisons dans l'ancien et n'intervient pas sur la VEFA (Vente en l'État Futur d'Achèvement).
+                  <p>
+                    Notre approche repose sur une immersion quotidienne dans le marché saint-germanois. Nous ne nous contentons pas de moyennes statistiques : nous analysons l'architecture, l'histoire des copropriétés et les projets urbains qui valorisent votre patrimoine.
                   </p>
                 </div>
               </div>
@@ -565,13 +473,13 @@ export default function AProposPage() {
       </section>
 
       {/* Section La fondatrice */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50" aria-labelledby="la-fondatrice">
+      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="la-fondatrice">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-5xl mx-auto">
             {/* Titre */}
             <div className="mb-8 md:mb-12">
-              <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }} aria-hidden="true" role="presentation"></div>
-              <h2 id="la-fondatrice" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+              <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }} aria-hidden="true" role="presentation"></div>
+              <h2 id="la-fondatrice" className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight text-center uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 La fondatrice
               </h2>
             </div>
@@ -586,7 +494,7 @@ export default function AProposPage() {
               >
                 <Image
                   src="/images/Yman.png"
-                  alt="Yman Lahlou, Fondatrice et Directrice de l'Agence YL à Marseille"
+                  alt="Yman Lahlou, Fondatrice et Experte Immobilier Agréé à Marseille"
                   fill
                   className="object-cover"
                   priority
@@ -673,7 +581,7 @@ export default function AProposPage() {
               
               {/* Texte */}
               <div className="order-2 md:order-2">
-                <div className="text-lg text-gray-700 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <div className="text-lg text-gray-800 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   <p>
                     L'Agence YL est une agence à taille humaine. Une seule interlocutrice : la présidente 
                     et fondatrice, qui gère personnellement chaque dossier.
@@ -683,7 +591,7 @@ export default function AProposPage() {
                     connaissance de chaque bien et une prise de décision rapide. Chaque propriétaire 
                     sait exactement à qui s'adresser, à chaque étape de son projet.
                   </p>
-                  <div className="bg-white border-l-4 pl-6 py-4 mt-6" style={{ borderColor: '#4682B4' }}>
+                  <div className="bg-stone-50 border-l-4 pl-6 py-4 mt-6" style={{ borderColor: '#000000' }}>
                     <p className="font-semibold text-gray-900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       De l'estimation à la signature finale, la fondatrice accompagne personnellement 
                       chaque projet. Ce choix est un gage de qualité et de réactivité.
@@ -766,182 +674,70 @@ export default function AProposPage() {
         </FadeContent>
       </section>
 
-      {/* CTA Final discret */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 bg-white" aria-labelledby="cta-final-a-propos">
-        <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 id="cta-final-a-propos" className="sr-only">Contactez l'agence immobilière à Marseille</h2>
-            <p className="text-lg text-gray-700 mb-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Un projet immobilier mérite une vraie réflexion. Commencez par la bonne étape.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              {/* Bouton principal */}
-              <a
-                ref={venteButtonRef as any}
-                href="/vente"
-                aria-label="Accéder au service de vente immobilière à Marseille"
-                className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                style={{
-                  backgroundColor: 'white',
-                  color: '#4682B4',
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: '1.125rem',
-                  textDecoration: 'none',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                  letterSpacing: '0.3px'
-                }}
-                onMouseEnter={(e) => {
-                  const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                  const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                  const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                  const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                  if (fill) {
-                    fill.style.width = '100%'
-                    fill.style.transform = 'translateX(-50%) scaleY(1)'
-                  }
-                  if (arrow) {
-                    arrow.style.opacity = '1'
-                    arrow.style.right = '-14px'
-                  }
-                  if (text) text.style.color = 'white'
-                  if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                }}
-                onMouseLeave={(e) => {
-                  const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                  const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                  const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                  const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                  if (fill) {
-                    fill.style.width = '0%'
-                    fill.style.transform = 'translateX(-50%) scaleY(0)'
-                  }
-                  if (arrow) {
-                    arrow.style.opacity = '0'
-                    arrow.style.right = '-30px'
-                  }
-                  if (text) text.style.color = '#4682B4'
-                  if (textSpan) textSpan.style.transform = 'translateX(0)'
-                }}
-              >
-                {/* Fond bleu qui se remplit */}
-                <span
-                  className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
-                  style={{
-                    width: '0%',
-                    backgroundColor: '#4682B4',
-                    transform: 'translateX(-50%) scaleY(0)',
-                    transformOrigin: 'center bottom',
-                    transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                    zIndex: 1
-                  }}
-                ></span>
-                
-                {/* Contenu du bouton */}
-                <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                  <span className="transition-transform duration-300">Accéder au service Vente</span>
-                  <svg
-                    className="button-arrow absolute w-5 h-5 transition-all duration-300"
+      {/* Section CTA Final - même rendu que la page d'accueil */}
+      <section className="relative min-h-screen flex items-center justify-center" aria-labelledby="cta-final-a-propos">
+        <div className="absolute inset-0 z-0">
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/modern.webp"
+              alt="L'Agence YL - Agence immobilière à Saint-Germain-en-Laye"
+              fill
+              className="object-cover"
+              loading="lazy"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/20" aria-hidden="true" role="presentation" />
+          </div>
+        </div>
+        <div className="relative z-10 w-full">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+              <h2 id="cta-final-a-propos" className="sr-only">Contactez l'agence immobilière à Marseille</h2>
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-light leading-relaxed px-2 mb-8 sm:mb-12 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                Un projet immobilier mérite une vraie réflexion. Commencez par la bonne étape.
+              </p>
+            </FadeContent>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+              <div className="group/cta relative flex flex-col border border-white/60 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-white/90 hover:shadow-lg hover:shadow-white/10">
+                <div className="flex justify-center w-full">
+                  <a
+                    ref={venteButtonRef as any}
+                    href="/vente"
+                    aria-label="Accéder au service de vente immobilière à Marseille"
+                    className="group relative inline-flex items-center text-white font-medium transition-all duration-300"
                     style={{
-                      opacity: 0,
-                      right: '-30px',
-                      transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
                     }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </a>
-              
-              {/* Bouton secondaire */}
-              <a
-                ref={estimationButtonRef as any}
-                href="/estimation"
-                aria-label="Demander une estimation immobilière gratuite à Marseille"
-                className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                style={{
-                  backgroundColor: 'white',
-                  color: '#4682B4',
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: '1.125rem',
-                  textDecoration: 'none',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                  letterSpacing: '0.3px'
-                }}
-                onMouseEnter={(e) => {
-                  const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                  const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                  const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                  const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                  if (fill) {
-                    fill.style.width = '100%'
-                    fill.style.transform = 'translateX(-50%) scaleY(1)'
-                  }
-                  if (arrow) {
-                    arrow.style.opacity = '1'
-                    arrow.style.right = '-14px'
-                  }
-                  if (text) text.style.color = 'white'
-                  if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                }}
-                onMouseLeave={(e) => {
-                  const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                  const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                  const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                  const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                  if (fill) {
-                    fill.style.width = '0%'
-                    fill.style.transform = 'translateX(-50%) scaleY(0)'
-                  }
-                  if (arrow) {
-                    arrow.style.opacity = '0'
-                    arrow.style.right = '-30px'
-                  }
-                  if (text) text.style.color = '#4682B4'
-                  if (textSpan) textSpan.style.transform = 'translateX(0)'
-                }}
-              >
-                {/* Fond bleu qui se remplit */}
-                <span
-                  className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
-                  style={{
-                    width: '0%',
-                    backgroundColor: '#4682B4',
-                    transform: 'translateX(-50%) scaleY(0)',
-                    transformOrigin: 'center bottom',
-                    transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                    zIndex: 1
-                  }}
-                ></span>
-                
-                {/* Contenu du bouton */}
-                <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                  <span className="transition-transform duration-300">Demander une estimation</span>
-                  <svg
-                    className="button-arrow absolute w-5 h-5 transition-all duration-300"
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">Accéder au service Vente</span>
+                  </a>
+                </div>
+              </div>
+              <div className="group/cta relative flex flex-col border border-white/60 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-white/90 hover:shadow-lg hover:shadow-white/10">
+                <div className="flex justify-center w-full">
+                  <a
+                    ref={estimationButtonRef as any}
+                    href="/estimation"
+                    aria-label="Demander une estimation immobilière gratuite à Marseille"
+                    className="group relative inline-flex items-center text-white font-medium transition-all duration-300"
                     style={{
-                      opacity: 0,
-                      right: '-30px',
-                      transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
                     }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </a>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">Demander une estimation</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </FadeContent>
+        </div>
       </section>
-
-      <Footer />
     </main>
   )
 }

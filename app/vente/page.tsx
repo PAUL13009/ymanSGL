@@ -1,12 +1,13 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import Hero from '@/components/Hero'
 import StatsSection from '@/components/StatsSection'
 import Gallery from '@/components/Gallery'
-import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import FadeContent from '@/components/FadeContent'
+import Stepper, { Step } from '@/components/Stepper'
+import Image from 'next/image'
 import { useProximityContainer } from '@/components/ProximityProvider'
 import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
 
@@ -91,30 +92,15 @@ const benefits = [
 export default function VentePage() {
   const mainRef = useRef<HTMLElement>(null)
   const containerRef = useProximityContainer()
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const cta1ButtonRef = useScrollButtonAnimation()
-  const cta2ButtonRef = useScrollButtonAnimation()
   const cta3ButtonRef = useScrollButtonAnimation()
+  const ctaFinalButtonRef = useScrollButtonAnimation()
 
   useEffect(() => {
     if (mainRef.current && containerRef) {
       containerRef.current = mainRef.current
     }
   }, [containerRef])
-
-  const handlePrevious = () => {
-    setCurrentStepIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1))
-  }
-
-  const handleNext = () => {
-    setCurrentStepIndex((prev) => (prev === steps.length - 1 ? 0 : prev + 1))
-  }
-
-  const handleGoToStep = (index: number) => {
-    setCurrentStepIndex(index)
-  }
-
-  const currentStep = steps[currentStepIndex]
 
   return (
     <>
@@ -201,13 +187,13 @@ export default function VentePage() {
       <main ref={mainRef} className="min-h-screen">
         <Navbar />
         <Hero 
-          title="À Marseille, un bien se vend au prix du marché. Le reste n'est qu'illusion"
-          subtitle="L'Agence YL accompagne uniquement les vendeurs de résidence principale prêts à vendre efficacement, sur la base d'une analyse précise du marché réel"
+          title="un bien se vend au prix du marché. Le reste n'est qu'illusion"
+          subtitle=""
           microText="Vauban – 6ᵉ arrondissement – quartiers centraux de Marseille"
           buttonText="Demander une analyse de valeur réaliste de mon bien"
           buttonSubtext="Analyse argumentée – Sans engagement – Mandat accepté uniquement si le prix est cohérent"
           buttonLink="/analyse"
-          imagePath="/images/vue7e.png"
+          imagePath="/images/modern.webp"
         />
         <StatsSection />
 
@@ -216,442 +202,119 @@ export default function VentePage() {
           <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
             <div className="max-w-5xl mx-auto">
               <div className="mb-12 text-center">
-                <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }}></div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Notre méthode de vente : précise, rationnelle, assumée
                 </h2>
                 <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Chaque bien immobilier est analysé dans son contexte réel.
                 </p>
                 <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl mx-auto mt-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Nous ne vendons pas des promesses, nous vendons des biens au prix auquel le marché immobilier marseillais achète.
+                  Nous ne vendons pas des promesses, nous vendons des biens au prix du marché.
                 </p>
               </div>
 
-              {/* Carrousel des étapes */}
-              <div className="mt-16">
-                <div key={currentStepIndex} className="animate-fade-in">
-                  <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center relative max-w-5xl mx-auto">
-                    {/* Colonne de gauche - Numéro d'étape */}
-                    <div className="relative h-[400px] md:h-[500px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg shadow-lg flex items-center justify-center">
-                      <div className="text-center px-8">
-                        <div className="text-6xl md:text-7xl font-light mb-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          {currentStepIndex + 1}
-                        </div>
-                        <div className="w-24 h-1 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-                      </div>
+              {/* Stepper pour naviguer entre les étapes */}
+              <div className="mt-16 w-full flex justify-center">
+                <Stepper variant="light" backButtonText="Précédent" nextButtonText="Suivant" completeButtonText="Terminer" contentClassName="!mb-4">
+                  <Step>
+                    <h3 className="text-xl md:text-2xl font-semibold mb-3 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[0].title}
+                    </h3>
+                    <p className="text-gray-800 text-center mb-4 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[0].description}
+                    </p>
+                    <div className="flex flex-col items-center gap-3">
+                      {steps[0].items.map((item, index) => (
+                        <span key={index} className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          {item}
+                        </span>
+                      ))}
                     </div>
-
-                    {/* Colonne de droite - Contenu */}
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          {currentStep.title}
-                        </h3>
-                        <p className="text-lg md:text-xl text-gray-700 mt-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          {currentStep.description}
-                        </p>
-                      </div>
-
-                      {/* Détails */}
-                      {currentStep.items && currentStep.items.length > 0 && (
-                        <div className="space-y-3">
-                          <ul className="space-y-3 text-gray-700">
-                            {currentStep.items.map((item, index) => (
-                              <li key={index} className="flex items-start gap-3">
-                                <span className="mt-1" style={{ color: '#4682B4' }}>•</span>
-                                <span className="leading-relaxed text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                                  {item}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {/* Flèches de navigation - Mobile */}
-                      <div className="flex md:hidden justify-center items-center gap-2 mt-6">
-                        <button 
-                          onClick={handlePrevious}
-                          className="w-10 h-10 flex items-center justify-center transition-all rounded-full"
-                          style={{ border: '1px solid #4682B4', color: '#4682B4' }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#4682B4';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                            e.currentTarget.style.color = '#4682B4';
-                          }}
-                          aria-label="Étape précédente"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        <button 
-                          onClick={handleNext}
-                          className="w-10 h-10 flex items-center justify-center transition-all rounded-full"
-                          style={{ border: '1px solid #4682B4', color: '#4682B4' }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#4682B4';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                            e.currentTarget.style.color = '#4682B4';
-                          }}
-                          aria-label="Étape suivante"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </div>
-
-                      {/* Flèches de navigation - Desktop */}
-                      <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 flex gap-2 hidden md:flex" style={{ marginLeft: 'calc(8rem / 2 + 28rem)' }}>
-                        <button 
-                          onClick={handlePrevious}
-                          className="w-10 h-10 flex items-center justify-center transition-all rounded-full"
-                          style={{ border: '1px solid #4682B4', color: '#4682B4' }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#4682B4';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                            e.currentTarget.style.color = '#4682B4';
-                          }}
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        <button 
-                          onClick={handleNext}
-                          className="w-10 h-10 flex items-center justify-center transition-all rounded-full"
-                          style={{ border: '1px solid #4682B4', color: '#4682B4' }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#4682B4';
-                            e.currentTarget.style.color = 'white';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                            e.currentTarget.style.color = '#4682B4';
-                          }}
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </div>
+                  </Step>
+                  <Step>
+                    <h3 className="text-xl md:text-2xl font-semibold mb-3 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[1].title}
+                    </h3>
+                    <p className="text-gray-800 text-center mb-4 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[1].description}
+                    </p>
+                    <div className="flex flex-col items-center gap-3">
+                      {steps[1].items.map((item, index) => (
+                        <span key={index} className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                  </div>
-                  
-                  {/* Indicateurs de navigation */}
-                  <div className="flex justify-center items-center gap-3 mt-12 mb-8">
-                    {steps.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleGoToStep(index)}
-                        className={`transition-all duration-300 rounded-full ${
-                          index === currentStepIndex
-                            ? 'w-12 h-2'
-                            : 'w-2 h-2 bg-gray-400'
-                        }`}
-                        style={index === currentStepIndex ? { backgroundColor: '#4682B4' } : {}}
-                        onMouseEnter={(e) => {
-                          if (index !== currentStepIndex) {
-                            e.currentTarget.style.backgroundColor = 'rgba(70, 130, 180, 0.7)';
-                            e.currentTarget.style.width = '1.5rem';
-                            e.currentTarget.style.height = '0.5rem';
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (index !== currentStepIndex) {
-                            e.currentTarget.style.backgroundColor = '#9ca3af';
-                            e.currentTarget.style.width = '';
-                            e.currentTarget.style.height = '';
-                          }
-                        }}
-                        aria-label={`Aller à l'étape ${index + 1}`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Encadré informatif */}
-                  <div className="mt-8 max-w-4xl mx-auto">
-                    <div className="bg-white border-2 rounded-xl p-6 md:p-8 shadow-lg" style={{ borderColor: '#4682B4' }}>
-                      <div className="text-lg md:text-xl text-center leading-relaxed space-y-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                        <p>
-                          Nous refusons les mandats lorsque le prix demandé n'est pas cohérent avec le marché.
-                        </p>
-                        <p>
-                          Accepter un mandat surévalué fait perdre du temps au vendeur et décrédibilise la vente dès les premières semaines.
-                        </p>
-                        <p>
-                          C'est une condition indispensable pour vendre efficacement.
-                        </p>
-                      </div>
+                  </Step>
+                  <Step>
+                    <h3 className="text-xl md:text-2xl font-semibold mb-3 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[2].title}
+                    </h3>
+                    <p className="text-gray-800 text-center mb-4 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[2].description}
+                    </p>
+                    <div className="flex flex-col items-center gap-3">
+                      {steps[2].items.map((item, index) => (
+                        <span key={index} className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                  </div>
+                  </Step>
+                  <Step>
+                    <h3 className="text-xl md:text-2xl font-semibold mb-3 text-black text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[3].title}
+                    </h3>
+                    <p className="text-gray-800 text-center mb-4 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      {steps[3].description}
+                    </p>
+                    <div className="flex flex-col items-center gap-3">
+                      {steps[3].items.map((item, index) => (
+                        <span key={index} className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </Step>
+                </Stepper>
+              </div>
 
-                  {/* CTA */}
-                  <div className="mt-12 flex flex-col items-center">
-                    <a
-                      ref={cta1ButtonRef as any}
-                      href="/analyse"
-                      className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                      style={{
-                        backgroundColor: 'white',
-                        color: '#4682B4',
-                        fontFamily: 'var(--font-poppins), sans-serif',
-                        fontSize: '1.125rem',
-                        textDecoration: 'none',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        letterSpacing: '0.3px'
-                      }}
-                      onMouseEnter={(e) => {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '100%'
-                          fill.style.transform = 'translateX(-50%) scaleY(1)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '1'
-                          arrow.style.right = '-14px'
-                        }
-                        if (text) text.style.color = 'white'
-                        if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                      }}
-                      onMouseLeave={(e) => {
-                        const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                        const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                        const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                        const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                        if (fill) {
-                          fill.style.width = '0%'
-                          fill.style.transform = 'translateX(-50%) scaleY(0)'
-                        }
-                        if (arrow) {
-                          arrow.style.opacity = '0'
-                          arrow.style.right = '-30px'
-                        }
-                        if (text) text.style.color = '#4682B4'
-                        if (textSpan) textSpan.style.transform = 'translateX(0)'
-                      }}
-                    >
-                      {/* Fond bleu qui se remplit */}
-                      <span
-                        className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
-                        style={{
-                          width: '0%',
-                          backgroundColor: '#4682B4',
-                          transform: 'translateX(-50%) scaleY(0)',
-                          transformOrigin: 'center bottom',
-                          transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                          zIndex: 1
-                        }}
-                      ></span>
-                      
-                      {/* Contenu du bouton */}
-                      <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                        <span className="transition-transform duration-300">Vérifier si votre bien peut être vendu dans ces conditions</span>
-                        <svg
-                          className="button-arrow absolute w-5 h-5 transition-all duration-300"
-                          style={{
-                            opacity: 0,
-                            right: '-30px',
-                            transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
-                          }}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </span>
-                    </a>
-                    <p className="mt-4 text-sm md:text-base text-gray-600 font-light" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                      Analyse offerte – Mandat accepté uniquement si le prix est réaliste
+              {/* Encadré informatif */}
+              <div className="mt-8 max-w-4xl mx-auto">
+                <div className="bg-white border-2 rounded-xl p-6 md:p-8 shadow-lg" style={{ borderColor: '#4682B4' }}>
+                  <div className="text-lg md:text-xl text-center leading-relaxed space-y-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <p>
+                      Nous refusons les mandats lorsque le prix demandé n'est pas cohérent avec le marché.
+                    </p>
+                    <p>
+                      Accepter un mandat surévalué fait perdre du temps au vendeur et décrédibilise la vente dès les premières semaines.
+                    </p>
+                    <p>
+                      C'est une condition indispensable pour vendre efficacement.
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
-          </FadeContent>
-        </section>
-
-        {/* Section Pourquoi cette approche fonctionne */}
-        <section className="px-4 sm:px-6 lg:px-8 py-24 bg-stone-50">
-          <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-            <div className="max-w-7xl mx-auto">
-              <div className="mb-12 text-center">
-                <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
-                  Pourquoi cette approche fonctionne à Vauban et dans le 6ᵉ arrondissement
-                </h2>
-                <div className="max-w-4xl mx-auto space-y-4">
-                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Les quartiers centraux de Marseille ne fonctionnent pas comme le reste du marché immobilier.
-                  </p>
-                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    À Vauban et dans le 6ᵉ arrondissement, les acheteurs sont informés, attentifs aux prix et très réactifs à la cohérence d'une estimation immobilière.
-                  </p>
-                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Dans ce contexte, l'approximation se paie immédiatement en temps perdu
-                  </p>
-                </div>
-              </div>
-
-              {/* Trois blocs */}
-              <div className="mt-16 grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto">
-                {/* Bloc 1 */}
-                <div className="bg-white rounded-lg p-6 md:p-8 h-full shadow-lg border border-gray-100">
-                  <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Des vendeurs informés, peu sensibles aux discours commerciaux
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed mb-3" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Les vendeurs de ces quartiers comparent, analysent et cherchent à comprendre avant de décider.
-                  </p>
-                  <p className="text-base text-gray-600 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Ils attendent une lecture claire du marché, pas des promesses de surévaluation qui retardent la vente et fragilisent la négociation.
-                  </p>
-                </div>
-
-                {/* Bloc 2 */}
-                <div className="bg-white rounded-lg p-6 md:p-8 h-full shadow-lg border border-gray-100">
-                  <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Un marché qui sanctionne rapidement les erreurs de prix
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed mb-3" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    À Vauban, un bien mal positionné est identifié en quelques semaines par les acheteurs.
-                  </p>
-                  <p className="text-base text-gray-600 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    L'historique des annonces est observé, les comparaisons sont immédiates, et une correction tardive entraîne souvent une perte de crédibilité — et de valeur.
-                  </p>
-                </div>
-
-                {/* Bloc 3 */}
-                <div className="bg-white rounded-lg p-6 md:p-8 h-full shadow-lg border border-gray-100">
-                  <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    La vente repose sur la précision, pas sur le volume
-                  </h3>
-                  <p className="text-base text-gray-600 leading-relaxed mb-3" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Dans ces quartiers, vendre efficacement repose sur :
-                  </p>
-                  <ul className="text-base text-gray-600 leading-relaxed mb-3 space-y-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1" style={{ color: '#4682B4' }}>•</span>
-                      <span>une analyse micro-locale,</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1" style={{ color: '#4682B4' }}>•</span>
-                      <span>un positionnement tarifaire défendable,</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1" style={{ color: '#4682B4' }}>•</span>
-                      <span>et un pilotage rigoureux dès la mise en marché.</span>
-                    </li>
-                  </ul>
-                  <p className="text-base text-gray-600 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    C'est pourquoi nous privilégions peu de mandats, mais des mandats cohérents, traités avec méthode et exigence.
-                  </p>
-                </div>
-              </div>
-
-              {/* Phrase de positionnement */}
-              <div className="mt-16 text-center">
-                <div className="max-w-4xl mx-auto">
-                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Chaque vente est abordée comme un projet unique, avec un objectif clair : vendre dans les meilleures conditions du marché réel, sans dévalorisation progressive
-                  </p>
-                </div>
-              </div>
 
               {/* CTA */}
-              <div className="mt-12 flex flex-col items-center">
-                <a
-                  ref={cta2ButtonRef as any}
-                  href="/analyse"
-                  className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                  style={{
-                    backgroundColor: 'white',
-                    color: '#4682B4',
-                    fontFamily: 'var(--font-poppins), sans-serif',
-                    fontSize: '1.125rem',
-                    textDecoration: 'none',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    letterSpacing: '0.3px'
-                  }}
-                  onMouseEnter={(e) => {
-                    const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                    const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                    const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                    const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                    if (fill) {
-                      fill.style.width = '100%'
-                      fill.style.transform = 'translateX(-50%) scaleY(1)'
-                    }
-                    if (arrow) {
-                      arrow.style.opacity = '1'
-                      arrow.style.right = '-14px'
-                    }
-                    if (text) text.style.color = 'white'
-                    if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                    const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                    const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                    const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                    if (fill) {
-                      fill.style.width = '0%'
-                      fill.style.transform = 'translateX(-50%) scaleY(0)'
-                    }
-                    if (arrow) {
-                      arrow.style.opacity = '0'
-                      arrow.style.right = '-30px'
-                    }
-                    if (text) text.style.color = '#4682B4'
-                    if (textSpan) textSpan.style.transform = 'translateX(0)'
-                  }}
-                >
-                  {/* Fond bleu qui se remplit */}
-                  <span
-                    className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
+              <div className="mt-12 text-center">
+                <div className="group/cta relative inline-flex border border-black/70 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-black hover:shadow-lg hover:shadow-black/10">
+                  <a
+                    ref={cta1ButtonRef as any}
+                    href="/analyse"
+                    aria-label="Vérifier si votre bien peut être vendu dans ces conditions"
+                    className="inline-flex items-center justify-center text-black font-medium transition-all duration-300 hover:opacity-80"
                     style={{
-                      width: '0%',
-                      backgroundColor: '#4682B4',
-                      transform: 'translateX(-50%) scaleY(0)',
-                      transformOrigin: 'center bottom',
-                      transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                      zIndex: 1
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
                     }}
-                  ></span>
-                  
-                  {/* Contenu du bouton */}
-                  <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                    <span className="transition-transform duration-300">Vérifiez si votre bien correspond à cette approche</span>
-                    <svg
-                      className="button-arrow absolute w-5 h-5 transition-all duration-300"
-                      style={{
-                        opacity: 0,
-                        right: '-30px',
-                        transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
-                      }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </a>
+                  >
+                    <span className="transition-transform duration-300 group-hover/cta:translate-x-1">Vérifier si votre bien peut être vendu dans ces conditions</span>
+                  </a>
+                </div>
               </div>
             </div>
           </FadeContent>
@@ -662,8 +325,8 @@ export default function VentePage() {
           <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
             <div className="max-w-7xl mx-auto">
               <div className="mb-12 text-center">
-                <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }}></div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Ce que cette méthode change concrètement pour vous
                 </h2>
                 <div className="max-w-4xl mx-auto space-y-4">
@@ -680,20 +343,19 @@ export default function VentePage() {
               <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto mb-16">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="bg-stone-50 rounded-lg p-6 md:p-8 h-full shadow-lg border border-gray-100">
-                    <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h3 className="text-xl md:text-2xl font-semibold mb-4 text-center" style={{ color: '#4682B4', fontFamily: 'var(--font-poppins), sans-serif' }}>
                       {benefit.title}
                     </h3>
-                    <p className="text-base md:text-lg font-semibold mb-4 text-gray-700" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <p className="text-base md:text-lg font-semibold mb-4 text-gray-700 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       {benefit.subtitle}
                     </p>
-                    <ul className="text-base text-gray-600 leading-relaxed space-y-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <div className="flex flex-col items-center gap-3">
                       {benefit.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-start">
-                          <span className="mr-2 mt-1" style={{ color: '#4682B4' }}>•</span>
-                          <span>{item}</span>
-                        </li>
+                        <span key={itemIndex} className="inline-block rounded-full bg-emerald-300 px-5 py-2.5 text-center text-gray-900 text-sm font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                          {item}
+                        </span>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -711,87 +373,23 @@ export default function VentePage() {
               </div>
 
               {/* CTA Final */}
-              <div className="mt-16 flex flex-col items-center">
-                <a
-                  ref={cta3ButtonRef as any}
-                  href="/analyse"
-                  className="group relative inline-block px-8 py-4 rounded-full font-medium overflow-hidden transition-all duration-500"
-                  style={{
-                    backgroundColor: 'white',
-                    color: '#4682B4',
-                    fontFamily: 'var(--font-poppins), sans-serif',
-                    fontSize: '1.125rem',
-                    textDecoration: 'none',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    letterSpacing: '0.3px'
-                  }}
-                  onMouseEnter={(e) => {
-                    const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                    const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                    const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                    const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                    if (fill) {
-                      fill.style.width = '100%'
-                      fill.style.transform = 'translateX(-50%) scaleY(1)'
-                    }
-                    if (arrow) {
-                      arrow.style.opacity = '1'
-                      arrow.style.right = '-14px'
-                    }
-                    if (text) text.style.color = 'white'
-                    if (textSpan) textSpan.style.transform = 'translateX(-8px)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const fill = e.currentTarget.querySelector('.button-fill') as HTMLElement
-                    const arrow = e.currentTarget.querySelector('.button-arrow') as HTMLElement
-                    const text = e.currentTarget.querySelector('.button-text') as HTMLElement
-                    const textSpan = e.currentTarget.querySelector('.button-text span') as HTMLElement
-                    if (fill) {
-                      fill.style.width = '0%'
-                      fill.style.transform = 'translateX(-50%) scaleY(0)'
-                    }
-                    if (arrow) {
-                      arrow.style.opacity = '0'
-                      arrow.style.right = '-30px'
-                    }
-                    if (text) text.style.color = '#4682B4'
-                    if (textSpan) textSpan.style.transform = 'translateX(0)'
-                  }}
-                >
-                  {/* Fond bleu qui se remplit */}
-                  <span
-                    className="button-fill absolute bottom-0 left-1/2 h-full rounded-full"
+              <div className="mt-16 text-center">
+                <div className="group/cta relative inline-flex border border-black/70 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-black hover:shadow-lg hover:shadow-black/10">
+                  <a
+                    ref={cta3ButtonRef as any}
+                    href="/analyse"
+                    aria-label="Demander une analyse de valeur réaliste de mon bien"
+                    className="inline-flex items-center justify-center text-black font-medium transition-all duration-300 hover:opacity-80"
                     style={{
-                      width: '0%',
-                      backgroundColor: '#4682B4',
-                      transform: 'translateX(-50%) scaleY(0)',
-                      transformOrigin: 'center bottom',
-                      transition: 'width 0.5s ease-in-out, transform 0.5s ease-in-out',
-                      zIndex: 1
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
                     }}
-                  ></span>
-                  
-                  {/* Contenu du bouton */}
-                  <span className="button-text relative z-10 flex items-center justify-center transition-all duration-300" style={{ color: '#4682B4' }}>
-                    <span className="transition-transform duration-300">Demander une analyse de valeur réaliste de mon bien</span>
-                    <svg
-                      className="button-arrow absolute w-5 h-5 transition-all duration-300"
-                      style={{
-                        opacity: 0,
-                        right: '-30px',
-                        transition: 'opacity 0.4s ease-in-out, right 0.4s ease-in-out'
-                      }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </a>
-                <p className="mt-4 text-sm md:text-base text-gray-600 font-light text-center max-w-2xl" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Analyse offerte et argumentée – mandat accepté uniquement si le prix est cohérent avec le marché.
-                </p>
+                  >
+                    <span className="transition-transform duration-300 group-hover/cta:translate-x-1">Demander une analyse de valeur réaliste de mon bien</span>
+                  </a>
+                </div>
               </div>
             </div>
           </FadeContent>
@@ -802,32 +400,76 @@ export default function VentePage() {
           <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
             <div className="max-w-5xl mx-auto">
               <div className="mb-12 text-center">
-                <div className="w-16 h-1 bg-blue-600 mb-6 mx-auto" style={{ backgroundColor: '#4682B4' }}></div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif', color: '#4682B4' }}>
+                <div className="w-16 h-1 bg-black mb-6 mx-auto" style={{ backgroundColor: '#000000' }}></div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-black" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Notre rôle
                 </h2>
               </div>
               <div className="bg-white rounded-xl p-8 md:p-10 shadow-lg">
                 <div className="max-w-4xl mx-auto space-y-6">
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Nous accompagnons exclusivement des vendeurs particuliers dans la vente immobilière de leur résidence principale à Marseille, principalement sur les secteurs du 6ᵉ arrondissement et quartiers limitrophes.
+                    Nous accompagnons exclusivement des vendeurs particuliers dans la vente immobilière de leur résidence principale à Saint-Germain-en-Laye.
                   </p>
                   <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     Notre mission couvre l'ensemble du processus : analyse du marché immobilier local, estimation immobilière réaliste, définition d'un prix cohérent, stratégie de mise en vente et accompagnement jusqu'à la signature définitive.
                   </p>
-                  <div className="bg-stone-50 border-l-4 pl-6 py-4 mt-6" style={{ borderColor: '#4682B4' }}>
-                    <p className="text-xl md:text-2xl text-gray-900 leading-relaxed font-semibold" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                      Nous n'intervenons pas sur des mandats surévalués. Cette exigence est la condition pour vendre efficacement, dans des délais maîtrisés et sans négociation destructrice.
-                    </p>
-                  </div>
+                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    Nous n'intervenons pas sur des mandats surévalués. Cette exigence est la condition pour vendre efficacement, dans des délais maîtrisés et sans négociation destructrice.
+                  </p>
                 </div>
               </div>
             </div>
           </FadeContent>
         </section>
 
-        <Gallery />
-        <Footer />
+        <Gallery maxProperties={3} titleStyle="section" />
+
+        {/* CTA Final */}
+        <section className="relative min-h-screen flex items-center justify-center" aria-labelledby="cta-final-vente">
+          <div className="absolute inset-0 z-0">
+            <div className="relative w-full h-full">
+              <Image
+                src="/images/modern.webp"
+                alt="L'Agence YL - Service de vente immobilière à Saint-Germain-en-Laye"
+                fill
+                className="object-cover"
+                loading="lazy"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-black/20" aria-hidden="true" role="presentation" />
+            </div>
+          </div>
+          <div className="relative z-10 w-full">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+                <h2 id="cta-final-vente" className="sr-only">Demander une estimation immobilière</h2>
+                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-light leading-relaxed px-2 mb-8 sm:mb-12 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Un projet immobilier mérite une vraie réflexion. Commencez par la bonne étape.
+                </p>
+              </FadeContent>
+              <div className="flex justify-center items-center">
+                <div className="group/cta relative flex flex-col border border-white/60 px-8 py-6 md:px-10 md:py-8 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-white/90 hover:shadow-lg hover:shadow-white/10">
+                  <div className="flex justify-center w-full">
+                    <a
+                      ref={ctaFinalButtonRef as any}
+                      href="/estimation"
+                      aria-label="Demander une estimation immobilière gratuite"
+                      className="group relative inline-flex items-center text-white font-medium transition-all duration-300"
+                      style={{
+                        fontFamily: 'var(--font-poppins), sans-serif',
+                        fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
+                        textDecoration: 'none',
+                        letterSpacing: '0.5px',
+                      }}
+                    >
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">Faire estimer mon bien</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </>
   )

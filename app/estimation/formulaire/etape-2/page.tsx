@@ -6,8 +6,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AnimatedContent from '@/components/AnimatedContent'
 import FadeContent from '@/components/FadeContent'
-import { supabase } from '@/lib/supabase'
-import { createClient } from '@supabase/supabase-js'
+import { createAnalyseLead } from '@/lib/firebase-admin'
 
 export default function EstimationEtape2Page() {
   const router = useRouter()
@@ -116,7 +115,7 @@ export default function EstimationEtape2Page() {
     setSubmitError('')
 
     try {
-      // Préparer les données complètes pour Supabase avec conversion des types
+      // Préparer les données complètes pour Firebase avec conversion des types
       const completeData: any = {
         // Données étape 1
         localisation: etape1Data.localisation,
@@ -165,11 +164,11 @@ export default function EstimationEtape2Page() {
         status: 'nouveau'
       }
 
-      // Enregistrer dans Supabase
-      console.log('Envoi des données vers Supabase...', completeData)
+      // Enregistrer dans Firebase
+      console.log('Envoi des données vers Firebase...', completeData)
       
-      // Vérifier que tous les champs NOT NULL sont présents
-      const requiredFields = ['localisation', 'type_bien', 'maturite', 'ajustement_prix', 'motivation', 'prenom', 'telephone', 'email']
+      // Vérifier que tous les champs obligatoires sont présents
+      const requiredFields = ['localisation', 'type_bien', 'prenom', 'telephone', 'email']
       const missingFields = requiredFields.filter(field => !completeData[field])
       if (missingFields.length > 0) {
         console.error('Champs manquants:', missingFields)
@@ -178,55 +177,17 @@ export default function EstimationEtape2Page() {
         return
       }
       
-      // S'assurer qu'on n'utilise pas de session authentifiée
-      // En se déconnectant d'abord si une session existe
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        console.log('Session détectée, déconnexion pour utiliser le rôle anon...')
-        await supabase.auth.signOut()
-      }
-      
-      // Créer un client Supabase frais pour cette requête (sans session)
-      // Cela force l'utilisation du rôle 'anon' au lieu d'une session authentifiée
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      
-      if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Variables d\'environnement Supabase manquantes')
-      }
-      
-      const freshSupabase = createClient(supabaseUrl, supabaseAnonKey, {
-        auth: {
-          persistSession: false,
-          autoRefreshToken: false,
-          detectSessionInUrl: false
-        },
-        global: {
-          headers: {
-            'apikey': supabaseAnonKey,
-            'Authorization': `Bearer ${supabaseAnonKey}`
-          }
-        }
-      })
-      
-      console.log('Tentative d\'insertion avec client Supabase frais (rôle anon)...')
-      
-      const { data, error } = await freshSupabase
-        .from('analyse_leads')
-        .insert([completeData])
-        .select()
-        .single()
-
-      if (error) {
+      try {
+        // Créer le lead dans Firebase
+        const leadId = await createAnalyseLead(completeData)
+        console.log('✅ Données enregistrées avec succès, ID:', leadId)
+      } catch (error: any) {
         console.error('Erreur lors de l\'enregistrement:', error)
-        console.error('Détails de l\'erreur:', JSON.stringify(error, null, 2))
         
         // Message d'erreur plus détaillé
         let errorMessage = 'Une erreur est survenue lors de l\'enregistrement.'
-        if (error.code === '42501') {
+        if (error.code === 'permission-denied') {
           errorMessage = 'Erreur de permissions. Veuillez contacter l\'administrateur.'
-        } else if (error.code === '23502') {
-          errorMessage = 'Des champs obligatoires sont manquants. Veuillez vérifier le formulaire.'
         } else if (error.message) {
           errorMessage = `Erreur: ${error.message}`
         }
@@ -235,13 +196,6 @@ export default function EstimationEtape2Page() {
         setSubmitting(false)
         return
       }
-
-      // Vérifier que les données ont bien été enregistrées
-      if (!data) {
-        throw new Error('Aucune donnée retournée par Supabase')
-      }
-
-      console.log('✅ Données enregistrées avec succès:', data)
 
       // Nettoyer sessionStorage
       sessionStorage.removeItem('estimation_etape1')

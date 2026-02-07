@@ -1,13 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { useState, useEffect } from 'react'
+import { signInAdmin } from '@/lib/firebase-auth'
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -15,45 +20,45 @@ export default function AdminLogin() {
     setLoading(true)
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
+      const user = await signInAdmin(email, password)
 
-      if (error) {
-        console.error('Erreur de connexion:', error)
-        throw error
-      }
-
-      if (!data.user || !data.session) {
+      if (!user) {
         throw new Error('Aucune session créée')
       }
 
-      console.log('Connexion réussie, utilisateur:', data.user.email)
+      console.log('Connexion réussie, utilisateur:', user.email)
       
-      // Attendre que la session soit bien persistée dans localStorage
-      let sessionVerified = false
-      for (let i = 0; i < 10; i++) {
-        await new Promise(resolve => setTimeout(resolve, 200))
-        const { data: { session } } = await supabase.auth.getSession()
-        if (session && session.user) {
-          console.log('Session vérifiée et persistée')
-          sessionVerified = true
-          break
-        }
-      }
-
-      if (!sessionVerified) {
-        console.warn('Session non vérifiée après plusieurs tentatives, redirection quand même')
-      }
-
       // Rediriger vers le dashboard
       window.location.href = '/admin/dashboard'
     } catch (error: any) {
       console.error('Erreur complète:', error)
-      setError(error.message || 'Erreur de connexion')
+      // Gérer les erreurs Firebase spécifiques
+      let errorMessage = 'Erreur de connexion'
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = 'Aucun compte trouvé avec cet email'
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Mot de passe incorrect'
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Email invalide'
+      } else if (error.code === 'auth/user-disabled') {
+        errorMessage = 'Ce compte a été désactivé'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      setError(errorMessage)
       setLoading(false)
     }
+  }
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" style={{ borderColor: '#4682B4' }}></div>
+          <p className="text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
