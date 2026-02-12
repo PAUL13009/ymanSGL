@@ -31,7 +31,12 @@ try {
 
 // Vérifier que l'instance est valide
 if (!authInstance) {
-  console.error('Firebase Auth instance is null')
+  console.error('Firebase Auth instance is null — attempting fallback')
+  try {
+    authInstance = getAuth(app)
+  } catch (e) {
+    console.error('Fallback getAuth failed:', e)
+  }
 }
 
 export const auth = authInstance!
@@ -93,18 +98,37 @@ export const getCurrentUserConverted = (): FirebaseUser | null => {
 export const onAuthStateChange = (
   callback: (user: FirebaseUser | null) => void
 ): (() => void) => {
-  return onAuthStateChanged(auth, (user) => {
-    callback(convertFirebaseUser(user))
-  })
+  try {
+    return onAuthStateChanged(auth, (user) => {
+      callback(convertFirebaseUser(user))
+    })
+  } catch (error) {
+    console.error('onAuthStateChange error:', error)
+    // Retourner un noop unsubscribe pour éviter les crashs
+    return () => {}
+  }
 }
 
-// Attendre que l'authentification soit initialisée
+// Attendre que l'authentification soit initialisée (avec timeout)
 export const waitForAuthInit = (): Promise<FirebaseUser | null> => {
   return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe()
-      resolve(convertFirebaseUser(user))
-    })
+    // Timeout de sécurité pour éviter un chargement infini
+    const timeout = setTimeout(() => {
+      console.warn('waitForAuthInit: timeout atteint (10s), résolution avec null')
+      resolve(null)
+    }, 10000)
+
+    try {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        clearTimeout(timeout)
+        unsubscribe()
+        resolve(convertFirebaseUser(user))
+      })
+    } catch (error) {
+      clearTimeout(timeout)
+      console.error('waitForAuthInit error:', error)
+      resolve(null)
+    }
   })
 }
 

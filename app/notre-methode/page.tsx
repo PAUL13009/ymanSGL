@@ -386,7 +386,7 @@ export default function NotreMethodePage() {
             </FadeContent>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <a
-                    href="/estimation"
+                    href="/estimation#grille-tarifaire"
                 aria-label="Demander une estimation immobilière à Saint-Germain-en-Laye"
                 className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                     style={{

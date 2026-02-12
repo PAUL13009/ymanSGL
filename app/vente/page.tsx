@@ -169,7 +169,7 @@ export default function VentePage() {
           title="VENDRE AU PRIX DE L'ESTIMATION, L'ESPRIT LIBRE"
           subtitle="CONFIEZ VOTRE PATRIMOINE À UNE CONSEILLÈRE POUR UNE TRANSACTION SÉCURISÉE, UN FILTRAGE RIGOUREUX DES ACQUÉREURS ET UNE VALORISATION FINANCIÈREMENT EXACTE"
           buttonText="Soumettre mon projet à l'estimation"
-          buttonLink="/estimation"
+          buttonLink="/estimation#grille-tarifaire"
           imagePath="/images/herosectionimage.png"
           centered={true}
         />
@@ -404,7 +404,7 @@ export default function VentePage() {
               <div className="flex flex-col items-center gap-6">
                 <a
                   ref={ctaFinalButtonRef as any}
-                  href="/estimation"
+                  href="/estimation#grille-tarifaire"
                   aria-label="Demander une estimation immobilière"
                   className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                   style={{

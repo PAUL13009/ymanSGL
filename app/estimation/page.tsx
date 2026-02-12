@@ -94,8 +94,8 @@ export default function EstimationPage() {
       <Hero 
         title="Estimation immobilière basée sur la valeur vénale réelle"
         subtitle="Au-delà d'une simple estimation, nous réalisons un audit technique et financier complet de votre bien. Une approche rigoureuse et impartiale pour sécuriser vos prises de décision à Saint-Germain-en-Laye"
-        buttonText="Demander mon audit d'estimation"
-        buttonLink="/estimation/formulaire"
+        buttonText="Demander mon dossier d'estimation"
+        buttonLink="#grille-tarifaire"
         imagePath="/images/herosectionimage.png"
         centered={true}
       />
@@ -390,12 +390,12 @@ export default function EstimationPage() {
       </section>
 
       {/* SECTION 6 — GRILLE TARIFAIRE */}
-      <section className="px-4 sm:px-6 lg:px-8 py-24 relative z-10" aria-labelledby="grille-tarifaire">
+      <section id="grille-tarifaire" className="px-4 sm:px-6 lg:px-8 py-24 relative z-10" aria-labelledby="grille-tarifaire-title">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
               <div className="w-16 h-1 bg-white mb-6 mx-auto" style={{ backgroundColor: '#ffffff' }} aria-hidden="true" role="presentation"></div>
-              <h2 id="grille-tarifaire" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <h2 id="grille-tarifaire-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 GRILLE TARIFAIRE — ESTIMATIONS IMMOBILIÈRES
               </h2>
               <p className="text-base md:text-lg text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -466,7 +466,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/90"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Lecture investissement</li>
                   <li className="flex items-center gap-3 text-sm text-white/90"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités locales</li>
                 </ul>
-                <a href="/estimation/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <a href="/estimation/investisseur/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Demander cette estimation
                 </a>
               </div>
@@ -498,7 +498,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités locales <span className="text-xs text-white/40 ml-1">(très détaillé)</span></li>
                   <li className="flex items-center gap-3 text-sm text-white/50"><svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" /></svg><span className="line-through">Lecture investissement</span></li>
                 </ul>
-                <a href="/estimation/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <a href="/estimation/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Demander cette estimation
                 </a>
               </div>

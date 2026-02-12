@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
-export default function EstimationEtape2Page() {
+export default function EstimationInvestisseurEtape2Page() {
   const router = useRouter()
   const [etape1Data, setEtape1Data] = useState<any>(null)
   const [formData, setFormData] = useState({
@@ -90,9 +90,9 @@ export default function EstimationEtape2Page() {
   const [uploadProgress, setUploadProgress] = useState('')
 
   useEffect(() => {
-    const etape1 = sessionStorage.getItem('estimation_etape1')
+    const etape1 = sessionStorage.getItem('estimation_investisseur_etape1')
     if (!etape1) {
-      router.push('/estimation/formulaire')
+      router.push('/estimation/investisseur/formulaire')
       return
     }
     setEtape1Data(JSON.parse(etape1))
@@ -222,8 +222,8 @@ export default function EstimationEtape2Page() {
         ajustement_prix_echelle: formData.ajustementPrix ? parseInt(formData.ajustementPrix) : null,
         message_libre: formData.messageLibre || null,
         
-        type_demande: 'estimation',
-        maturite: 'estimation',
+        type_demande: 'estimation_investisseur',
+        maturite: 'estimation_investisseur',
         ajustement_prix: 'oui',
         motivation: `Estimation détaillée demandée. ${formData.messageLibre || 'Demande d\'estimation immobilière.'}`,
         status: 'nouveau'
@@ -260,7 +260,8 @@ export default function EstimationEtape2Page() {
       const leadId = await createAnalyseLead(completeData)
       console.log('Données enregistrées avec succès (photos incluses), ID:', leadId)
 
-      sessionStorage.removeItem('estimation_etape1')
+      sessionStorage.removeItem('estimation_investisseur_etape1')
+      // TODO: Remplacer par le lien Stripe spécifique Investisseur
       window.location.href = 'https://buy.stripe.com/test_eVq14f8kecbQgDFcZZ04800'
     } catch (error: any) {
       console.error('Erreur:', error)

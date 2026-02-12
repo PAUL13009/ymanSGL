@@ -243,7 +243,7 @@ export interface AnalyseLead {
   prenom?: string
   telephone?: string
   email?: string
-  type_demande?: 'analyse' | 'estimation' | 'estimation_partielle'
+  type_demande?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_investisseur' | 'estimation_paris'
   nom?: string
   read?: boolean
   status?: 'nouveau' | 'en_cours' | 'accepte' | 'refuse'
@@ -252,28 +252,50 @@ export interface AnalyseLead {
   updated_at?: Date | Timestamp
   
   // Champs pour les estimations détaillées
+  adresse?: string | null
+  ville?: string | null
+  code_postal?: string | null
   surface?: string | null
   surface_terrain?: string | null
   description_initiale?: string | null
   nombre_pieces?: number | null
   nombre_chambres?: number | null
   nombre_salles_de_bain?: number | null
-  etage?: number | null
+  nombre_salles_d_eau?: number | null
+  nombre_wc?: number | null
+  wc_separes?: boolean | null
+  nombre_niveaux?: string | null
+  nombre_etages_immeuble?: string | null
+  etage?: string | number | null
   dernier_etage?: boolean | null
   ascenseur?: boolean | null
   exterieurs?: string[] | null
   surface_exterieur?: string | null
   stationnement?: string | null
   stationnement_type?: string | null
+  stationnement_emplacement?: string | null
+  stationnement_couvert?: string | null
+  stationnement_ferme?: string | null
+  surface_stationnement?: string | null
   etat_bien?: string | null
   travaux_recents?: boolean | null
   nature_travaux?: string | null
   annee_travaux?: number | null
   montant_travaux?: string | null
+  travaux_prevus?: boolean | null
+  nature_travaux_prevus?: string | null
+  budget_travaux_prevus?: string | null
+  date_travaux_prevus?: string | null
   prestations?: string[] | null
   autres_prestations?: string | null
   exposition?: string | null
+  exposition_traversant?: string | null
   vis_a_vis?: string | null
+  distance_vis_a_vis?: string | null
+  taxe_fonciere?: string | null
+  charges_copro?: string | null
+  dpe?: string | null
+  contexte_vente?: string | null
   delai_vente?: string | null
   situation_actuelle?: string | null
   type_location?: string | null
@@ -334,7 +356,7 @@ export const uploadEstimationPhotos = async (
 }
 
 // Récupérer tous les leads d'analyse
-export const getAllAnalyseLeads = async (type?: 'analyse' | 'estimation' | 'estimation_partielle'): Promise<AnalyseLeadWithId[]> => {
+export const getAllAnalyseLeads = async (type?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_investisseur' | 'estimation_paris'): Promise<AnalyseLeadWithId[]> => {
   try {
     const leadsRef = collection(db, 'analyse_leads')
     let q

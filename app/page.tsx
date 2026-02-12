@@ -200,7 +200,7 @@ export default function Home() {
         subtitle="Ne vous contentez pas d'une estimation automatique. Obtenez un dossier d'estimation complet pour sécuriser votre vente et valoriser votre patrimoine"
         buttonText="Obtenir mon estimation sous 24h"
         buttonSubtext="Estimation gratuite – sans engagement"
-        buttonLink="/estimation"
+        buttonLink="/estimation#grille-tarifaire"
         imagePath="/images/herosectionimage.png"
         imageAlt="L'Agence YL - Agence immobilière nouvelle génération à Marseille"
         centered={true}
@@ -571,7 +571,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 ref={estimationButtonRef as any}
-                href="/estimation"
+                href="/estimation#grille-tarifaire"
                 aria-label="DEMANDER MON ESTIMATION"
                 className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                 style={{
