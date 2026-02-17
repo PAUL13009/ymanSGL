@@ -395,53 +395,70 @@ export default function CataloguePage() {
               </p>
             </div>
 
-            {/* 4 cartes de biens */}
+            {/* Cartes de biens dynamiques */}
             <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                {[
-                  { id: 'exemple-1', image: '/images/DSC02414.jpg', title: 'Appartement 3 pièces - Quartier historique', location: 'Saint-Germain-en-Laye (78)' },
-                  { id: 'exemple-2', image: '/images/DSC04844.jpg', title: 'Appartement 4 pièces haussmannien', location: 'Paris 16ème (75)' },
-                  { id: 'exemple-3', image: '/images/DSC04893.jpg', title: 'Appartement 5 pièces avec balcon', location: 'Paris 7ème (75)' },
-                  { id: 'exemple-4', image: '/images/gratteciel.jpg', title: 'Appartement 4 pièces vue panoramique', location: 'Paris 16ème (75)' },
-                ].map((bien) => (
-                  <Link
-                    key={bien.id}
-                    href={`/properties/${bien.id}`}
-                    className="group relative block rounded-lg overflow-hidden aspect-square"
-                  >
-                    <div className="absolute inset-0">
-                      <Image
-                        src={bien.image}
-                        alt={bien.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <p className="text-xs sm:text-sm text-white/80 uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          L'AGENCE YL
-                        </p>
-                        <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          {bien.title}
-                        </h3>
-                        <p className="text-sm sm:text-base text-white/90" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                          {bien.location}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="absolute inset-0 bg-black/80 flex items-center justify-center transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
-                      <span
-                        className="inline-block px-8 py-4 rounded-lg border-2 border-white text-white font-semibold transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100"
-                        style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}
+              {loading ? (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                  <p className="text-white/70" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Chargement des biens...</p>
+                </div>
+              ) : filteredProperties.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-white/70 text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    {hasActiveFilters ? 'Aucun bien ne correspond à vos critères.' : 'Aucun bien disponible pour le moment.'}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+                  {filteredProperties.map((bien) => {
+                    const mainImage = bien.images && bien.images.length > 0 ? bien.images[0] : null
+                    return (
+                      <Link
+                        key={bien.id}
+                        href={`/properties/${bien.id}`}
+                        className="group relative block rounded-lg overflow-hidden aspect-square"
                       >
-                        Voir les détails
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                        {mainImage ? (
+                          <div className="absolute inset-0">
+                            <Image
+                              src={mainImage.src}
+                              alt={mainImage.alt || bien.title}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              loading="lazy"
+                            />
+                          </div>
+                        ) : (
+                          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+                            <p className="text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Aucune image</p>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
+                          <div className="absolute bottom-6 left-6 right-6">
+                            <p className="text-xs sm:text-sm text-white/80 uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                              L&apos;AGENCE YL
+                            </p>
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                              {bien.title}
+                            </h3>
+                            <p className="text-sm sm:text-base text-white/90" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                              {bien.location}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="absolute inset-0 bg-black/80 flex items-center justify-center transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+                          <span
+                            className="inline-block px-8 py-4 rounded-lg border-2 border-white text-white font-semibold transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100"
+                            style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}
+                          >
+                            Voir les détails
+                          </span>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </FadeContent>
@@ -476,7 +493,7 @@ export default function CataloguePage() {
               Politique de confidentialité
             </Link>
             <Link href="/honoraires" className="text-xs text-white/50 uppercase tracking-wider hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Honoraires
+              Frais d&apos;Agence
             </Link>
           </div>
         </div>

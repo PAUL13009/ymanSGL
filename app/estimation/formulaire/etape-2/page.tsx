@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
 export default function EstimationEtape2Page() {
@@ -68,6 +69,7 @@ export default function EstimationEtape2Page() {
     dpe: '',
     // Contexte
     contexteVente: '',
+    nomSuccession: '',
     // Délai de vente
     delaiVente: '',
     // Situation actuelle
@@ -88,6 +90,7 @@ export default function EstimationEtape2Page() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [uploadProgress, setUploadProgress] = useState('')
+  const [parisCodePostalError, setParisCodePostalError] = useState(false)
 
   useEffect(() => {
     const etape1 = sessionStorage.getItem('estimation_etape1')
@@ -104,6 +107,11 @@ export default function EstimationEtape2Page() {
       ...formData,
       [name]: value
     })
+    // Détection code postal Paris (75xxx)
+    if (name === 'codePostal') {
+      const trimmed = value.trim()
+      setParisCodePostalError(trimmed.length >= 2 && trimmed.startsWith('75'))
+    }
   }
 
   const handleCheckboxChange = (name: string, value: string) => {
@@ -158,12 +166,17 @@ export default function EstimationEtape2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (parisCodePostalError) {
+      setSubmitError('Le code postal saisi correspond à Paris. Veuillez utiliser le formulaire Estimation Paris.')
+      return
+    }
     setSubmitting(true)
     setSubmitError('')
 
     try {
       const completeData: any = {
         // Données étape 1
+        civilite: etape1Data.civilite || null,
         prenom: etape1Data.prenom,
         nom: etape1Data.nom,
         telephone: etape1Data.telephone,
@@ -214,6 +227,7 @@ export default function EstimationEtape2Page() {
         charges_copro: formData.chargesCopro || null,
         dpe: formData.dpe || null,
         contexte_vente: formData.contexteVente || null,
+        nom_succession: formData.nomSuccession || null,
         delai_vente: formData.delaiVente || null,
         situation_actuelle: formData.situationActuelle || null,
         type_location: formData.typeLocation || null,
@@ -352,9 +366,23 @@ export default function EstimationEtape2Page() {
                   value={formData.codePostal}
                   onChange={handleChange}
                   placeholder="Ex: 78100"
-                  className={inputClass}
+                  className={`${inputClass} ${parisCodePostalError ? 'border-red-500/70' : ''}`}
                   style={fontStyle}
                 />
+                {parisCodePostalError && (
+                  <div className="mt-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                    <p className="text-red-400 text-sm" style={fontStyle}>
+                      Ce code postal correspond à Paris. Le tarif de l&apos;estimation Essentielle ne couvre pas cette zone.
+                    </p>
+                    <Link
+                      href="/estimation/paris/formulaire"
+                      className="inline-block mt-2 text-sm font-medium text-white underline underline-offset-4 hover:text-white/80 transition-colors"
+                      style={fontStyle}
+                    >
+                      Accéder au formulaire Estimation Paris &rarr;
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -380,9 +408,6 @@ export default function EstimationEtape2Page() {
                 <option value="Triplex" className="bg-black text-white">Triplex</option>
                 <option value="Penthouse" className="bg-black text-white">Penthouse</option>
                 <option value="Chambre de bonne" className="bg-black text-white">Chambre de bonne</option>
-                <option value="Immeuble" className="bg-black text-white">Immeuble</option>
-                <option value="Local commercial" className="bg-black text-white">Local commercial</option>
-                <option value="Bureau" className="bg-black text-white">Bureau</option>
                 <option value="Terrain" className="bg-black text-white">Terrain</option>
                 <option value="Parking / Box" className="bg-black text-white">Parking / Box</option>
                 <option value="Cave" className="bg-black text-white">Cave</option>
@@ -973,6 +998,12 @@ export default function EstimationEtape2Page() {
                   <option value="Succession" className="bg-black text-white">Succession</option>
                 </select>
               </div>
+              {formData.contexteVente === 'Succession' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Nom de la succession</label>
+                  <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
+                </div>
+              )}
             </div>
 
             {/* Délai de vente */}

@@ -32,7 +32,7 @@ interface Property {
   updated_at?: string
 }
 
-type TabType = 'vendre' | 'louer' | 'estimations' | 'estimations_investisseur' | 'estimations_paris'
+type TabType = 'vendre' | 'louer' | 'estimations' | 'estimations_investisseur' | 'estimations_paris' | 'estimations_juridique'
 
 type EstimationLead = AnalyseLeadWithId
 
@@ -47,10 +47,14 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('vendre')
 
   // ─── Estimation data ────────────────────────────────────
-  const [allPartielles, setAllPartielles] = useState<AnalyseLeadWithId[]>([])
+  const [partiellesEssentielle, setPartiellesEssentielle] = useState<AnalyseLeadWithId[]>([])
+  const [partiellesInvestisseur, setPartiellesInvestisseur] = useState<AnalyseLeadWithId[]>([])
+  const [partiellesParis, setPartiellesParis] = useState<AnalyseLeadWithId[]>([])
+  const [partiellesJuridique, setPartiellesJuridique] = useState<AnalyseLeadWithId[]>([])
   const [estimations, setEstimations] = useState<EstimationLead[]>([])
   const [estimationsInvestisseur, setEstimationsInvestisseur] = useState<AnalyseLeadWithId[]>([])
   const [estimationsParis, setEstimationsParis] = useState<AnalyseLeadWithId[]>([])
+  const [estimationsJuridique, setEstimationsJuridique] = useState<AnalyseLeadWithId[]>([])
   const [loadingEstimationData, setLoadingEstimationData] = useState(false)
   const estimationDataFetchedRef = useRef(false)
 
@@ -97,7 +101,7 @@ export default function AdminDashboard() {
 
   useEffect(() => { if (user) fetchProperties() }, [user])
 
-  const isEstimationTab = activeTab === 'estimations' || activeTab === 'estimations_investisseur' || activeTab === 'estimations_paris'
+  const isEstimationTab = activeTab === 'estimations' || activeTab === 'estimations_investisseur' || activeTab === 'estimations_paris' || activeTab === 'estimations_juridique'
 
   useEffect(() => {
     if (user && isEstimationTab) {
@@ -109,16 +113,26 @@ export default function AdminDashboard() {
   const fetchAllEstimationData = async () => {
     setLoadingEstimationData(true)
     try {
-      const [partielles, completes, investisseur, paris] = await Promise.all([
-        getAllAnalyseLeads('estimation_partielle'),
+      const [partEss, partInv, partPar, partJur, completes, investisseur, paris, juridique] = await Promise.all([
+        getAllAnalyseLeads('estimation_partielle_essentielle'),
+        getAllAnalyseLeads('estimation_partielle_investisseur'),
+        getAllAnalyseLeads('estimation_partielle_paris'),
+        getAllAnalyseLeads('estimation_partielle_juridique'),
         getAllAnalyseLeads('estimation'),
         getAllAnalyseLeads('estimation_investisseur'),
         getAllAnalyseLeads('estimation_paris'),
+        getAllAnalyseLeads('estimation_juridique'),
       ])
-      setAllPartielles(partielles)
+      // Aussi récupérer les anciennes partielles génériques (rétrocompatibilité)
+      const oldPartielles = await getAllAnalyseLeads('estimation_partielle')
+      setPartiellesEssentielle([...partEss, ...oldPartielles])
+      setPartiellesInvestisseur(partInv)
+      setPartiellesParis(partPar)
+      setPartiellesJuridique(partJur)
       setEstimations(completes as EstimationLead[])
       setEstimationsInvestisseur(investisseur)
       setEstimationsParis(paris)
+      setEstimationsJuridique(juridique)
       estimationDataFetchedRef.current = true
     } catch (error: any) {
       console.error('Error fetching estimation data:', error.message)
@@ -127,18 +141,26 @@ export default function AdminDashboard() {
     }
   }
 
-  // ─── Computed: orphan partielles ────────────────────────
-  const allCompletesEmails = useMemo(() => {
-    const emails = new Set<string>()
-    ;[...estimations, ...estimationsInvestisseur, ...estimationsParis].forEach(e => {
-      if (e.email) emails.add(e.email.toLowerCase().trim())
-    })
-    return emails
-  }, [estimations, estimationsInvestisseur, estimationsParis])
+  // ─── Computed: orphan partielles per type ───────────────
+  const orphanPartiellesEssentielle = useMemo(() => {
+    const completesEmails = new Set(estimations.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return partiellesEssentielle.filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [partiellesEssentielle, estimations])
 
-  const orphanPartielles = useMemo(() => {
-    return allPartielles.filter(p => !allCompletesEmails.has((p.email || '').toLowerCase().trim()))
-  }, [allPartielles, allCompletesEmails])
+  const orphanPartiellesInvestisseur = useMemo(() => {
+    const completesEmails = new Set(estimationsInvestisseur.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return partiellesInvestisseur.filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [partiellesInvestisseur, estimationsInvestisseur])
+
+  const orphanPartiellesParis = useMemo(() => {
+    const completesEmails = new Set(estimationsParis.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return partiellesParis.filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [partiellesParis, estimationsParis])
+
+  const orphanPartiellesJuridique = useMemo(() => {
+    const completesEmails = new Set(estimationsJuridique.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return partiellesJuridique.filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [partiellesJuridique, estimationsJuridique])
 
   // ─── Properties ─────────────────────────────────────────
   const fetchProperties = async () => {
@@ -292,6 +314,7 @@ export default function AdminDashboard() {
     { key: 'estimations', label: 'Essentielle', shortLabel: 'Ess.', count: estimations.filter(e => !e.read).length },
     { key: 'estimations_investisseur', label: 'Investisseur', shortLabel: 'Invest.', count: estimationsInvestisseur.filter(e => !e.read).length },
     { key: 'estimations_paris', label: 'Paris', shortLabel: 'Paris', count: estimationsParis.filter(e => !e.read).length },
+    { key: 'estimations_juridique', label: 'Activités juridiques', shortLabel: 'Jurid.', count: estimationsJuridique.filter(e => !e.read).length },
   ]
 
   // ─── Reusable: Partielle card ───────────────────────────
@@ -317,9 +340,11 @@ export default function AdminDashboard() {
   const CompleteCard = ({ estimation, accentColor = 'white' }: { estimation: EstimationLead; accentColor?: string }) => {
     const bgUnread = accentColor === 'purple' ? 'bg-purple-500/10 border-purple-500/30' :
                      accentColor === 'emerald' ? 'bg-emerald-500/10 border-emerald-500/30' :
+                     accentColor === 'amber' ? 'bg-amber-500/10 border-amber-500/30' :
                      'bg-white/10 border-white/20'
     const badgeBg = accentColor === 'purple' ? 'bg-purple-500' :
                     accentColor === 'emerald' ? 'bg-emerald-500' :
+                    accentColor === 'amber' ? 'bg-amber-500' :
                     'bg-white'
     const badgeText = accentColor === 'white' ? 'text-black' : 'text-white'
 
@@ -343,6 +368,7 @@ export default function AdminDashboard() {
           <div className="space-y-0.5 text-xs sm:text-sm text-white/50" style={f}>
             <p className="truncate"><strong className="text-white/70">Email:</strong> {estimation.email}</p>
             <p><strong className="text-white/70">Tél:</strong> {estimation.telephone}</p>
+            {estimation.nom_dossier && <p><strong className="text-white/70">Dossier:</strong> <span className="text-amber-400 font-medium">{estimation.nom_dossier}</span></p>}
             <p className="text-[10px] sm:text-xs text-white/30">{formatDate(estimation.created_at)}</p>
           </div>
         </div>
@@ -443,8 +469,8 @@ export default function AdminDashboard() {
   }
 
   // ─── Reusable: Two-column estimation layout ─────────────
-  const EstimationTabContent = ({ completes, accentColor }: { completes: EstimationLead[]; accentColor: string }) => {
-    const unreadPartielles = orphanPartielles.filter(p => !p.read).length
+  const EstimationTabContent = ({ completes, partielles, accentColor }: { completes: EstimationLead[]; partielles: AnalyseLeadWithId[]; accentColor: string }) => {
+    const unreadPartielles = partielles.filter(p => !p.read).length
     const unreadCompletes = completes.filter(c => !c.read).length
 
     if (loadingEstimationData) {
@@ -467,13 +493,13 @@ export default function AdminDashboard() {
             )}
           </div>
           <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 min-h-[160px]">
-            {orphanPartielles.length === 0 ? (
+            {partielles.length === 0 ? (
               <div className="flex items-center justify-center h-32 text-white/20 text-xs sm:text-sm" style={f}>
                 <p>Aucune estimation partielle</p>
               </div>
             ) : (
               <div className="space-y-3">
-                {orphanPartielles.map((ep) => (
+                {partielles.map((ep) => (
                   <PartielleCard key={ep.id} ep={ep} />
                 ))}
               </div>
@@ -656,7 +682,7 @@ export default function AdminDashboard() {
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Essentielle</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
             </div>
-            <EstimationTabContent completes={estimations} accentColor="white" />
+            <EstimationTabContent completes={estimations} partielles={orphanPartiellesEssentielle} accentColor="white" />
           </div>
         )}
 
@@ -669,7 +695,7 @@ export default function AdminDashboard() {
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Investisseur</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
             </div>
-            <EstimationTabContent completes={estimationsInvestisseur} accentColor="purple" />
+            <EstimationTabContent completes={estimationsInvestisseur} partielles={orphanPartiellesInvestisseur} accentColor="purple" />
           </div>
         )}
 
@@ -682,7 +708,20 @@ export default function AdminDashboard() {
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Paris</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
             </div>
-            <EstimationTabContent completes={estimationsParis} accentColor="emerald" />
+            <EstimationTabContent completes={estimationsParis} partielles={orphanPartiellesParis} accentColor="emerald" />
+          </div>
+        )}
+
+        {/* ═══════════════════════════════════════════════════════ */}
+        {/* ESTIMATION ACTIVITÉS JURIDIQUES                        */}
+        {/* ═══════════════════════════════════════════════════════ */}
+        {activeTab === 'estimations_juridique' && (
+          <div>
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Activités juridiques</h2>
+              <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
+            </div>
+            <EstimationTabContent completes={estimationsJuridique} partielles={orphanPartiellesJuridique} accentColor="amber" />
           </div>
         )}
 

@@ -7,6 +7,7 @@ import { createAnalyseLead } from '@/lib/firebase-admin'
 export default function EstimationParisFormulairePage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
+    civilite: '',
     prenom: '',
     nom: '',
     telephone: '',
@@ -15,7 +16,7 @@ export default function EstimationParisFormulairePage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -36,11 +37,12 @@ export default function EstimationParisFormulairePage() {
     try {
       // Envoyer les données partielles à Firebase
       await createAnalyseLead({
+        civilite: formData.civilite || null,
         prenom: formData.prenom,
         nom: formData.nom,
         telephone: formData.telephone,
         email: formData.email,
-        type_demande: 'estimation_partielle',
+        type_demande: 'estimation_partielle_paris',
         status: 'nouveau'
       })
 
@@ -70,6 +72,27 @@ export default function EstimationParisFormulairePage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Civilité */}
+          <div>
+            <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              Civilité *
+            </label>
+            <select
+              name="civilite"
+              value={formData.civilite}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
+              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+            >
+              <option value="" disabled className="bg-black text-white/50">Sélectionnez...</option>
+              <option value="Mr" className="bg-black text-white">Mr</option>
+              <option value="Mme" className="bg-black text-white">Mme</option>
+              <option value="Mlle" className="bg-black text-white">Mlle</option>
+              <option value="SCI" className="bg-black text-white">SCI</option>
+            </select>
+          </div>
+
           {/* Prénom */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>

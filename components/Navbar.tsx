@@ -41,6 +41,7 @@ export default function Navbar() {
     { label: 'À louer', link: '/location', ariaLabel: 'Aller à la page Location' },
     { label: 'Estimation', link: '/estimation', ariaLabel: 'Aller à la page Estimation' },
     { label: 'Catalogue', link: '/catalogue', ariaLabel: 'Aller au catalogue des biens' },
+    { label: 'Devis Personnalisé', link: '/devis-personnalise', ariaLabel: 'Demander un devis personnalisé' },
   ]
 
   useEffect(() => {

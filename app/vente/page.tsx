@@ -443,7 +443,7 @@ export default function VentePage() {
                 Politique de confidentialité
               </Link>
               <Link href="/honoraires" className="text-xs text-white/50 uppercase tracking-wider hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Honoraires
+                Frais d&apos;Agence
               </Link>
             </div>
           </div>

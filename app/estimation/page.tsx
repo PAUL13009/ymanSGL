@@ -392,7 +392,7 @@ export default function EstimationPage() {
       {/* SECTION 6 — GRILLE TARIFAIRE */}
       <section id="grille-tarifaire" className="px-4 sm:px-6 lg:px-8 py-24 relative z-10" aria-labelledby="grille-tarifaire-title">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <div className="mb-12 text-center">
               <div className="w-16 h-1 bg-white mb-6 mx-auto" style={{ backgroundColor: '#ffffff' }} aria-hidden="true" role="presentation"></div>
               <h2 id="grille-tarifaire-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -403,15 +403,15 @@ export default function EstimationPage() {
               </p>
             </div>
             
-            {/* 3 Pricing Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+            {/* 4 Pricing Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
               
               {/* Card 1 — Essentielle */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col hover:shadow-lg transition-shadow duration-300">
                 <div className="mb-8">
                   <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Estimation Essentielle</h3>
                   <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>55€</span>
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>79€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
                   <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d'un mandat exclusif confié à l'agence</p>
@@ -438,16 +438,48 @@ export default function EstimationPage() {
                 </a>
               </div>
 
-              {/* Card 2 — Investisseur */}
+              {/* Card 2 — Paris */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col hover:shadow-lg transition-shadow duration-300">
+                <div className="mb-8">
+                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Estimation Paris</h3>
+                  <div className="flex items-baseline gap-1 mb-3">
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>149€</span>
+                    <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
+                  </div>
+                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
+                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Paris Intramuros</p>
+                </div>
+                <div className="mb-6">
+                  <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Sécuriser une décision à fort enjeu</span>
+                </div>
+                <p className="text-sm text-white/50 mb-6 uppercase tracking-wider font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Analyse très approfondie</p>
+                <ul className="space-y-3 flex-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Analyse du marché local <span className="text-xs text-white/40 ml-1">(micro-marché)</span></li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Biens comparables (méthode d&apos;estimation par comparaison) <span className="text-xs text-white/40 ml-1">(sélection fine)</span></li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Affichage du prix recommandé + fourchette de valeur haute et basse</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Utilisable comme support de raisonnement</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Document PDF remis</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Utilisable cadre bancaire</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Non-sollicitation commerciale</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Analyse du positionnement prix</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités locales <span className="text-xs text-white/40 ml-1">(très détaillé)</span></li>
+                  <li className="flex items-center gap-3 text-sm text-white/50"><svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" /></svg><span className="line-through">Lecture investissement</span></li>
+                </ul>
+                <a href="/estimation/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Demander cette estimation
+                </a>
+              </div>
+
+              {/* Card 3 — Investisseur */}
               <div className="bg-black rounded-2xl border border-black p-8 md:p-10 flex flex-col relative overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div className="absolute top-4 right-4 bg-white text-black text-xs font-bold px-3 py-1 rounded-full uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Populaire</div>
                 <div className="mb-8">
                   <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Estimation Investisseur</h3>
                   <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>89€</span>
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>179€</span>
                     <span className="text-sm text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d'un mandat exclusif confié à l'agence</p>
+                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
                   <p className="text-sm text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Investisseurs / SCI · France entière</p>
                 </div>
                 <div className="mb-6">
@@ -471,17 +503,17 @@ export default function EstimationPage() {
                 </a>
               </div>
 
-              {/* Card 3 — Paris */}
+              {/* Card 4 — Activités juridiques */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col hover:shadow-lg transition-shadow duration-300">
                 <div className="mb-8">
-                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Estimation Paris</h3>
+                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Estimation Activités juridiques</h3>
                   <div className="flex items-baseline gap-1 mb-3">
-                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>129€</span>
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>220€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
-              </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d'un mandat exclusif confié à l'agence</p>
-                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Paris Intramuros</p>
-            </div>
+                  </div>
+                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
+                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Contexte juridique · Succession, divorce, etc.</p>
+                </div>
                 <div className="mb-6">
                   <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Sécuriser une décision à fort enjeu</span>
                 </div>
@@ -496,9 +528,11 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Non-sollicitation commerciale</li>
                   <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Analyse du positionnement prix</li>
                   <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités locales <span className="text-xs text-white/40 ml-1">(très détaillé)</span></li>
-                  <li className="flex items-center gap-3 text-sm text-white/50"><svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" /></svg><span className="line-through">Lecture investissement</span></li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Méthode par valeur vénale</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Prise en compte du contexte juridique</li>
+                  <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Analyse qualitative et argumentée</li>
                 </ul>
-                <a href="/estimation/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                <a href="/estimation/juridique/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Demander cette estimation
                 </a>
               </div>
@@ -544,7 +578,7 @@ export default function EstimationPage() {
               Politique de confidentialité
             </Link>
             <Link href="/honoraires" className="text-xs text-white/50 uppercase tracking-wider hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Honoraires
+              Frais d&apos;Agence
             </Link>
           </div>
         </div>

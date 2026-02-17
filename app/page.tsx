@@ -139,8 +139,25 @@ export default function Home() {
   const fetchProperties = async () => {
     setLoading(true)
     try {
-      // Pour la page d'accueil, utiliser toujours les propriétés par défaut avec les images haussmanniennes
-      setProperties(defaultProperties.slice(0, 4))
+      const data = await getLimitedProperties(4)
+      if (data.length > 0) {
+        const transformedProperties: Property[] = data.map((prop) => ({
+          id: prop.id,
+          images: prop.images || [],
+          title: prop.title,
+          location: prop.location,
+          price: prop.price,
+          surface: prop.surface_habitable || prop.surface || '',
+          rooms: prop.rooms || '',
+          bathrooms: prop.bathrooms || '',
+          type: prop.status || prop.type || 'À vendre',
+          status: prop.status || prop.type || 'À vendre'
+        }))
+        setProperties(transformedProperties)
+      } else {
+        // Aucun bien en base, afficher les biens par défaut
+        setProperties(defaultProperties.slice(0, 4))
+      }
     } catch (error: any) {
       console.error('Error fetching properties:', error.message)
       // En cas d'erreur, utiliser les biens d'exemple
@@ -150,10 +167,10 @@ export default function Home() {
     }
   }
 
-  // Toujours afficher les 4 biens par défaut avec images haussmanniennes
+  // Afficher les propriétés récupérées (Firebase ou par défaut)
   const displayProperties = useMemo(() => {
-    return defaultProperties.slice(0, 4)
-  }, [])
+    return properties.slice(0, 4)
+  }, [properties])
 
   useEffect(() => {
     if (displayProperties.length > 0) {
@@ -617,7 +634,7 @@ export default function Home() {
               Politique de confidentialité
             </Link>
             <Link href="/honoraires" className="text-xs text-white/50 uppercase tracking-wider hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Honoraires
+              Frais d&apos;Agence
             </Link>
           </div>
         </div>

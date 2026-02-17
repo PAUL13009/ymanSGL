@@ -68,6 +68,7 @@ export default function EstimationParisEtape2Page() {
     dpe: '',
     // Contexte
     contexteVente: '',
+    nomSuccession: '',
     // Délai de vente
     delaiVente: '',
     // Situation actuelle
@@ -164,6 +165,7 @@ export default function EstimationParisEtape2Page() {
     try {
       const completeData: any = {
         // Données étape 1
+        civilite: etape1Data.civilite || null,
         prenom: etape1Data.prenom,
         nom: etape1Data.nom,
         telephone: etape1Data.telephone,
@@ -214,6 +216,7 @@ export default function EstimationParisEtape2Page() {
         charges_copro: formData.chargesCopro || null,
         dpe: formData.dpe || null,
         contexte_vente: formData.contexteVente || null,
+        nom_succession: formData.nomSuccession || null,
         delai_vente: formData.delaiVente || null,
         situation_actuelle: formData.situationActuelle || null,
         type_location: formData.typeLocation || null,
@@ -381,9 +384,6 @@ export default function EstimationParisEtape2Page() {
                 <option value="Triplex" className="bg-black text-white">Triplex</option>
                 <option value="Penthouse" className="bg-black text-white">Penthouse</option>
                 <option value="Chambre de bonne" className="bg-black text-white">Chambre de bonne</option>
-                <option value="Immeuble" className="bg-black text-white">Immeuble</option>
-                <option value="Local commercial" className="bg-black text-white">Local commercial</option>
-                <option value="Bureau" className="bg-black text-white">Bureau</option>
                 <option value="Terrain" className="bg-black text-white">Terrain</option>
                 <option value="Parking / Box" className="bg-black text-white">Parking / Box</option>
                 <option value="Cave" className="bg-black text-white">Cave</option>
@@ -974,6 +974,12 @@ export default function EstimationParisEtape2Page() {
                   <option value="Succession" className="bg-black text-white">Succession</option>
                 </select>
               </div>
+              {formData.contexteVente === 'Succession' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Nom de la succession</label>
+                  <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
+                </div>
+              )}
             </div>
 
             {/* Délai de vente */}
