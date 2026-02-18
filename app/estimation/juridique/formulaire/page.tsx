@@ -7,6 +7,7 @@ import { createAnalyseLead } from '@/lib/firebase-admin'
 export default function EstimationJuridiqueFormulairePage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
+    professionJuridique: '',
     prenom: '',
     nom: '',
     telephone: '',
@@ -16,7 +17,7 @@ export default function EstimationJuridiqueFormulairePage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -42,6 +43,7 @@ export default function EstimationJuridiqueFormulairePage() {
         telephone: formData.telephone,
         email: formData.email,
         nom_dossier: formData.nomDossier || null,
+        profession_juridique: formData.professionJuridique || null,
         type_demande: 'estimation_partielle_juridique',
         status: 'nouveau'
       })
@@ -72,6 +74,27 @@ export default function EstimationJuridiqueFormulairePage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Profession */}
+          <div>
+            <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              Profession
+            </label>
+            <select
+              name="professionJuridique"
+              value={formData.professionJuridique}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
+              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+            >
+              <option value="" className="bg-black text-white">Sélectionnez...</option>
+              <option value="Notaire" className="bg-black text-white">Notaire</option>
+              <option value="Avocat" className="bg-black text-white">Avocat</option>
+              <option value="Expert-comptable" className="bg-black text-white">Expert-comptable</option>
+              <option value="Administrateur judiciaire" className="bg-black text-white">Administrateur judiciaire</option>
+              <option value="Autres" className="bg-black text-white">Autres</option>
+            </select>
+          </div>
+
           {/* Prénom */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>

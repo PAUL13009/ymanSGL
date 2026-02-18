@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { signInAdmin } from '@/lib/firebase-auth'
 
+const f = { fontFamily: 'var(--font-poppins), sans-serif' }
+
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,13 +28,8 @@ export default function AdminLogin() {
         throw new Error('Aucune session créée')
       }
 
-      console.log('Connexion réussie, utilisateur:', user.email)
-      
-      // Rediriger vers le dashboard
       window.location.href = '/admin/dashboard'
     } catch (error: any) {
-      console.error('Erreur complète:', error)
-      // Gérer les erreurs Firebase spécifiques
       let errorMessage = 'Erreur de connexion'
       if (error.code === 'auth/user-not-found') {
         errorMessage = 'Aucun compte trouvé avec cet email'
@@ -52,68 +49,85 @@ export default function AdminLogin() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-black px-4">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" style={{ borderColor: '#4682B4' }}></div>
-          <p className="text-gray-600">Chargement...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white/50 text-sm" style={f}>Chargement...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-2xl font-serif mb-6 text-center" style={{ color: '#4682B4', fontFamily: 'var(--font-playfair), serif' }}>
-          Connexion Admin
-        </h1>
-        
-        <form onSubmit={handleLogin} className="space-y-4">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="max-w-md w-full">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-white uppercase tracking-widest" style={f}>
+            Espace Admin
+          </h1>
+          <p className="text-white/40 text-sm mt-2" style={f}>L&apos;Agence YL</p>
+        </div>
+
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+          <form onSubmit={handleLogin} className="space-y-5">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg text-sm" style={f}>
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-xs font-medium text-white/60 uppercase tracking-wider mb-2" style={f}>
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/30 focus:ring-1 focus:ring-white/40 focus:border-white/40 focus:outline-none transition-all text-sm"
+                style={f}
+                placeholder="admin@agence-yl.fr"
+              />
             </div>
-          )}
-          
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Mot de passe
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ backgroundColor: '#4682B4' }}
-          >
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
-        </form>
+
+            <div>
+              <label htmlFor="password" className="block text-xs font-medium text-white/60 uppercase tracking-wider mb-2" style={f}>
+                Mot de passe
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/30 focus:ring-1 focus:ring-white/40 focus:border-white/40 focus:outline-none transition-all text-sm"
+                style={f}
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 px-4 bg-white text-black rounded-lg font-semibold uppercase tracking-wider text-sm hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              style={f}
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></span>
+                  Connexion...
+                </span>
+              ) : 'Se connecter'}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-white/20 text-xs mt-6" style={f}>
+          Accès réservé aux administrateurs
+        </p>
       </div>
     </div>
   )
 }
-

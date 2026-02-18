@@ -636,6 +636,9 @@ export default function Home() {
             <Link href="/honoraires" className="text-xs text-white/50 uppercase tracking-wider hover:text-white transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               Frais d&apos;Agence
             </Link>
+            <Link href="/admin/login" className="text-xs text-white/30 uppercase tracking-wider hover:text-white/50 transition-colors duration-300" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              Admin
+            </Link>
           </div>
         </div>
       </footer>

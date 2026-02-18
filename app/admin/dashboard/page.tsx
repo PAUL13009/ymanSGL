@@ -383,6 +383,8 @@ export default function AdminDashboard() {
               {estimation.type_bien && <p><strong className="text-white/70">Type:</strong> {estimation.type_bien}</p>}
               {estimation.surface && <p><strong className="text-white/70">Surface:</strong> {estimation.surface} m²</p>}
               {estimation.surface_terrain && <p><strong className="text-white/70">Terrain:</strong> {estimation.surface_terrain} m²</p>}
+              {estimation.annee_construction && <p><strong className="text-white/70">Année:</strong> {estimation.annee_construction}</p>}
+              {estimation.residence_type && <p><strong className="text-white/70">Usage:</strong> {estimation.residence_type}</p>}
             </div>
           </div>
         )}
@@ -401,6 +403,24 @@ export default function AdminDashboard() {
               {estimation.stationnement && <p><strong className="text-white/70">Parking:</strong> {estimation.stationnement}</p>}
               {estimation.exterieurs && estimation.exterieurs.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Ext.:</strong> {estimation.exterieurs.join(', ')}</p>}
               {estimation.prestations && estimation.prestations.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Presta.:</strong> {estimation.prestations.join(', ')}</p>}
+              {estimation.dpe && <p><strong className="text-white/70">DPE:</strong> {estimation.dpe}</p>}
+              {estimation.classe_ges && <p><strong className="text-white/70">GES:</strong> {estimation.classe_ges}</p>}
+              {estimation.standing && <p><strong className="text-white/70">Standing:</strong> {estimation.standing}</p>}
+              {estimation.chauffage_type && <p><strong className="text-white/70">Chauffage:</strong> {estimation.chauffage_type}</p>}
+              {estimation.mitoyennete && <p><strong className="text-white/70">Mitoyenneté:</strong> {estimation.mitoyennete}</p>}
+              {estimation.vue && <p><strong className="text-white/70">Vue:</strong> {estimation.vue}</p>}
+              {estimation.luminosite && <p><strong className="text-white/70">Luminosité:</strong> {estimation.luminosite}/10</p>}
+              {estimation.luminosite_cour_uniquement && <p><strong className="text-white/70">Lum. cour:</strong> {estimation.luminosite_cour_uniquement}</p>}
+              {estimation.perte_surface_couloir && <p><strong className="text-white/70">Perte surf. couloir:</strong> {estimation.perte_surface_couloir}</p>}
+              {estimation.immeuble_classe && <p><strong className="text-white/70">Immeuble classé:</strong> {estimation.immeuble_classe}</p>}
+              {estimation.destination_lot && <p><strong className="text-white/70">Dest. lot:</strong> {estimation.destination_lot}</p>}
+              {estimation.ancien_local_commercial && <p><strong className="text-white/70">Ancien local commercial:</strong> {estimation.ancien_local_commercial}</p>}
+              {estimation.changement_usage && <p><strong className="text-white/70">Changement usage:</strong> {estimation.changement_usage}</p>}
+              {estimation.bien_ancien_lot && <p><strong className="text-white/70">Ancien lot:</strong> {estimation.bien_ancien_lot}</p>}
+              {estimation.travaux_energetiques && <p><strong className="text-white/70">Travaux énergétiques:</strong> {estimation.travaux_energetiques}</p>}
+              {estimation.loyer_encadrement && <p><strong className="text-white/70">Encadrement loyer:</strong> {estimation.loyer_encadrement}</p>}
+              {estimation.complement_loyer && <p><strong className="text-white/70">Complément loyer:</strong> {estimation.complement_loyer}</p>}
+              {estimation.nuisances_patrimoine && estimation.nuisances_patrimoine.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Nuisances:</strong> {estimation.nuisances_patrimoine.join(', ')}</p>}
             </div>
           </div>
         )}
@@ -413,6 +433,9 @@ export default function AdminDashboard() {
               {estimation.delai_vente && <p><strong className="text-white/70">Délai:</strong> {estimation.delai_vente}</p>}
               {estimation.situation_actuelle && <p><strong className="text-white/70">Situation:</strong> {estimation.situation_actuelle}</p>}
               {estimation.contexte_vente && <p className="col-span-2"><strong className="text-white/70">Contexte:</strong> {estimation.contexte_vente}</p>}
+              {estimation.profession_juridique && <p><strong className="text-white/70">Profession:</strong> <span className="text-amber-400">{estimation.profession_juridique}</span></p>}
+              {estimation.raison_demande_juridique && <p className="col-span-2"><strong className="text-white/70">Raison:</strong> {estimation.raison_demande_juridique}</p>}
+              {estimation.type_bail && <p><strong className="text-white/70">Bail:</strong> {estimation.type_bail}</p>}
               {estimation.prix_envisage && <p className="col-span-2"><strong className="text-white/70">Prix:</strong> <span className="text-white font-semibold">{estimation.prix_envisage}</span></p>}
               {estimation.ajustement_prix_echelle !== null && estimation.ajustement_prix_echelle !== undefined && <p><strong className="text-white/70">Ajust.:</strong> {estimation.ajustement_prix_echelle}/10</p>}
             </div>

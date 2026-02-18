@@ -309,6 +309,100 @@ export interface AnalyseLead {
   ajustement_prix_echelle?: number | null
   message_libre?: string | null
   photos_urls?: string[] | null
+
+  mitoyennete?: string | null
+  vue?: string | null
+
+  // Phase refonte: nouveaux champs communs
+  annee_construction?: string | null
+  etat_toiture?: string | null
+  etat_facade?: string | null
+  etat_terrain_ext?: string | null
+  etat_murs?: string | null
+  etat_sols?: string | null
+  etat_plafonds?: string | null
+  etat_menuiserie?: string | null
+  securite_confort?: string[] | null
+  standing?: string | null
+  materiaux?: string | null
+  cuisine_electromenager?: string | null
+  marques_cuisine?: string | null
+  type_vente_vide_meuble?: string | null
+  equipements_premium?: string[] | null
+  atout_principal?: string | null
+  chauffage_type?: string | null
+  chauffage_production?: string | null
+  eau_chaude_production?: string | null
+  anciennete_installation?: string | null
+  assainissement_type?: string | null
+  spanc_validite?: string | null
+  raccordabilite?: string | null
+  situation_juridique_technique?: string[] | null
+  situation_technique_urbanistique?: string[] | null
+  situation_copro_lotissement?: string[] | null
+  dpe_valide?: string | null
+  classe_ges?: string | null
+  residence_type?: string | null
+  charges_copro_contenu?: string[] | null
+  eau_chaude_type?: string | null
+  travaux_autorisations?: string | null
+  travaux_prevus_autorisations?: string | null
+  travaux_urbanisme?: string | null
+  travaux_urbanisme_detail?: string | null
+  travaux_copro_recents?: string | null
+  travaux_copro_recents_detail?: string | null
+  travaux_copro_recents_montant?: string | null
+  travaux_copro_prevus_non_votes?: string[] | null
+  travaux_votes_non_realises?: string | null
+  travaux_votes_non_realises_detail?: string | null
+  travaux_votes_non_realises_delai?: string | null
+  lotissement_asl?: string | null
+  charges_asl?: string | null
+  charges_asl_contenu?: string[] | null
+  travaux_asl_recents?: string | null
+  travaux_asl_recents_detail?: string | null
+  travaux_asl_recents_montant?: string | null
+  travaux_asl_votes_non_realises?: string | null
+  travaux_asl_votes_detail?: string | null
+  travaux_asl_votes_delai?: string | null
+  travaux_asl_prevus_non_votes?: string[] | null
+  type_bail_loue?: string | null
+  fin_bail?: string | null
+  age_locataire?: string | null
+  loyer_hors_charges?: string | null
+  charges_mensuelles?: string | null
+
+  // Spécificités Paris
+  surface_carrez?: string | null
+  luminosite?: number | null
+  luminosite_cour_uniquement?: string | null
+  combles_rattachables?: string | null
+  plan_etoile?: string | null
+  pieces_enfilade?: string | null
+  perte_surface_couloir?: string | null
+  wc_palier?: string | null
+  destination_lot?: string | null
+  usage_lot?: string | null
+  ancien_local_commercial?: string | null
+  changement_usage?: string | null
+  location_meublee_autorisation?: string | null
+  transformation_local?: string | null
+  autorisation_airbnb?: string | null
+  bien_ancien_lot?: string | null
+  audit_energetique?: string | null
+  travaux_energetiques?: string | null
+  immeuble_classe?: string | null
+  nuisances_patrimoine?: string[] | null
+  loyer_encadrement?: string | null
+  complement_loyer?: string | null
+
+  // Spécificités Juridique
+  profession_juridique?: string | null
+  raison_demande_juridique?: string | null
+  contexte_juridique_libre?: string | null
+
+  // Spécificités Investisseur
+  type_bail?: string | null
 }
 
 // Type pour AnalyseLead avec id requis (utilisé pour les données récupérées)
