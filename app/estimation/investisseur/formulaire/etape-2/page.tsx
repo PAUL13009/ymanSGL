@@ -166,6 +166,7 @@ export default function EstimationInvestisseurEtape2Page() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [uploadProgress, setUploadProgress] = useState('')
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
     const etape1 = sessionStorage.getItem('estimation_investisseur_etape1')
@@ -451,6 +452,31 @@ export default function EstimationInvestisseurEtape2Page() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
+
+          {/* ═══════════ PROJET DE VENTE (Contexte) ═══════════ */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
+              <div className="mt-4">
+                <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
+                  <option value="" className="bg-black text-white">Sélectionnez...</option>
+                  <option value="Arbitrage / réinvestissement" className="bg-black text-white">Arbitrage / réinvestissement</option>
+                  <option value="Fin de cycle d'investissement" className="bg-black text-white">Fin de cycle d&apos;investissement</option>
+                  <option value="Revente suite à rénovation" className="bg-black text-white">Revente suite à rénovation</option>
+                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
+                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
+                  <option value="Situation personnelle" className="bg-black text-white">Situation personnelle</option>
+                  <option value="Baisse de rentabilité" className="bg-black text-white">Baisse de rentabilité</option>
+                  <option value="Travaux importants à venir" className="bg-black text-white">Travaux importants à venir</option>
+                  <option value="Mauvaise gestion" className="bg-black text-white">Mauvaise gestion</option>
+                  <option value="Autre" className="bg-black text-white">Autre (à préciser)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
 
           {/* ═══════════ IDENTIFICATION DU BIEN ═══════════ */}
           <div className="space-y-6">
@@ -1751,29 +1777,9 @@ export default function EstimationInvestisseurEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ PROJET DE VENTE ═══════════ */}
+          {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
-
-            {/* Contexte */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
-              <div className="mt-4">
-                <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
-                  <option value="" className="bg-black text-white">Sélectionnez...</option>
-                  <option value="Arbitrage / réinvestissement" className="bg-black text-white">Arbitrage / réinvestissement</option>
-                  <option value="Fin de cycle d'investissement" className="bg-black text-white">Fin de cycle d&apos;investissement</option>
-                  <option value="Revente suite à rénovation" className="bg-black text-white">Revente suite à rénovation</option>
-                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
-                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
-                  <option value="Situation personnelle" className="bg-black text-white">Situation personnelle</option>
-                  <option value="Baisse de rentabilité" className="bg-black text-white">Baisse de rentabilité</option>
-                  <option value="Travaux importants à venir" className="bg-black text-white">Travaux importants à venir</option>
-                  <option value="Mauvaise gestion" className="bg-black text-white">Mauvaise gestion</option>
-                  <option value="Autre" className="bg-black text-white">Autre (à préciser)</option>
-                </select>
-              </div>
-            </div>
 
             {/* Délai de vente */}
             <div>
@@ -1922,13 +1928,24 @@ export default function EstimationInvestisseurEtape2Page() {
             </div>
           )}
 
+          {/* Bloc RGPD + consentement */}
+          <div className="space-y-3 p-4 rounded-lg bg-white/5 border border-white/10">
+            <p className="text-xs text-white/70 leading-relaxed" style={fontStyle}>
+              Les informations collectées via ce formulaire sont destinées à traiter votre demande d&apos;estimation. Elles sont conservées pendant une durée maximale de 5 ans et ne sont pas cédées à des tiers. Conformément au RGPD, vous pouvez exercer vos droits d&apos;accès, rectification ou suppression. Vous pouvez nous contacter à lagenceyl@gmail.com.
+            </p>
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input type="checkbox" checked={acceptPrivacy} onChange={(e) => setAcceptPrivacy(e.target.checked)} className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 text-white focus:ring-white/30 cursor-pointer accent-white" />
+              <span className="text-sm text-white/90" style={fontStyle}>J&apos;accepte la politique de confidentialité</span>
+            </label>
+          </div>
+
           <p className="text-white/50 text-sm text-center mb-4" style={fontStyle}>
             Méthode par comparaison et capitalisation
           </p>
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || !acceptPrivacy}
             className="w-full px-8 py-4 rounded-full font-medium bg-white text-black hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide"
             style={{
               fontFamily: 'var(--font-poppins), sans-serif',
@@ -1938,11 +1955,6 @@ export default function EstimationInvestisseurEtape2Page() {
             {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
           </button>
 
-          <p className="text-xs text-white/40 text-center italic" style={fontStyle}>
-            Chaque estimation est analysée manuellement.
-            <br />
-            Nous nous réservons le droit de refuser les biens dont le prix attendu n'est pas cohérent avec le marché.
-          </p>
         </form>
       </div>
     </main>

@@ -170,6 +170,7 @@ export default function EstimationJuridiqueEtape2Page() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [uploadProgress, setUploadProgress] = useState('')
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
     const etape1 = sessionStorage.getItem('estimation_juridique_etape1')
@@ -452,6 +453,38 @@ export default function EstimationJuridiqueEtape2Page() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
+
+          {/* ═══════════ PROJET DE VENTE (Raison de la demande) ═══════════ */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>Raison de la demande</p>
+              <div className="mt-4">
+                <select name="raisonDemandeJuridique" value={formData.raisonDemandeJuridique} onChange={handleChange} required className={selectClass} style={fontStyle}>
+                  <option value="" className="bg-black text-white">Sélectionnez... *</option>
+                  <option value="Succession" className="bg-black text-white">Succession</option>
+                  <option value="Changement de régime matrimonial" className="bg-black text-white">Changement de régime matrimonial</option>
+                  <option value="Divorce / Liquidation de communauté" className="bg-black text-white">Divorce / Liquidation de communauté</option>
+                  <option value="Donation / donation-partage" className="bg-black text-white">Donation / donation-partage</option>
+                  <option value="Indivision conflictuelle" className="bg-black text-white">Indivision conflictuelle</option>
+                  <option value="Vente sous tutelle curatelle" className="bg-black text-white">Vente sous tutelle curatelle</option>
+                  <option value="Préemption / vente encadrée" className="bg-black text-white">Préemption / vente encadrée</option>
+                  <option value="Saisie immobilière" className="bg-black text-white">Saisie immobilière</option>
+                  <option value="Redressement fiscal / contrôles" className="bg-black text-white">Redressement fiscal / contrôles</option>
+                  <option value="Contentieux successoral" className="bg-black text-white">Contentieux successoral</option>
+                  <option value="Litige entre associés (SCI)" className="bg-black text-white">Litige entre associés (SCI)</option>
+                </select>
+              </div>
+              {formData.raisonDemandeJuridique === 'Succession' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Nom de la succession</label>
+                  <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
 
           {/* ═══════════ IDENTIFICATION DU BIEN ═══════════ */}
           <div className="space-y-6">
@@ -1544,33 +1577,9 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ PROJET DE VENTE ═══════════ */}
+          {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
-
-            <div><p className={sectionTitleClass} style={fontStyle}>Raison de la demande</p><div className="mt-4">
-              <select name="raisonDemandeJuridique" value={formData.raisonDemandeJuridique} onChange={handleChange} required className={selectClass} style={fontStyle}>
-                <option value="" className="bg-black text-white">Sélectionnez... *</option>
-                <option value="Succession" className="bg-black text-white">Succession</option>
-                <option value="Changement de régime matrimonial" className="bg-black text-white">Changement de régime matrimonial</option>
-                <option value="Divorce / Liquidation de communauté" className="bg-black text-white">Divorce / Liquidation de communauté</option>
-                <option value="Donation / donation-partage" className="bg-black text-white">Donation / donation-partage</option>
-                <option value="Indivision conflictuelle" className="bg-black text-white">Indivision conflictuelle</option>
-                <option value="Vente sous tutelle curatelle" className="bg-black text-white">Vente sous tutelle curatelle</option>
-                <option value="Préemption / vente encadrée" className="bg-black text-white">Préemption / vente encadrée</option>
-                <option value="Saisie immobilière" className="bg-black text-white">Saisie immobilière</option>
-                <option value="Redressement fiscal / contrôles" className="bg-black text-white">Redressement fiscal / contrôles</option>
-                <option value="Contentieux successoral" className="bg-black text-white">Contentieux successoral</option>
-                <option value="Litige entre associés (SCI)" className="bg-black text-white">Litige entre associés (SCI)</option>
-              </select>
-            </div>
-            {formData.raisonDemandeJuridique === 'Succession' && (
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Nom de la succession</label>
-                <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
-              </div>
-            )}
-            </div>
 
             <div className="mt-4">
               <label className={labelClass} style={fontStyle}>Message libre / Contexte juridique</label>
@@ -1670,13 +1679,21 @@ export default function EstimationJuridiqueEtape2Page() {
           {/* ═══════════ VALIDATION ═══════════ */}
           {submitError && (<div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">{submitError}</div>)}
 
-          <button type="submit" disabled={submitting} className="w-full px-8 py-4 rounded-full font-medium bg-white text-black hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: '1rem' }}>
+          {/* Bloc RGPD + consentement */}
+          <div className="space-y-3 p-4 rounded-lg bg-white/5 border border-white/10">
+            <p className="text-xs text-white/70 leading-relaxed" style={fontStyle}>
+              Les informations collectées via ce formulaire sont destinées à traiter votre demande d&apos;estimation. Elles sont conservées pendant une durée maximale de 5 ans et ne sont pas cédées à des tiers. Conformément au RGPD, vous pouvez exercer vos droits d&apos;accès, rectification ou suppression. Vous pouvez nous contacter à lagenceyl@gmail.com.
+            </p>
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input type="checkbox" checked={acceptPrivacy} onChange={(e) => setAcceptPrivacy(e.target.checked)} className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 text-white focus:ring-white/30 cursor-pointer accent-white" />
+              <span className="text-sm text-white/90" style={fontStyle}>J&apos;accepte la politique de confidentialité</span>
+            </label>
+          </div>
+
+          <button type="submit" disabled={submitting || !acceptPrivacy} className="w-full px-8 py-4 rounded-full font-medium bg-white text-black hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: '1rem' }}>
             {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
           </button>
 
-          <p className="text-xs text-white/40 text-center italic" style={fontStyle}>
-            Chaque estimation est analysée manuellement.<br />Nous nous réservons le droit de refuser les biens dont le prix attendu n&apos;est pas cohérent avec le marché.
-          </p>
         </form>
       </div>
     </main>

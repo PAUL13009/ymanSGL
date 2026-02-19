@@ -3,10 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import Link from 'next/link'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
-export default function EstimationEtape2Page() {
+export default function LocationParisFormulaireEtape2Page() {
   const router = useRouter()
   const [etape1Data, setEtape1Data] = useState<any>(null)
   const [formData, setFormData] = useState({
@@ -63,6 +62,10 @@ export default function EstimationEtape2Page() {
     // Vis-à-vis
     visAVis: '',
     distanceVisAVis: '',
+    // Mitoyenneté
+    mitoyennete: '',
+    // Vue
+    vue: '',
     // Charges & DPE
     taxeFonciere: '',
     chargesCopro: '',
@@ -83,9 +86,6 @@ export default function EstimationEtape2Page() {
     // Description / Message libre
     description: '',
     messageLibre: '',
-    // Mitoyenneté & Vue
-    mitoyennete: '',
-    vue: '',
     // Année de construction
     anneeConstruction: '',
     // État extérieur
@@ -123,6 +123,7 @@ export default function EstimationEtape2Page() {
     situationCoproLotissement: [] as string[],
     // DPE
     dpeValide: '',
+    // Classe GES
     classeGes: '',
     // Résidence
     residenceType: '',
@@ -157,7 +158,29 @@ export default function EstimationEtape2Page() {
     finBail: '',
     ageLocataire: '',
     loyerHorsCharges: '',
-    chargesMensuelles: ''
+    chargesMensuelles: '',
+    // Paris-specific fields
+    luminosite: '5',
+    luminositeCourUniquement: '',
+    comblesRattachables: '',
+    planEtoile: '',
+    piecesEnfilade: '',
+    perteSurfaceCouloir: '',
+    wcPalier: '',
+    destinationLot: '',
+    usageLot: '',
+    ancienLocalCommercial: '',
+    changementUsage: '',
+    locationMeubleeAutorisation: '',
+    transformationLocal: '',
+    autorisationAirbnb: '',
+    bienAncienLot: '',
+    auditEnergetique: '',
+    travauxEnergetiques: '',
+    immeubleClasse: '',
+    nuisancesPatrimoine: [] as string[],
+    loyerEncadrement: '',
+    complementLoyer: ''
   })
   const [photos, setPhotos] = useState<File[]>([])
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
@@ -165,13 +188,12 @@ export default function EstimationEtape2Page() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [uploadProgress, setUploadProgress] = useState('')
-  const [parisCodePostalError, setParisCodePostalError] = useState(false)
   const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
-    const etape1 = sessionStorage.getItem('estimation_etape1')
+    const etape1 = sessionStorage.getItem('location_paris_etape1')
     if (!etape1) {
-      router.push('/estimation/formulaire')
+      router.push('/location/paris/formulaire')
       return
     }
     setEtape1Data(JSON.parse(etape1))
@@ -183,11 +205,6 @@ export default function EstimationEtape2Page() {
       ...formData,
       [name]: value
     })
-    // Détection code postal Paris (75xxx)
-    if (name === 'codePostal') {
-      const trimmed = value.trim()
-      setParisCodePostalError(trimmed.length >= 2 && trimmed.startsWith('75'))
-    }
   }
 
   const handleCheckboxChange = (name: string, value: string) => {
@@ -242,10 +259,6 @@ export default function EstimationEtape2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (parisCodePostalError) {
-      setSubmitError('Le code postal saisi correspond à Paris. Veuillez utiliser le formulaire Estimation Paris.')
-      return
-    }
     setSubmitting(true)
     setSubmitError('')
 
@@ -333,6 +346,7 @@ export default function EstimationEtape2Page() {
         atout_principal: formData.atoutPrincipal || null,
         chauffage_type: formData.chauffageType || null,
         chauffage_production: formData.chauffageProduction || null,
+        eau_chaude_type: formData.eauChaudeType || null,
         eau_chaude_production: formData.eauChaudeProduction || null,
         anciennete_installation: formData.ancienneteInstallation || null,
         assainissement_type: formData.assainissementType || null,
@@ -345,7 +359,6 @@ export default function EstimationEtape2Page() {
         classe_ges: formData.classeGes || null,
         residence_type: formData.residenceType || null,
         charges_copro_contenu: formData.chargesCoproContenu.length > 0 ? formData.chargesCoproContenu : null,
-        eau_chaude_type: formData.eauChaudeType || null,
         travaux_autorisations: formData.travauxAutorisations || null,
         travaux_prevus_autorisations: formData.travauxPrevusAutorisations || null,
         travaux_urbanisme: formData.travauxUrbanisme || null,
@@ -373,10 +386,34 @@ export default function EstimationEtape2Page() {
         loyer_hors_charges: formData.loyerHorsCharges || null,
         charges_mensuelles: formData.chargesMensuelles || null,
         
-        type_demande: 'estimation',
-        maturite: 'estimation',
+        // Paris-specific fields
+        surface_carrez: formData.surface || null,
+        luminosite: formData.luminosite ? parseInt(formData.luminosite) : null,
+        luminosite_cour_uniquement: formData.luminositeCourUniquement || null,
+        combles_rattachables: formData.comblesRattachables || null,
+        plan_etoile: formData.planEtoile || null,
+        pieces_enfilade: formData.piecesEnfilade || null,
+        perte_surface_couloir: formData.perteSurfaceCouloir || null,
+        wc_palier: formData.wcPalier || null,
+        destination_lot: formData.destinationLot || null,
+        usage_lot: formData.usageLot || null,
+        ancien_local_commercial: formData.ancienLocalCommercial || null,
+        changement_usage: formData.changementUsage || null,
+        location_meublee_autorisation: formData.locationMeubleeAutorisation || null,
+        transformation_local: formData.transformationLocal || null,
+        autorisation_airbnb: formData.autorisationAirbnb || null,
+        bien_ancien_lot: formData.bienAncienLot || null,
+        audit_energetique: formData.auditEnergetique || null,
+        travaux_energetiques: formData.travauxEnergetiques || null,
+        immeuble_classe: formData.immeubleClasse || null,
+        nuisances_patrimoine: formData.nuisancesPatrimoine.length > 0 ? formData.nuisancesPatrimoine : null,
+        loyer_encadrement: formData.loyerEncadrement || null,
+        complement_loyer: formData.complementLoyer || null,
+        
+        type_demande: 'recherche_locataire_paris',
+        maturite: 'recherche_locataire',
         ajustement_prix: 'oui',
-        motivation: `Estimation détaillée demandée. ${formData.messageLibre || 'Demande d\'estimation immobilière.'}`,
+        motivation: `Recherche de locataire Paris. ${formData.messageLibre || 'Demande de mise en location Paris.'}`,
         status: 'nouveau'
       }
 
@@ -411,8 +448,8 @@ export default function EstimationEtape2Page() {
       const leadId = await createAnalyseLead(completeData)
       console.log('Données enregistrées avec succès (photos incluses), ID:', leadId)
 
-      sessionStorage.removeItem('estimation_etape1')
-      window.location.href = 'https://buy.stripe.com/eVq5kD518640ccR9FVeQM00'
+      sessionStorage.removeItem('location_paris_etape1')
+      window.location.href = 'https://buy.stripe.com/3cI28rals1NK90F4lBeQM05'
     } catch (error: any) {
       console.error('Erreur:', error)
       let errorMessage = 'Une erreur est survenue. Veuillez réessayer.'
@@ -450,45 +487,33 @@ export default function EstimationEtape2Page() {
         {/* En-tête */}
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-wide mb-4" style={fontStyle}>
-            Détails du bien
+            Détails du bien à louer
           </h1>
           <p className="text-white/50 text-sm uppercase tracking-widest" style={fontStyle}>
-            Étape 2 / 2 — Affinage de l'estimation
+            Étape 2 / 2 — Détails pour la mise en location Paris
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={fontStyle}>
-            Une précision maximale est souhaitée afin de produire l'estimation la plus réaliste possible.
+            Une description précise nous permettra de valoriser votre bien et d&apos;attirer les meilleurs profils de locataires.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
 
-          {/* ═══════════ PROJET DE VENTE (Contexte) ═══════════ */}
+          {/* ═══════════ PROJET DE LOCATION (Contexte) ═══════════ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de location</h2>
             <div>
               <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
               <div className="mt-4">
                 <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
                   <option value="" className="bg-black text-white">Sélectionnez...</option>
-                  <option value="Mutation" className="bg-black text-white">Mutation</option>
-                  <option value="Mariage" className="bg-black text-white">Mariage</option>
-                  <option value="Naissance" className="bg-black text-white">Naissance</option>
-                  <option value="Départ des enfants" className="bg-black text-white">Départ des enfants</option>
-                  <option value="Problème de santé" className="bg-black text-white">Problème de santé</option>
-                  <option value="Besoin de liquidité" className="bg-black text-white">Besoin de liquidité</option>
-                  <option value="Difficultés financières" className="bg-black text-white">Difficultés financières</option>
-                  <option value="Vente pour rachat plus adapté" className="bg-black text-white">Vente pour rachat plus adapté</option>
-                  <option value="Arbitrage patrimonial" className="bg-black text-white">Arbitrage patrimonial</option>
-                  <option value="Revente pour réinvestir ailleurs" className="bg-black text-white">Revente pour réinvestir ailleurs</option>
-                  <option value="Donation / partage" className="bg-black text-white">Donation / partage</option>
-                  <option value="Indivision compliquée" className="bg-black text-white">Indivision compliquée</option>
-                  <option value="Fin de dispositif fiscal" className="bg-black text-white">Fin de dispositif fiscal</option>
-                  <option value="Arbitrage SCI" className="bg-black text-white">Arbitrage SCI</option>
-                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
-                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
-                  <option value="Changement de projet de vie / déménagement" className="bg-black text-white">Changement de projet de vie / déménagement</option>
-                  <option value="Divorce" className="bg-black text-white">Divorce</option>
+                  <option value="Première location" className="bg-black text-white">Première location</option>
+                  <option value="Changement de locataire" className="bg-black text-white">Changement de locataire</option>
+                  <option value="Investissement locatif" className="bg-black text-white">Investissement locatif</option>
+                  <option value="Mutation / Déménagement" className="bg-black text-white">Mutation / Déménagement</option>
+                  <option value="Revente future envisagée" className="bg-black text-white">Revente future envisagée</option>
                   <option value="Succession" className="bg-black text-white">Succession</option>
+                  <option value="Autre" className="bg-black text-white">Autre</option>
                 </select>
               </div>
               {formData.contexteVente === 'Succession' && (
@@ -543,23 +568,9 @@ export default function EstimationEtape2Page() {
                   value={formData.codePostal}
                   onChange={handleChange}
                   placeholder="Ex: 78100"
-                  className={`${inputClass} ${parisCodePostalError ? 'border-red-500/70' : ''}`}
+                  className={inputClass}
                   style={fontStyle}
                 />
-                {parisCodePostalError && (
-                  <div className="mt-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                    <p className="text-red-400 text-sm" style={fontStyle}>
-                      Ce code postal correspond à Paris. Le tarif de l&apos;estimation Essentielle ne couvre pas cette zone.
-                    </p>
-                    <Link
-                      href="/estimation/paris/formulaire"
-                      className="inline-block mt-2 text-sm font-medium text-white underline underline-offset-4 hover:text-white/80 transition-colors"
-                      style={fontStyle}
-                    >
-                      Accéder au formulaire Estimation Paris &rarr;
-                    </Link>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -575,8 +586,6 @@ export default function EstimationEtape2Page() {
               >
                 <option value="" className="bg-black text-white">Sélectionnez...</option>
                 <option value="Appartement" className="bg-black text-white">Appartement</option>
-                <option value="Maison" className="bg-black text-white">Maison</option>
-                <option value="Villa" className="bg-black text-white">Villa</option>
                 <option value="Maison de ville" className="bg-black text-white">Maison de ville</option>
                 <option value="Hôtel particulier" className="bg-black text-white">Hôtel particulier</option>
                 <option value="Loft" className="bg-black text-white">Loft</option>
@@ -585,6 +594,8 @@ export default function EstimationEtape2Page() {
                 <option value="Triplex" className="bg-black text-white">Triplex</option>
                 <option value="Penthouse" className="bg-black text-white">Penthouse</option>
                 <option value="Chambre de bonne" className="bg-black text-white">Chambre de bonne</option>
+                <option value="Chambre de service" className="bg-black text-white">Chambre de service</option>
+                <option value="Atelier d'artiste" className="bg-black text-white">Atelier d'artiste</option>
                 <option value="Terrain" className="bg-black text-white">Terrain</option>
                 <option value="Parking / Box" className="bg-black text-white">Parking / Box</option>
                 <option value="Cave" className="bg-black text-white">Cave</option>
@@ -599,7 +610,7 @@ export default function EstimationEtape2Page() {
             <div className="grid md:grid-cols-2 gap-4">
               {formData.typeBien !== 'Terrain' && (
                 <div>
-                  <label className={labelClass} style={fontStyle}>Surface habitable (m²)</label>
+                  <label className={labelClass} style={fontStyle}>SURFACE m² LOI CARREZ (OBLIGATOIRE)</label>
                   <input
                     type="number"
                     name="surface"
@@ -641,7 +652,7 @@ export default function EstimationEtape2Page() {
             <div>
               <label className={labelClass} style={fontStyle}>Le bien est actuellement :</label>
               <div className="grid md:grid-cols-3 gap-4 mt-2">
-                {['Résidence principale', 'Résidence secondaire', 'Investissement', 'Bien vacant', 'Occupé par un proche', 'Autre (à préciser)'].map((option) => (
+                {['Résidence principale', 'Résidence secondaire', 'Investissement (loué)', 'Bien vacant', 'Occupé par un proche', 'Autre (à préciser)'].map((option) => (
                   <label key={option} className={getOptionClass(formData.residenceType === option)}>
                     <input type="radio" name="residenceType" value={option} checked={formData.residenceType === option} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
@@ -649,6 +660,35 @@ export default function EstimationEtape2Page() {
                 ))}
               </div>
             </div>
+
+            {/* Si bien vendu loué — encadrement des loyers */}
+            {formData.residenceType === 'Investissement (loué)' && (
+              <div className="pt-4 border-t border-white/10 space-y-4">
+                <p className="text-sm font-semibold text-white/80 uppercase tracking-wide" style={fontStyle}>Si bien vendu loué</p>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Le loyer respecte-t-il l&apos;encadrement des loyers ?</label>
+                  <div className="flex gap-4 mt-2">
+                    {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.loyerEncadrement === val)}>
+                        <input type="radio" name="loyerEncadrement" value={val} checked={formData.loyerEncadrement === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Y a-t-il un complément de loyer ?</label>
+                  <div className="flex gap-4 mt-2">
+                    {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.complementLoyer === val)}>
+                        <input type="radio" name="complementLoyer" value={val} checked={formData.complementLoyer === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
 
@@ -809,7 +849,7 @@ export default function EstimationEtape2Page() {
             </div>
 
             {/* Étage & accès (conditionnel : appartements et assimilés) */}
-            {['Appartement', 'Loft', 'Studio', 'Chambre de bonne', 'Duplex', 'Triplex', 'Penthouse'].includes(formData.typeBien) && (
+            {['Appartement', 'Loft', 'Studio', 'Chambre de bonne', 'Chambre de service', 'Duplex', 'Triplex', 'Penthouse'].includes(formData.typeBien) && (
               <div className="pt-4 border-t border-white/10">
                 <p className={sectionTitleClass} style={fontStyle}>Étage & accès</p>
                 <div className="grid md:grid-cols-3 gap-4 mt-4">
@@ -817,6 +857,9 @@ export default function EstimationEtape2Page() {
                     <label className={labelClass} style={fontStyle}>Étage</label>
                     <select name="etage" value={formData.etage} onChange={handleChange} className={selectClass} style={fontStyle}>
                       <option value="" className="bg-black text-white">Sélectionnez...</option>
+                      <option value="RDC sur rue" className="bg-black text-white">RDC sur rue</option>
+                      <option value="RDC sur cour" className="bg-black text-white">RDC sur cour</option>
+                      <option value="Entresol" className="bg-black text-white">Entresol</option>
                       <option value="RDC" className="bg-black text-white">RDC</option>
                       <option value="1" className="bg-black text-white">1er</option>
                       <option value="2" className="bg-black text-white">2ème</option>
@@ -828,6 +871,7 @@ export default function EstimationEtape2Page() {
                       <option value="8" className="bg-black text-white">8ème</option>
                       <option value="9" className="bg-black text-white">9ème</option>
                       <option value="10+" className="bg-black text-white">10ème et +</option>
+                      <option value="Dernier étage sous combles" className="bg-black text-white">Dernier étage sous combles</option>
                     </select>
                   </div>
                   <div>
@@ -858,6 +902,262 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
             )}
+
+            {/* BIENS EN COPROPRIÉTÉ (conditionnel : appartements et assimilés) */}
+            {['Appartement', 'Loft', 'Studio', 'Chambre de bonne', 'Chambre de service', 'Duplex', 'Triplex', 'Penthouse', 'Atelier d\'artiste'].includes(formData.typeBien) && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>BIENS EN COPROPRIÉTÉ</p>
+
+                {/* Destination du lot */}
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Destination du lot</label>
+                    <select name="destinationLot" value={formData.destinationLot} onChange={handleChange} className={selectClass} style={fontStyle}>
+                      <option value="" className="bg-black text-white">Sélectionnez...</option>
+                      <option value="Habitation" className="bg-black text-white">Habitation</option>
+                      <option value="Commercial" className="bg-black text-white">Commercial</option>
+                      <option value="Bureau" className="bg-black text-white">Bureau</option>
+                      <option value="Usage mixte (bureau et habitation)" className="bg-black text-white">Usage mixte (bureau et habitation)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Usage & destination du bien */}
+                <div className="mt-6 space-y-4">
+                  <p className="text-sm font-semibold text-white/80 uppercase tracking-wide" style={fontStyle}>Usage & destination du bien</p>
+
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Le bien est-il un ancien local commercial transformé en logement ?</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.ancienLocalCommercial === val)}>
+                          <input type="radio" name="ancienLocalCommercial" value={val} checked={formData.ancienLocalCommercial === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Le bien a-t-il fait l&apos;objet d&apos;un changement d&apos;usage ou de destination ?</label>
+                    <div className="grid md:grid-cols-2 gap-3 mt-2">
+                      {['Non', 'Oui, avec autorisation de la Ville de Paris', 'Oui, autorisation en cours', 'Oui, situation administrative à vérifier', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.changementUsage === val)}>
+                          <input type="radio" name="changementUsage" value={val} checked={formData.changementUsage === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Si location meublée touristique */}
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Si location meublée touristique :</label>
+                    <div className="grid md:grid-cols-2 gap-3 mt-2">
+                      {['Autorisation de changement d\'usage obtenue', 'Bien compensé (commercialité)', 'Situation à vérifier'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.locationMeubleeAutorisation === val)}>
+                          <input type="radio" name="locationMeubleeAutorisation" value={val} checked={formData.locationMeubleeAutorisation === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Si transformation du local */}
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Si transformation du local (commerce, bureau → habitation ou inversement) :</label>
+                    <div className="grid md:grid-cols-2 gap-3 mt-2">
+                      {['Déclaration préalable déposée', 'Permis de construire obtenu', 'Aucun dossier déposé', 'À vérifier'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.transformationLocal === val)}>
+                          <input type="radio" name="transformationLocal" value={val} checked={formData.transformationLocal === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Airbnb */}
+                <div className="grid md:grid-cols-2 gap-4 mt-6">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Le règlement de copro autorise-t-il la location meublée courte durée (Airbnb) ?</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.autorisationAirbnb === val)}>
+                          <input type="radio" name="autorisationAirbnb" value={val} checked={formData.autorisationAirbnb === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Le bien est-il issu d&apos;un ancien lot (chambre de service, cave) ?</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.bienAncienLot === val)}>
+                          <input type="radio" name="bienAncienLot" value={val} checked={formData.bienAncienLot === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Audit énergétique & Travaux */}
+                <div className="grid md:grid-cols-2 gap-4 mt-6">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Audit énergétique copropriété en cours ?</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.auditEnergetique === val)}>
+                          <input type="radio" name="auditEnergetique" value={val} checked={formData.auditEnergetique === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Travaux énergétiques à prévoir ?</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.travauxEnergetiques === val)}>
+                          <input type="radio" name="travauxEnergetiques" value={val} checked={formData.travauxEnergetiques === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Caractéristiques Paris */}
+            <div className="pt-4 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Caractéristiques Paris</p>
+              <div className="mt-4 space-y-6">
+                <div>
+                  <label className={labelClass} style={fontStyle}>Luminosité</label>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-white/50" style={fontStyle}>1</span>
+                    <input
+                      type="range"
+                      name="luminosite"
+                      value={formData.luminosite}
+                      onChange={handleChange}
+                      min="1"
+                      max="10"
+                      step="1"
+                      className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white"
+                    />
+                    <span className="text-sm text-white/50" style={fontStyle}>10</span>
+                    {formData.luminosite && (
+                      <span className="text-lg font-semibold text-white min-w-[2rem] text-center" style={fontStyle}>
+                        {formData.luminosite}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Combles rattachables</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.comblesRattachables === val)}>
+                          <input type="radio" name="comblesRattachables" value={val} checked={formData.comblesRattachables === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Plan en étoile</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.planEtoile === val)}>
+                          <input type="radio" name="planEtoile" value={val} checked={formData.planEtoile === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Pièces en enfilade</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.piecesEnfilade === val)}>
+                          <input type="radio" name="piecesEnfilade" value={val} checked={formData.piecesEnfilade === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>WC palier</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.wcPalier === val)}>
+                          <input type="radio" name="wcPalier" value={val} checked={formData.wcPalier === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Luminosité via la cour uniquement</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.luminositeCourUniquement === val)}>
+                          <input type="radio" name="luminositeCourUniquement" value={val} checked={formData.luminositeCourUniquement === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Perte de surface couloir</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non', 'Je ne sais pas'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.perteSurfaceCouloir === val)}>
+                          <input type="radio" name="perteSurfaceCouloir" value={val} checked={formData.perteSurfaceCouloir === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Immeuble classé */}
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Immeuble classé ou inscrit aux Monuments historiques</label>
+                  <div className="flex gap-3 mt-1">
+                    {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.immeubleClasse === val)}>
+                        <input type="radio" name="immeubleClasse" value={val} checked={formData.immeubleClasse === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Nuisances & Patrimoine */}
+            <div className="pt-4 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Nuisances & Patrimoine</p>
+              <div className="grid md:grid-cols-3 gap-4 mt-4">
+                {['Boulevard passant', 'Métro aérien', 'Voie ferrée', 'Bars / vie nocturne', 'École en face', 'Chantier à proximité', 'Secteur sauvegardé', 'Façade protégée', 'Zone ABF'].map((option) => (
+                  <label key={option} className={getOptionClass(formData.nuisancesPatrimoine.includes(option))}>
+                    <input
+                      type="checkbox"
+                      checked={formData.nuisancesPatrimoine.includes(option)}
+                      onChange={() => handleCheckboxChange('nuisancesPatrimoine', option)}
+                      className="mr-2 accent-white"
+                    />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
 
             {/* Vue */}
             <div className="pt-4 border-t border-white/10">
@@ -1441,9 +1741,9 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
 
-              {/* 4. Bien vendu */}
+              {/* 4. Location vide ou meublée */}
               <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>4. Bien vendu</label>
+                <label className={labelClass} style={fontStyle}>4. Location vide ou meublée</label>
                 <div className="grid md:grid-cols-3 gap-3 mt-2">
                   {['Vide', 'Partiellement meublé', 'Entièrement meublé'].map((val) => (
                     <label key={val} className={getOptionClass(formData.typeVenteVideMeuble === val)}>
@@ -1843,13 +2143,13 @@ export default function EstimationEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
+          {/* ═══════════ PROJET DE LOCATION (suite) ═══════════ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de location</h2>
 
-            {/* Délai de vente */}
+            {/* Délai de mise en location */}
             <div>
-              <p className={sectionTitleClass} style={fontStyle}>Délai de vente souhaité</p>
+              <p className={sectionTitleClass} style={fontStyle}>Délai de mise en location souhaité</p>
               <div className="grid md:grid-cols-4 gap-4 mt-4">
                 {['Moins de 3 mois', '3 à 6 mois', 'Plus de 6 mois', 'Je me renseigne'].map((option) => (
                   <label key={option} className={getOptionClass(formData.delaiVente === option)}>
@@ -1860,9 +2160,9 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* Situation actuelle */}
+            {/* Disponibilité du bien */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Situation actuelle</p>
+              <p className={sectionTitleClass} style={fontStyle}>Disponibilité du bien</p>
               <div className="grid md:grid-cols-3 gap-3 mt-4">
                 {['Occupé', 'Libre', 'Loué', 'Occupé sans droit ni titre', 'Bien en cours de libération', 'Autre (à préciser)'].map((option) => (
                   <label key={option} className={getOptionClass(formData.situationActuelle === option)}>
@@ -1920,19 +2220,19 @@ export default function EstimationEtape2Page() {
               )}
             </div>
 
-            {/* Prix envisagé */}
+            {/* Loyer souhaité */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Prix envisagé</p>
+              <p className={sectionTitleClass} style={fontStyle}>Loyer souhaité (€/mois)</p>
               <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Avez-vous une idée de prix ?</label>
-                <input type="text" name="prixEnvisage" value={formData.prixEnvisage} onChange={handleChange} placeholder="Ex: 350 000 €" className={inputClass} style={fontStyle} />
+                <label className={labelClass} style={fontStyle}>Avez-vous une idée de loyer ?</label>
+                <input type="text" name="prixEnvisage" value={formData.prixEnvisage} onChange={handleChange} placeholder="Ex: 1200 €/mois" className={inputClass} style={fontStyle} />
               </div>
             </div>
 
-            {/* Ajustement prix */}
+            {/* Flexibilité sur le loyer */}
             <div className="pt-4 border-t border-white/10">
               <label className="block text-sm font-medium text-white/70 mb-4 leading-relaxed" style={fontStyle}>
-                Si l'estimation proposée diffère du prix que vous aviez en tête, dans quelle mesure seriez-vous disposé(e) à ajuster le prix ?
+                Si l&apos;estimation du loyer locatif suggérée diffère de votre idée, dans quelle mesure seriez-vous disposé(e) à ajuster le loyer ?
               </label>
               <div className="flex items-center gap-4">
                 <span className="text-sm text-white/50" style={fontStyle}>1</span>
@@ -2006,7 +2306,7 @@ export default function EstimationEtape2Page() {
               fontSize: '1rem',
             }}
           >
-            {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
+            {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de la mise en location'}
           </button>
 
         </form>

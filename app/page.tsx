@@ -120,7 +120,6 @@ export default function Home() {
   // Refs pour les boutons CTA avec animation au scroll sur mobile
   const catalogueButtonRef = useScrollButtonAnimation()
   const estimationButtonRef = useScrollButtonAnimation()
-  const contactButtonRef = useScrollButtonAnimation()
   
   // Hook pour l'animation de l'image de la fondatrice au scroll sur mobile
   const { imageRef: confianceImageRef, isAnimated: isConfianceImageAnimated } = useScrollImageAnimation()
@@ -215,7 +214,7 @@ export default function Home() {
       <Hero 
         title="Vendez au juste prix. Estimation réaliste à Saint-Germain-en-Laye"
         subtitle="Ne vous contentez pas d'une estimation automatique. Obtenez un dossier d'estimation complet pour sécuriser votre vente et valoriser votre patrimoine"
-        buttonText="OBTENIR MON DOSSIER D'ESTIMATION"
+        buttonText="Demander mon dossier d'estimation"
         buttonSubtext="Estimation gratuite – sans engagement"
         buttonLink="/estimation#grille-tarifaire"
         imagePath="/images/herosectionimage.png"
@@ -589,7 +588,7 @@ export default function Home() {
               <a
                 ref={estimationButtonRef as any}
                 href="/estimation#grille-tarifaire"
-                aria-label="DEMANDER MON ESTIMATION"
+                aria-label="Demander mon dossier d'estimation"
                 className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
@@ -598,21 +597,7 @@ export default function Home() {
                   letterSpacing: '0.5px',
                 }}
               >
-                DEMANDER MON ESTIMATION
-              </a>
-              <a
-                ref={contactButtonRef as any}
-                href="/analyse"
-                aria-label="Prendre un simple rendez-vous conseil"
-                className="inline-flex items-center justify-center bg-black/80 text-white font-semibold px-8 py-4 rounded-lg border border-white/30 hover:bg-black hover:border-white/60 transition-all duration-300"
-                style={{
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
-                  textDecoration: 'none',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                RDV DE CONSEIL
+                Demander mon dossier d'estimation
               </a>
             </div>
           </div>

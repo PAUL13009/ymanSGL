@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
-export default function EstimationEtape2Page() {
+export default function LocationFormulaireEtape2Page() {
   const router = useRouter()
   const [etape1Data, setEtape1Data] = useState<any>(null)
   const [formData, setFormData] = useState({
@@ -169,9 +169,9 @@ export default function EstimationEtape2Page() {
   const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
-    const etape1 = sessionStorage.getItem('estimation_etape1')
+    const etape1 = sessionStorage.getItem('location_essentielle_etape1')
     if (!etape1) {
-      router.push('/estimation/formulaire')
+      router.push('/location/formulaire')
       return
     }
     setEtape1Data(JSON.parse(etape1))
@@ -373,10 +373,10 @@ export default function EstimationEtape2Page() {
         loyer_hors_charges: formData.loyerHorsCharges || null,
         charges_mensuelles: formData.chargesMensuelles || null,
         
-        type_demande: 'estimation',
-        maturite: 'estimation',
+        type_demande: 'recherche_locataire_essentielle',
+        maturite: 'recherche_locataire',
         ajustement_prix: 'oui',
-        motivation: `Estimation détaillée demandée. ${formData.messageLibre || 'Demande d\'estimation immobilière.'}`,
+        motivation: `Recherche de locataire. ${formData.messageLibre || 'Demande de mise en location.'}`,
         status: 'nouveau'
       }
 
@@ -411,8 +411,8 @@ export default function EstimationEtape2Page() {
       const leadId = await createAnalyseLead(completeData)
       console.log('Données enregistrées avec succès (photos incluses), ID:', leadId)
 
-      sessionStorage.removeItem('estimation_etape1')
-      window.location.href = 'https://buy.stripe.com/eVq5kD518640ccR9FVeQM00'
+      sessionStorage.removeItem('location_essentielle_etape1')
+      window.location.href = 'https://buy.stripe.com/fZufZh9hogIE90F2dteQM04'
     } catch (error: any) {
       console.error('Erreur:', error)
       let errorMessage = 'Une erreur est survenue. Veuillez réessayer.'
@@ -450,45 +450,33 @@ export default function EstimationEtape2Page() {
         {/* En-tête */}
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-wide mb-4" style={fontStyle}>
-            Détails du bien
+            Détails du bien à louer
           </h1>
           <p className="text-white/50 text-sm uppercase tracking-widest" style={fontStyle}>
-            Étape 2 / 2 — Affinage de l'estimation
+            Étape 2 / 2 — Détails pour la mise en location
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={fontStyle}>
-            Une précision maximale est souhaitée afin de produire l'estimation la plus réaliste possible.
+            Une description précise nous permettra de valoriser votre bien et d&apos;attirer les meilleurs profils de locataires.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
 
-          {/* ═══════════ PROJET DE VENTE (Contexte) ═══════════ */}
+          {/* ═══════════ PROJET DE LOCATION (Contexte) ═══════════ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de location</h2>
             <div>
               <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
               <div className="mt-4">
                 <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
                   <option value="" className="bg-black text-white">Sélectionnez...</option>
-                  <option value="Mutation" className="bg-black text-white">Mutation</option>
-                  <option value="Mariage" className="bg-black text-white">Mariage</option>
-                  <option value="Naissance" className="bg-black text-white">Naissance</option>
-                  <option value="Départ des enfants" className="bg-black text-white">Départ des enfants</option>
-                  <option value="Problème de santé" className="bg-black text-white">Problème de santé</option>
-                  <option value="Besoin de liquidité" className="bg-black text-white">Besoin de liquidité</option>
-                  <option value="Difficultés financières" className="bg-black text-white">Difficultés financières</option>
-                  <option value="Vente pour rachat plus adapté" className="bg-black text-white">Vente pour rachat plus adapté</option>
-                  <option value="Arbitrage patrimonial" className="bg-black text-white">Arbitrage patrimonial</option>
-                  <option value="Revente pour réinvestir ailleurs" className="bg-black text-white">Revente pour réinvestir ailleurs</option>
-                  <option value="Donation / partage" className="bg-black text-white">Donation / partage</option>
-                  <option value="Indivision compliquée" className="bg-black text-white">Indivision compliquée</option>
-                  <option value="Fin de dispositif fiscal" className="bg-black text-white">Fin de dispositif fiscal</option>
-                  <option value="Arbitrage SCI" className="bg-black text-white">Arbitrage SCI</option>
-                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
-                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
-                  <option value="Changement de projet de vie / déménagement" className="bg-black text-white">Changement de projet de vie / déménagement</option>
-                  <option value="Divorce" className="bg-black text-white">Divorce</option>
+                  <option value="Première location" className="bg-black text-white">Première location</option>
+                  <option value="Changement de locataire" className="bg-black text-white">Changement de locataire</option>
+                  <option value="Investissement locatif" className="bg-black text-white">Investissement locatif</option>
+                  <option value="Mutation / Déménagement" className="bg-black text-white">Mutation / Déménagement</option>
+                  <option value="Revente future envisagée" className="bg-black text-white">Revente future envisagée</option>
                   <option value="Succession" className="bg-black text-white">Succession</option>
+                  <option value="Autre" className="bg-black text-white">Autre</option>
                 </select>
               </div>
               {formData.contexteVente === 'Succession' && (
@@ -549,14 +537,14 @@ export default function EstimationEtape2Page() {
                 {parisCodePostalError && (
                   <div className="mt-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
                     <p className="text-red-400 text-sm" style={fontStyle}>
-                      Ce code postal correspond à Paris. Le tarif de l&apos;estimation Essentielle ne couvre pas cette zone.
+                      Ce code postal correspond à Paris. Le tarif Location Essentielle ne couvre pas cette zone. Consultez notre offre Location Paris.
                     </p>
                     <Link
-                      href="/estimation/paris/formulaire"
+                      href="/location#grille-tarifaire-location"
                       className="inline-block mt-2 text-sm font-medium text-white underline underline-offset-4 hover:text-white/80 transition-colors"
                       style={fontStyle}
                     >
-                      Accéder au formulaire Estimation Paris &rarr;
+                      Voir la grille tarifaire location &rarr;
                     </Link>
                   </div>
                 )}
@@ -1441,9 +1429,9 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
 
-              {/* 4. Bien vendu */}
+              {/* 4. Bien loué (vide / meublé) */}
               <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>4. Bien vendu</label>
+                <label className={labelClass} style={fontStyle}>4. Location vide ou meublée</label>
                 <div className="grid md:grid-cols-3 gap-3 mt-2">
                   {['Vide', 'Partiellement meublé', 'Entièrement meublé'].map((val) => (
                     <label key={val} className={getOptionClass(formData.typeVenteVideMeuble === val)}>
@@ -1843,13 +1831,13 @@ export default function EstimationEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
+          {/* ═══════════ PROJET DE LOCATION (suite) ═══════════ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de location</h2>
 
-            {/* Délai de vente */}
+            {/* Délai de mise en location */}
             <div>
-              <p className={sectionTitleClass} style={fontStyle}>Délai de vente souhaité</p>
+              <p className={sectionTitleClass} style={fontStyle}>Délai de mise en location souhaité</p>
               <div className="grid md:grid-cols-4 gap-4 mt-4">
                 {['Moins de 3 mois', '3 à 6 mois', 'Plus de 6 mois', 'Je me renseigne'].map((option) => (
                   <label key={option} className={getOptionClass(formData.delaiVente === option)}>
@@ -1860,9 +1848,9 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* Situation actuelle */}
+            {/* Disponibilité du bien */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Situation actuelle</p>
+              <p className={sectionTitleClass} style={fontStyle}>Disponibilité du bien</p>
               <div className="grid md:grid-cols-3 gap-3 mt-4">
                 {['Occupé', 'Libre', 'Loué', 'Occupé sans droit ni titre', 'Bien en cours de libération', 'Autre (à préciser)'].map((option) => (
                   <label key={option} className={getOptionClass(formData.situationActuelle === option)}>
@@ -1920,19 +1908,19 @@ export default function EstimationEtape2Page() {
               )}
             </div>
 
-            {/* Prix envisagé */}
+            {/* Loyer souhaité */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Prix envisagé</p>
+              <p className={sectionTitleClass} style={fontStyle}>Loyer souhaité (€/mois)</p>
               <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Avez-vous une idée de prix ?</label>
-                <input type="text" name="prixEnvisage" value={formData.prixEnvisage} onChange={handleChange} placeholder="Ex: 350 000 €" className={inputClass} style={fontStyle} />
+                <label className={labelClass} style={fontStyle}>Avez-vous une idée de loyer ?</label>
+                <input type="text" name="prixEnvisage" value={formData.prixEnvisage} onChange={handleChange} placeholder="Ex: 1200 €/mois" className={inputClass} style={fontStyle} />
               </div>
             </div>
 
-            {/* Ajustement prix */}
+            {/* Flexibilité sur le loyer */}
             <div className="pt-4 border-t border-white/10">
               <label className="block text-sm font-medium text-white/70 mb-4 leading-relaxed" style={fontStyle}>
-                Si l'estimation proposée diffère du prix que vous aviez en tête, dans quelle mesure seriez-vous disposé(e) à ajuster le prix ?
+                Si l&apos;estimation du loyer locatif suggérée diffère de votre idée, dans quelle mesure seriez-vous disposé(e) à ajuster le loyer ?
               </label>
               <div className="flex items-center gap-4">
                 <span className="text-sm text-white/50" style={fontStyle}>1</span>
@@ -2006,7 +1994,7 @@ export default function EstimationEtape2Page() {
               fontSize: '1rem',
             }}
           >
-            {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
+            {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de la mise en location'}
           </button>
 
         </form>

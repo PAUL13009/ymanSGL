@@ -377,12 +377,15 @@ export default function Navbar() {
         
         <div className="sm-panel-inner">
           <ul className="sm-panel-list" role="list" data-numbering>
-            {menuItems.map((it, idx) => (
+            {menuItems.map((it, idx) => {
+              const isActive = it.link === '/' ? pathname === '/' : pathname === it.link || pathname.startsWith(it.link + '/')
+              return (
               <li className="sm-panel-itemWrap" key={it.label + idx}>
                 <a
-                  className="sm-panel-item"
+                  className={`sm-panel-item${isActive ? ' sm-panel-item--active' : ''}`}
                   href={it.link}
                   aria-label={it.ariaLabel}
+                  aria-current={isActive ? 'page' : undefined}
                   data-index={idx + 1}
                   onClick={() => {
                     setMenuOpen(false)
@@ -393,7 +396,8 @@ export default function Navbar() {
                   <span className="sm-panel-itemLabel">{it.label}</span>
                 </a>
               </li>
-            ))}
+            )
+            })}
           </ul>
         </div>
       </nav>

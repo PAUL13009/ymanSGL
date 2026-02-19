@@ -188,6 +188,7 @@ export default function EstimationParisEtape2Page() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [uploadProgress, setUploadProgress] = useState('')
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
     const etape1 = sessionStorage.getItem('estimation_paris_etape1')
@@ -497,6 +498,46 @@ export default function EstimationParisEtape2Page() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
+
+          {/* ═══════════ PROJET DE VENTE (Contexte) ═══════════ */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
+              <div className="mt-4">
+                <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
+                  <option value="" className="bg-black text-white">Sélectionnez...</option>
+                  <option value="Mutation" className="bg-black text-white">Mutation</option>
+                  <option value="Mariage" className="bg-black text-white">Mariage</option>
+                  <option value="Naissance" className="bg-black text-white">Naissance</option>
+                  <option value="Départ des enfants" className="bg-black text-white">Départ des enfants</option>
+                  <option value="Problème de santé" className="bg-black text-white">Problème de santé</option>
+                  <option value="Besoin de liquidité" className="bg-black text-white">Besoin de liquidité</option>
+                  <option value="Difficultés financières" className="bg-black text-white">Difficultés financières</option>
+                  <option value="Vente pour rachat plus adapté" className="bg-black text-white">Vente pour rachat plus adapté</option>
+                  <option value="Arbitrage patrimonial" className="bg-black text-white">Arbitrage patrimonial</option>
+                  <option value="Revente pour réinvestir ailleurs" className="bg-black text-white">Revente pour réinvestir ailleurs</option>
+                  <option value="Donation / partage" className="bg-black text-white">Donation / partage</option>
+                  <option value="Indivision compliquée" className="bg-black text-white">Indivision compliquée</option>
+                  <option value="Fin de dispositif fiscal" className="bg-black text-white">Fin de dispositif fiscal</option>
+                  <option value="Arbitrage SCI" className="bg-black text-white">Arbitrage SCI</option>
+                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
+                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
+                  <option value="Changement de projet de vie / déménagement" className="bg-black text-white">Changement de projet de vie / déménagement</option>
+                  <option value="Divorce" className="bg-black text-white">Divorce</option>
+                  <option value="Succession" className="bg-black text-white">Succession</option>
+                </select>
+              </div>
+              {formData.contexteVente === 'Succession' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Nom de la succession</label>
+                  <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
 
           {/* ═══════════ IDENTIFICATION DU BIEN ═══════════ */}
           <div className="space-y-6">
@@ -2114,44 +2155,9 @@ export default function EstimationParisEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ PROJET DE VENTE ═══════════ */}
+          {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
-
-            {/* Contexte */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
-              <div className="mt-4">
-                <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
-                  <option value="" className="bg-black text-white">Sélectionnez...</option>
-                  <option value="Mutation" className="bg-black text-white">Mutation</option>
-                  <option value="Mariage" className="bg-black text-white">Mariage</option>
-                  <option value="Naissance" className="bg-black text-white">Naissance</option>
-                  <option value="Départ des enfants" className="bg-black text-white">Départ des enfants</option>
-                  <option value="Problème de santé" className="bg-black text-white">Problème de santé</option>
-                  <option value="Besoin de liquidité" className="bg-black text-white">Besoin de liquidité</option>
-                  <option value="Difficultés financières" className="bg-black text-white">Difficultés financières</option>
-                  <option value="Vente pour rachat plus adapté" className="bg-black text-white">Vente pour rachat plus adapté</option>
-                  <option value="Arbitrage patrimonial" className="bg-black text-white">Arbitrage patrimonial</option>
-                  <option value="Revente pour réinvestir ailleurs" className="bg-black text-white">Revente pour réinvestir ailleurs</option>
-                  <option value="Donation / partage" className="bg-black text-white">Donation / partage</option>
-                  <option value="Indivision compliquée" className="bg-black text-white">Indivision compliquée</option>
-                  <option value="Fin de dispositif fiscal" className="bg-black text-white">Fin de dispositif fiscal</option>
-                  <option value="Arbitrage SCI" className="bg-black text-white">Arbitrage SCI</option>
-                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
-                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
-                  <option value="Changement de projet de vie / déménagement" className="bg-black text-white">Changement de projet de vie / déménagement</option>
-                  <option value="Divorce" className="bg-black text-white">Divorce</option>
-                  <option value="Succession" className="bg-black text-white">Succession</option>
-                </select>
-              </div>
-              {formData.contexteVente === 'Succession' && (
-                <div className="mt-4">
-                  <label className={labelClass} style={fontStyle}>Nom de la succession</label>
-                  <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
-                </div>
-              )}
-            </div>
 
             {/* Délai de vente */}
             <div>
@@ -2292,9 +2298,20 @@ export default function EstimationParisEtape2Page() {
             </div>
           )}
 
+          {/* Bloc RGPD + consentement */}
+          <div className="space-y-3 p-4 rounded-lg bg-white/5 border border-white/10">
+            <p className="text-xs text-white/70 leading-relaxed" style={fontStyle}>
+              Les informations collectées via ce formulaire sont destinées à traiter votre demande d&apos;estimation. Elles sont conservées pendant une durée maximale de 5 ans et ne sont pas cédées à des tiers. Conformément au RGPD, vous pouvez exercer vos droits d&apos;accès, rectification ou suppression. Vous pouvez nous contacter à lagenceyl@gmail.com.
+            </p>
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input type="checkbox" checked={acceptPrivacy} onChange={(e) => setAcceptPrivacy(e.target.checked)} className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 text-white focus:ring-white/30 cursor-pointer accent-white" />
+              <span className="text-sm text-white/90" style={fontStyle}>J&apos;accepte la politique de confidentialité</span>
+            </label>
+          </div>
+
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || !acceptPrivacy}
             className="w-full px-8 py-4 rounded-full font-medium bg-white text-black hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide"
             style={{
               fontFamily: 'var(--font-poppins), sans-serif',
@@ -2304,11 +2321,6 @@ export default function EstimationParisEtape2Page() {
             {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
           </button>
 
-          <p className="text-xs text-white/40 text-center italic" style={fontStyle}>
-            Chaque estimation est analysée manuellement.
-            <br />
-            Nous nous réservons le droit de refuser les biens dont le prix attendu n'est pas cohérent avec le marché.
-          </p>
         </form>
       </div>
     </main>

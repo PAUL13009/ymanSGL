@@ -32,7 +32,7 @@ interface Property {
   updated_at?: string
 }
 
-type TabType = 'vendre' | 'louer' | 'estimations' | 'estimations_investisseur' | 'estimations_paris' | 'estimations_juridique'
+type TabType = 'vendre' | 'louer' | 'estimations' | 'estimations_investisseur' | 'estimations_paris' | 'estimations_juridique' | 'location_essentielle' | 'location_paris'
 
 type EstimationLead = AnalyseLeadWithId
 
@@ -55,6 +55,8 @@ export default function AdminDashboard() {
   const [estimationsInvestisseur, setEstimationsInvestisseur] = useState<AnalyseLeadWithId[]>([])
   const [estimationsParis, setEstimationsParis] = useState<AnalyseLeadWithId[]>([])
   const [estimationsJuridique, setEstimationsJuridique] = useState<AnalyseLeadWithId[]>([])
+  const [locationEssentielle, setLocationEssentielle] = useState<AnalyseLeadWithId[]>([])
+  const [locationParis, setLocationParis] = useState<AnalyseLeadWithId[]>([])
   const [loadingEstimationData, setLoadingEstimationData] = useState(false)
   const estimationDataFetchedRef = useRef(false)
 
@@ -101,7 +103,7 @@ export default function AdminDashboard() {
 
   useEffect(() => { if (user) fetchProperties() }, [user])
 
-  const isEstimationTab = activeTab === 'estimations' || activeTab === 'estimations_investisseur' || activeTab === 'estimations_paris' || activeTab === 'estimations_juridique'
+  const isEstimationTab = activeTab === 'estimations' || activeTab === 'estimations_investisseur' || activeTab === 'estimations_paris' || activeTab === 'estimations_juridique' || activeTab === 'location_essentielle' || activeTab === 'location_paris'
 
   useEffect(() => {
     if (user && isEstimationTab) {
@@ -113,7 +115,7 @@ export default function AdminDashboard() {
   const fetchAllEstimationData = async () => {
     setLoadingEstimationData(true)
     try {
-      const [partEss, partInv, partPar, partJur, completes, investisseur, paris, juridique] = await Promise.all([
+      const [partEss, partInv, partPar, partJur, completes, investisseur, paris, juridique, locEss, locPar] = await Promise.all([
         getAllAnalyseLeads('estimation_partielle_essentielle'),
         getAllAnalyseLeads('estimation_partielle_investisseur'),
         getAllAnalyseLeads('estimation_partielle_paris'),
@@ -122,6 +124,8 @@ export default function AdminDashboard() {
         getAllAnalyseLeads('estimation_investisseur'),
         getAllAnalyseLeads('estimation_paris'),
         getAllAnalyseLeads('estimation_juridique'),
+        getAllAnalyseLeads('recherche_locataire_essentielle'),
+        getAllAnalyseLeads('recherche_locataire_paris'),
       ])
       // Aussi récupérer les anciennes partielles génériques (rétrocompatibilité)
       const oldPartielles = await getAllAnalyseLeads('estimation_partielle')
@@ -133,6 +137,8 @@ export default function AdminDashboard() {
       setEstimationsInvestisseur(investisseur)
       setEstimationsParis(paris)
       setEstimationsJuridique(juridique)
+      setLocationEssentielle(locEss)
+      setLocationParis(locPar)
       estimationDataFetchedRef.current = true
     } catch (error: any) {
       console.error('Error fetching estimation data:', error.message)
@@ -161,6 +167,25 @@ export default function AdminDashboard() {
     const completesEmails = new Set(estimationsJuridique.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
     return partiellesJuridique.filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
   }, [partiellesJuridique, estimationsJuridique])
+
+  // Location: split partielles (step 1) vs completes (step 2) — même type_demande pour les deux
+  const locationEssentielleCompletes = useMemo(() => 
+    locationEssentielle.filter(l => l.localisation || l.type_bien || l.ville), 
+    [locationEssentielle]
+  )
+  const orphanLocationEssentiellePartielles = useMemo(() => {
+    const completesEmails = new Set(locationEssentielleCompletes.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return locationEssentielle.filter(l => !(l.localisation || l.type_bien || l.ville)).filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [locationEssentielle, locationEssentielleCompletes])
+
+  const locationParisCompletes = useMemo(() => 
+    locationParis.filter(l => l.localisation || l.type_bien || l.ville), 
+    [locationParis]
+  )
+  const orphanLocationParisPartielles = useMemo(() => {
+    const completesEmails = new Set(locationParisCompletes.map(e => (e.email || '').toLowerCase().trim()).filter(Boolean))
+    return locationParis.filter(l => !(l.localisation || l.type_bien || l.ville)).filter(p => !completesEmails.has((p.email || '').toLowerCase().trim()))
+  }, [locationParis, locationParisCompletes])
 
   // ─── Properties ─────────────────────────────────────────
   const fetchProperties = async () => {
@@ -315,6 +340,8 @@ export default function AdminDashboard() {
     { key: 'estimations_investisseur', label: 'Investisseur', shortLabel: 'Invest.', count: estimationsInvestisseur.filter(e => !e.read).length },
     { key: 'estimations_paris', label: 'Paris', shortLabel: 'Paris', count: estimationsParis.filter(e => !e.read).length },
     { key: 'estimations_juridique', label: 'Activités juridiques', shortLabel: 'Jurid.', count: estimationsJuridique.filter(e => !e.read).length },
+    { key: 'location_essentielle', label: 'Location Essentielle', shortLabel: 'Loc. Ess.', count: locationEssentielleCompletes.filter(e => !e.read).length },
+    { key: 'location_paris', label: 'Location Paris', shortLabel: 'Loc. Paris', count: locationParisCompletes.filter(e => !e.read).length },
   ]
 
   // ─── Reusable: Partielle card ───────────────────────────
@@ -745,6 +772,26 @@ export default function AdminDashboard() {
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
             </div>
             <EstimationTabContent completes={estimationsJuridique} partielles={orphanPartiellesJuridique} accentColor="amber" />
+          </div>
+        )}
+
+        {activeTab === 'location_essentielle' && (
+          <div>
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Location Essentielle</h2>
+              <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
+            </div>
+            <EstimationTabContent completes={locationEssentielleCompletes} partielles={orphanLocationEssentiellePartielles} accentColor="emerald" />
+          </div>
+        )}
+
+        {activeTab === 'location_paris' && (
+          <div>
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Location Paris</h2>
+              <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
+            </div>
+            <EstimationTabContent completes={locationParisCompletes} partielles={orphanLocationParisPartielles} accentColor="emerald" />
           </div>
         )}
 

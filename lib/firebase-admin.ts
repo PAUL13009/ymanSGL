@@ -246,7 +246,7 @@ export interface AnalyseLead {
   prenom?: string
   telephone?: string
   email?: string
-  type_demande?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_partielle_essentielle' | 'estimation_partielle_investisseur' | 'estimation_partielle_paris' | 'estimation_partielle_juridique' | 'estimation_investisseur' | 'estimation_paris' | 'estimation_juridique' | 'devis_personnalise'
+  type_demande?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_partielle_essentielle' | 'estimation_partielle_investisseur' | 'estimation_partielle_paris' | 'estimation_partielle_juridique' | 'estimation_investisseur' | 'estimation_paris' | 'estimation_juridique' | 'devis_personnalise' | 'recherche_locataire_essentielle' | 'recherche_locataire_paris'
   nom?: string
   nom_dossier?: string | null
   read?: boolean
@@ -455,7 +455,7 @@ export const uploadEstimationPhotos = async (
 }
 
 // Récupérer tous les leads d'analyse
-export const getAllAnalyseLeads = async (type?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_partielle_essentielle' | 'estimation_partielle_investisseur' | 'estimation_partielle_paris' | 'estimation_partielle_juridique' | 'estimation_investisseur' | 'estimation_paris' | 'estimation_juridique'): Promise<AnalyseLeadWithId[]> => {
+export const getAllAnalyseLeads = async (type?: 'analyse' | 'estimation' | 'estimation_partielle' | 'estimation_partielle_essentielle' | 'estimation_partielle_investisseur' | 'estimation_partielle_paris' | 'estimation_partielle_juridique' | 'estimation_investisseur' | 'estimation_paris' | 'estimation_juridique' | 'recherche_locataire_essentielle' | 'recherche_locataire_paris'): Promise<AnalyseLeadWithId[]> => {
   try {
     const leadsRef = collection(db, 'analyse_leads')
     let q

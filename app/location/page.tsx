@@ -7,12 +7,9 @@ import FadeContent from '@/components/FadeContent'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useProximityContainer } from '@/components/ProximityProvider'
-import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
-
 export default function LocationPage() {
   const mainRef = useRef<HTMLElement>(null)
   const containerRef = useProximityContainer()
-  const ctaFinalButtonRef = useScrollButtonAnimation()
   const [expandedBar, setExpandedBar] = useState<number | null>(null)
   const [mobileRevealedBars, setMobileRevealedBars] = useState<Set<number>>(new Set())
   const [isMobile, setIsMobile] = useState(false)
@@ -319,41 +316,74 @@ export default function LocationPage() {
         </FadeContent>
       </section>
 
-      {/* SECTION 5 — CTA FINAL — même design que page d'accueil */}
-      <section className="relative z-10 py-32 md:py-44 flex items-center justify-center bg-black" aria-labelledby="cta-final-location">
-        <div className="relative z-10 w-full">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-              <h2 id="cta-final-location" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold leading-tight mb-6 sm:mb-8 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                VOTRE PATRIMOINE MÉRITE UN LOCATAIRE À SA MESURE
+      {/* SECTION 5 — GRILLE TARIFAIRE LOCATION */}
+      <section id="grille-tarifaire-location" className="relative z-10 px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="grille-tarifaire-location-title">
+        <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-12 text-center">
+              <div className="w-16 h-1 bg-white mb-6 mx-auto" aria-hidden="true" role="presentation"></div>
+              <h2 id="grille-tarifaire-location-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                GRILLE TARIFAIRE — RECHERCHE DE LOCATAIRE
               </h2>
-            </FadeContent>
-            <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-              <p className="text-base sm:text-lg md:text-xl text-white/80 font-normal leading-relaxed mb-4 uppercase max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Le succès de votre investissement locatif se joue dès la première visite. Ne laissez pas la place à l&apos;improvisation : bénéficiez d&apos;une analyse rigoureuse, d&apos;un dossier juridique blindé et d&apos;un état des lieux d&apos;expert pour une gestion autonome en toute sérénité.
+              <p className="text-base md:text-lg text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                Mise en location sécurisée · Saint-Germain-en-Laye et alentours
               </p>
-              <p className="text-base sm:text-lg md:text-xl text-white/80 font-normal leading-relaxed mb-10 sm:mb-14 uppercase max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Que votre bien soit déjà disponible ou que vous prépariez sa mise sur le marché, échangeons sur votre stratégie locative.
-              </p>
-            </FadeContent>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                ref={ctaFinalButtonRef as any}
-                href="#contact"
-                aria-label="Confier ma recherche de locataire"
-                className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
-                style={{
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
-                  textDecoration: 'none',
-                  letterSpacing: '0.5px',
-                }}
-              >
-                CONFIER MA RECHERCHE DE LOCATAIRE
-              </a>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              {/* Card 1 — Location Essentielle */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300">
+                <div className="mb-8">
+                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Essentielle</h3>
+                  <div className="flex items-baseline justify-center gap-1 mb-3">
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>35€</span>
+                    <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
+                  </div>
+                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Hors Paris Intramuros</p>
+                </div>
+                <div className="mb-6">
+                  <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Mise en location sereine</span>
+                </div>
+                <ul className="space-y-3 flex-1 w-full flex flex-col items-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion stratégique</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité du dossier</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
+                </ul>
+                <a href="/location/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Confier ma recherche de locataire
+                </a>
+                <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés) !</p>
+              </div>
+
+              {/* Card 2 — Location Paris */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300">
+                <div className="mb-8">
+                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Paris</h3>
+                  <div className="flex items-baseline justify-center gap-1 mb-3">
+                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>39€</span>
+                    <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
+                  </div>
+                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Paris Intramuros</p>
+                </div>
+                <div className="mb-6">
+                  <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Marché parisien exigeant</span>
+                </div>
+                <ul className="space-y-3 flex-1 w-full flex flex-col items-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion (micro-marché)</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité renforcé</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités Paris (DPE, loyer encadré…)</li>
+                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
+                </ul>
+                <a href="/location/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Confier ma recherche de locataire
+                </a>
+                <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés) !</p>
+              </div>
             </div>
           </div>
-        </div>
+        </FadeContent>
       </section>
       </div>
 

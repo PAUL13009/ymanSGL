@@ -236,7 +236,8 @@
   position: relative;
 }
 
-.sm-panel-item:hover {
+.sm-panel-item:hover,
+.sm-panel-item.sm-panel-item--active {
   color: #4682B4;
   opacity: 0.85;
 }
