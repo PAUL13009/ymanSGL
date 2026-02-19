@@ -167,7 +167,7 @@ export default function VentePage() {
         <Navbar />
         <Hero 
           title="VENDRE AU PRIX DE L'ESTIMATION, L'ESPRIT LIBRE"
-          subtitle="CONFIEZ VOTRE PATRIMOINE À UNE CONSEILLÈRE POUR UNE TRANSACTION SÉCURISÉE, UN FILTRAGE RIGOUREUX DES ACQUÉREURS ET UNE VALORISATION FINANCIÈREMENT EXACTE"
+          subtitle="CONFIEZ VOTRE PATRIMOINE À UN AGENT IMMOBILIER POUR UNE TRANSACTION SÉCURISÉE, UN FILTRAGE RIGOUREUX DES ACQUÉREURS ET UNE VALORISATION FINANCIÈREMENT EXACTE"
           buttonText="Soumettre mon projet à l'estimation"
           buttonLink="/estimation#grille-tarifaire"
           imagePath="/images/herosectionimage.png"
@@ -380,7 +380,7 @@ export default function VentePage() {
               </div>
               <div className="text-lg text-white/80 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 <p>
-                  25% des ventes échouent entre le compromis et l'acte authentique à cause d'un dossier mal préparé. En tant que votre conseillère unique, j'anticipe chaque point de friction : urbanisme, servitudes, conformité des PV d'AG et des diagnostics.
+                  25% des ventes échouent entre le compromis et l'acte authentique à cause d'un dossier mal préparé. En tant que votre référente unique, j'anticipe chaque point de friction : urbanisme, servitudes, conformité des PV d'AG et des diagnostics.
                 </p>
                 <div className="bg-white/10 backdrop-blur-sm border-l-4 pl-6 py-4 mt-8" style={{ borderColor: '#ffffff' }}>
                   <p className="font-semibold text-white text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -414,7 +414,7 @@ export default function VentePage() {
                     letterSpacing: '0.5px',
                   }}
                 >
-                  Demander mon estimation
+                  DEMANDER MON DOSSIER D'ESTIMATION
                 </a>
                 <a
                   href="/notre-methode"

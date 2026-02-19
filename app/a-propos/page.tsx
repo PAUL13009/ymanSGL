@@ -78,7 +78,7 @@ export default function AProposPage() {
       
       <Hero 
         title="L'estimation au service de votre patrimoine"
-        subtitle="Plus qu'une transaction, une analyse détaillée par une experte immobilier à Saint-Germain-en-Laye."
+        subtitle="Plus qu'une transaction, une analyse détaillée par une professionnelle de l'immobilier à Saint-Germain-en-Laye."
         buttonText="Échanger sur votre projet avec Yman"
         buttonSubtext="Estimation gratuite – sans engagement"
         buttonLink="/estimation"
@@ -139,7 +139,7 @@ export default function AProposPage() {
                   Après 8 ans d'expérience et un Master en Finance Immobilière (ESPI), sa fondatrice a choisi de bâtir une structure où la rigueur technique l'emporte sur le volume commercial. Dans un marché aussi spécifique que celui de Saint-Germain-en-Laye, chaque mètre carré compte et chaque détail juridique pèse.
                 </p>
                 <p>
-                  En tant que conseillère, Yman Lahlou apporte une dimension rare à la transaction : la certitude de la valeur réelle.
+                  En tant qu'agent immobilier, Yman Lahlou apporte une dimension rare à la transaction : la certitude de la valeur réelle.
                 </p>
                 <div className="bg-white/10 backdrop-blur-sm border-l-4 pl-6 py-4 mt-8" style={{ borderColor: '#ffffff' }}>
                   <p className="font-semibold text-white text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -176,14 +176,14 @@ export default function AProposPage() {
                     content: 'DIPLÔMÉE DE L\'ÉCOLE SUPÉRIEURE DES PROFESSIONS DE L\'IMMOBILIER, J\'APPRÉHENDE CHAQUE ACTIF NON PAS COMME UN SIMPLE OBJET DE TRANSACTION, MAIS COMME UN PATRIMOINE FINANCIER COMPLEXE. CETTE FORMATION ME PERMET DE MAÎTRISER LES MÉCANISMES DE VALORISATION LES PLUS POINTUS.',
                   },
                   {
-                    title: 'Expert Judiciaire',
+                    title: 'Expert judiciaire bientôt disponible',
                     subtitle: 'CERTIFICATION JURIDIQUE',
-                    content: 'TITULAIRE D\'UNE NOMINATION D\'EXPERT JUDICIAIRE, J\'EXERCE AVEC UNE DÉONTOLOGIE STRICTE. MA MÉTHODOLOGIE D\'ANALYSE EST CELLE EXIGÉE PAR LES TRIBUNAUX : IMPARTIALE, TECHNIQUE ET DOCUMENTÉE. C\'EST CETTE MÊME RIGUEUR QUE J\'APPLIQUE À L\'EXPERTISE DE VOTRE BIEN.',
+                    content: 'PROCHAINEMENT TITULAIRE D\'UNE NOMINATION D\'EXPERT JUDICIAIRE, J\'EXERCE AVEC UNE DÉONTOLOGIE STRICTE. MA MÉTHODOLOGIE D\'ANALYSE EST CELLE EXIGÉE PAR LES TRIBUNAUX : IMPARTIALE, TECHNIQUE ET DOCUMENTÉE. C\'EST CETTE MÊME RIGUEUR QUE J\'APPLIQUE À L\'EXPERTISE DE VOTRE BIEN.',
                   },
                   {
-                    title: '10 ans d\'Ancrage Local',
+                    title: '8 ans d\'expérience',
                     subtitle: 'EXPÉRIENCE TERRAIN',
-                    content: 'UNE DÉCENNIE PASSÉE À DÉCRYPTER LES MUTATIONS DU MARCHÉ DE SAINT-GERMAIN-EN-LAYE. CETTE EXPÉRIENCE TERRAIN ME PERMET DE TRADUIRE LES CHIFFRES EN RÉALITÉ DE MARCHÉ, QUARTIER PAR QUARTIER, RUE PAR RUE.',
+                    content: 'HUIT ANNÉES PASSÉES À DÉCRYPTER LES MUTATIONS DU MARCHÉ DE SAINT-GERMAIN-EN-LAYE. CETTE EXPÉRIENCE TERRAIN ME PERMET DE TRADUIRE LES CHIFFRES EN RÉALITÉ DE MARCHÉ, QUARTIER PAR QUARTIER, RUE PAR RUE.',
                   },
                 ].map((item, index) => {
                   const isExpandedDesktop = expandedCompetence === index
@@ -238,7 +238,7 @@ export default function AProposPage() {
           <div className="max-w-5xl mx-auto text-center">
             <h2 id="au-dela-estimation" className="sr-only">Au-delà de l'estimation</h2>
             <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white font-bold leading-tight uppercase mb-8" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              L'Agence YL vous délivre un véritable rapport d'estimation détaillé.
+              L'Agence YL vous délivre un véritable dossier d'estimation détaillé.
             </p>
             <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/70 font-normal leading-tight uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               Nous utilisons les méthodes de capitalisation, de comparaison et d'analyse sol/construction pour définir le prix du marché: celui qui maximise votre net vendeur tout en garantissant une vente rapide. Cette approche élimine les marges d'erreur et désarme toute tentative de négociation agressive des acquéreurs.
@@ -270,25 +270,15 @@ export default function AProposPage() {
               </div>
 
               {/* Contenu à droite */}
-              <div className="flex flex-col justify-between h-full space-y-8">
+              <div className="flex flex-col justify-center h-full space-y-8">
                 {/* Titre principal — grande typographie bold */}
                 <h2 id="saint-germain-histoire" className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  On ne peut bien expertiser que ce que l'on connaît intimement.
+                  On expertise bien que ce que l'on connaît intimement.
                 </h2>
 
                 {/* Paragraphe intermédiaire */}
-                <div className="text-lg sm:text-xl md:text-2xl text-white/60 leading-relaxed space-y-4 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  <p>
-                    Née à Paris, j'ai grandi au rythme des rues de Saint-Germain-en-Laye, de son marché et de son histoire.
-                  </p>
-                  <p>
-                    Pour moi, estimer un hôtel particulier près du Château ou une maison de ville dans le quartier Alsace, ce n'est pas seulement analyser des mètres carrés. C'est comprendre l'âme de ces lieux et l'évolution de notre ville.
-                  </p>
-                </div>
-
-                {/* Citation en gras */}
                 <p className="text-lg sm:text-xl md:text-2xl text-white font-bold leading-relaxed uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Cette double culture — la rigueur de ma méthode et la sensibilité de l'enfant du pays est ma plus grande force.
+                  Née à Paris, la rigueur de ma méthode et la sensibilité de l'enfant du pays est ma plus grande force.
                 </p>
               </div>
             </div>

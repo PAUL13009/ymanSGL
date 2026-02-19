@@ -102,7 +102,7 @@ export default function NotreMethodePage() {
             </div>
             <div className="text-lg text-white/80 leading-relaxed space-y-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
               <p>
-                Un projet immobilier à Saint-Germain-en-Laye ne s'improvise pas. La réussite de votre projet de vente dépend d'un cadrage initial sans faille : un prix du marché scientifiquement établi, une stratégie de diffusion sur mesure et une maîtrise totale du marché local.
+                Un projet immobilier à Saint-Germain-en-Laye et ses alentours ne s'improvise pas. La réussite de votre projet de vente dépend d'un cadrage initial sans faille : un prix du marché scientifiquement établi, une stratégie de diffusion sur mesure et une maîtrise totale du marché local.
               </p>
               <p>
                 L'Agence YL privilégie la méthode à la précipitation. Cette rigueur permet d'éviter les erreurs les plus coûteuses du marché actuel : le "bien brûlé" par une surestimation, les délais de vente qui s'allongent faute de préparation juridique, ou la perte de temps avec des acquéreurs non qualifiés.
@@ -112,7 +112,7 @@ export default function NotreMethodePage() {
               </p>
               <div className="bg-white/10 backdrop-blur-sm border-l-4 pl-6 py-4 mt-8" style={{ borderColor: '#ffffff' }}>
                 <p className="font-semibold text-white text-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  LA COLLABORATION ENTRE LE PROPRIÉTAIRE ET LE CONSEILLER EST LA CLÉ. NOUS NE CHERCHONS PAS SEULEMENT À VENDRE VOTRE BIEN, NOUS CONSTRUISONS LA STRATÉGIE POUR LE VENDRE AU MEILLEUR PRIX.
+                  LA COLLABORATION ENTRE LE PROPRIÉTAIRE SON AGENT IMMOBILIER EST LA CLÉ. NOUS NE CHERCHONS PAS SEULEMENT À VENDRE VOTRE BIEN, NOUS CONSTRUISONS LA STRATÉGIE POUR LE VENDRE AU MEILLEUR PRIX.
                 </p>
               </div>
             </div>
@@ -381,7 +381,7 @@ export default function NotreMethodePage() {
                 PRÊT À DONNER UNE NOUVELLE DIMENSION À VOTRE PROJET ?
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-white/80 font-normal leading-relaxed mb-10 sm:mb-14 uppercase max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                QUE VOUS SOYEZ EN PHASE DE RÉFLEXION OU PRÊT À LANCER VOTRE VENTE, BÉNÉFICIEZ D'UNE APPROCHE RIGOUREUSE ET D'UN CONSEIL EXPERT POUR SÉCURISER VOTRE PATRIMOINE À SAINT-GERMAIN-EN-LAYE
+                QUE VOUS SOYEZ EN PHASE DE RÉFLEXION OU PRÊT À LANCER VOTRE VENTE, BÉNÉFICIEZ D'UNE APPROCHE RIGOUREUSE ET D'UN CONSEIL EXPERT POUR SÉCURISER VOTRE PATRIMOINE À SAINT-GERMAIN-EN-LAYE ET SES ALENTOURS
               </p>
             </FadeContent>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -396,7 +396,7 @@ export default function NotreMethodePage() {
                       letterSpacing: '0.5px',
                     }}
                   >
-                DEMANDER MON ESTIMATION
+                DEMANDER MON DOSSIER D'ESTIMATION
                   </a>
             </div>
           </div>

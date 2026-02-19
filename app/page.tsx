@@ -215,7 +215,7 @@ export default function Home() {
       <Hero 
         title="Vendez au juste prix. Estimation réaliste à Saint-Germain-en-Laye"
         subtitle="Ne vous contentez pas d'une estimation automatique. Obtenez un dossier d'estimation complet pour sécuriser votre vente et valoriser votre patrimoine"
-        buttonText="Obtenir mon estimation sous 24h"
+        buttonText="OBTENIR MON DOSSIER D'ESTIMATION"
         buttonSubtext="Estimation gratuite – sans engagement"
         buttonLink="/estimation#grille-tarifaire"
         imagePath="/images/herosectionimage.png"

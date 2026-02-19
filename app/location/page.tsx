@@ -66,7 +66,7 @@ export default function LocationPage() {
       {/* SECTION 1 — HERO */}
       <Hero 
         title="UNE MISE EN LOCATION SÉCURISÉE, UN PATRIMOINE PRÉSERVÉ"
-        subtitle="CONFIEZ LA RECHERCHE DE VOTRE LOCATAIRE À UNE CONSEILLÈRE EXPERTE. DE LA STRATÉGIE DE LOYER À LA SIGNATURE DU BAIL, BÉNÉFICIEZ D'UNE SÉLECTION DRASTIQUE ET D'UN FORMALISME JURIDIQUE DE HAUT NIVEAU POUR VOTRE BIEN À SAINT-GERMAIN-EN-LAYE"
+        subtitle="CONFIEZ LA RECHERCHE DE VOTRE LOCATAIRE À UN AGENT IMMOBILIER. DE LA STRATÉGIE DE LOYER À LA SIGNATURE DU BAIL, BÉNÉFICIEZ D'UNE SÉLECTION DRASTIQUE ET D'UN FORMALISME JURIDIQUE DE HAUT NIVEAU POUR VOTRE BIEN À SAINT-GERMAIN-EN-LAYE"
         buttonText="Trouver mon locataire idéal"
         buttonLink="#contact"
         imagePath="/images/herosectionimage.png"
@@ -169,8 +169,7 @@ export default function LocationPage() {
               {/* Colonne gauche : Grand titre sticky (statique sur mobile) */}
               <div className="md:sticky md:top-32">
                 <h2 id="kit-serenite" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  VOTRE "KIT SÉRÉNITÉ" :{' '}
-                  <span className="font-light italic text-white/50">DE BAILLEUR</span>
+                  VOTRE "KIT SÉRÉNITÉ" DE BAILLEUR
                 </h2>
               </div>
 
@@ -270,7 +269,7 @@ export default function LocationPage() {
                     </svg>
                   ),
                   title: 'MAÎTRISE DU RISQUE',
-                  content: 'Contrairement à un agent classique, mon regard d\'experte identifie immédiatement les incohérences d\'un dossier de candidature.',
+                  content: 'Contrairement à un agent classique, mon regard de professionnelle de l\'immobilier identifie immédiatement les incohérences d\'un dossier de candidature.',
                 },
                 {
                   icon: (

@@ -83,7 +83,7 @@ export default function StatsSection() {
                 Pourquoi une estimation gratuite peut vous coûter cher ?
               </h2>
               <p className="text-lg text-white/70 mt-4 max-w-xl uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                À Saint-Germain-en-Laye, l'approximation ne pardonne pas. Choisissez la certitude de l'Estimation YL.
+                L'approximation ne pardonne pas. Choisissez la certitude de l'Estimation YL.
               </p>
             </div>
           </div>
