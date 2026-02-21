@@ -183,7 +183,7 @@ export default function AProposPage() {
                   {
                     title: '8 ans d\'expérience',
                     subtitle: 'EXPÉRIENCE TERRAIN',
-                    content: 'HUIT ANNÉES PASSÉES À DÉCRYPTER LES MUTATIONS DU MARCHÉ DE SAINT-GERMAIN-EN-LAYE. CETTE EXPÉRIENCE TERRAIN ME PERMET DE TRADUIRE LES CHIFFRES EN RÉALITÉ DE MARCHÉ, QUARTIER PAR QUARTIER, RUE PAR RUE.',
+                    content: 'HUIT ANNÉES PASSÉES À DÉCRYPTER LES MUTATIONS DU MARCHÉ IMMOBILIER. CETTE EXPÉRIENCE TERRAIN ME PERMET DE TRADUIRE LES CHIFFRES EN RÉALITÉ DE MARCHÉ, QUARTIER PAR QUARTIER, RUE PAR RUE.',
                   },
                 ].map((item, index) => {
                   const isExpandedDesktop = expandedCompetence === index

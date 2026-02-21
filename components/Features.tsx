@@ -39,7 +39,7 @@ export default function Features() {
     },
     {
       number: '03',
-      image: "/images/chateau_saint_germain_en_laye.webp",
+      image: "/images/locationyl.jpg",
       imageAlt: "Mise en location - Agence YL",
       title: "MISE EN LOCATION",
       description: "Accompagnement complet pour la mise en location de votre patrimoine. Recherche de locataire, suivi du dossier jusqu'à l'état des lieux d'entrée et la remise des clés.",
