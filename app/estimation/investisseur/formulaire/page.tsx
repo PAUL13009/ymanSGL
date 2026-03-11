@@ -73,6 +73,9 @@ export default function EstimationInvestisseurFormulairePage() {
             Étape 1 / 2 — Vos coordonnées
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={fontStyle}>
+            Le formulaire prendra environ 5 min à être rempli.
+          </p>
+          <p className="text-white text-base mt-4 max-w-lg mx-auto leading-relaxed font-medium" style={fontStyle}>
             Afin de maximiser la précision de l&apos;estimation de la valeur de votre bien, veuillez préparer s&apos;il vous plaît des photos de votre bien.
           </p>
         </div>

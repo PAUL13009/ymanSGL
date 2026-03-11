@@ -8,11 +8,12 @@ export default function EstimationJuridiqueFormulairePage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     professionJuridique: '',
+    professionJuridiqueAutre: '',
+    nomStructure: '',
     prenom: '',
     nom: '',
     telephone: '',
     email: '',
-    nomDossier: '',
   })
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -69,6 +70,9 @@ export default function EstimationJuridiqueFormulairePage() {
             Étape 1 / 2 — Vos coordonnées
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            Le formulaire prendra environ 5 min à être rempli.
+          </p>
+          <p className="text-white text-base mt-4 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             Afin de maximiser la précision de l&apos;estimation de la valeur de votre bien, veuillez préparer s&apos;il vous plaît des photos de votre bien.
           </p>
         </div>
@@ -91,8 +95,40 @@ export default function EstimationJuridiqueFormulairePage() {
               <option value="Avocat" className="bg-black text-white">Avocat</option>
               <option value="Expert-comptable" className="bg-black text-white">Expert-comptable</option>
               <option value="Administrateur judiciaire" className="bg-black text-white">Administrateur judiciaire</option>
-              <option value="Autres" className="bg-black text-white">Autres</option>
+              <option value="Autre à préciser" className="bg-black text-white">Autre à préciser</option>
             </select>
+            {formData.professionJuridique === 'Autre à préciser' && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  Précisez
+                </label>
+                <input
+                  type="text"
+                  name="professionJuridiqueAutre"
+                  value={formData.professionJuridiqueAutre}
+                  onChange={handleChange}
+                  placeholder="Précisez votre profession..."
+                  className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white placeholder-white/40 focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
+                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Nom de la structure */}
+          <div>
+            <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              Nom de la structure
+            </label>
+            <input
+              type="text"
+              name="nomStructure"
+              value={formData.nomStructure}
+              onChange={handleChange}
+              placeholder="Ex: Cabinet Martin & Associés"
+              className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white placeholder-white/40 focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
+              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+            />
           </div>
 
           {/* Prénom */}
@@ -158,22 +194,6 @@ export default function EstimationJuridiqueFormulairePage() {
               onChange={handleChange}
               required
               placeholder="votre.email@exemple.com"
-              className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white placeholder-white/40 focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
-              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-            />
-          </div>
-
-          {/* Nom du dossier */}
-          <div>
-            <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Nom du dossier
-            </label>
-            <input
-              type="text"
-              name="nomDossier"
-              value={formData.nomDossier}
-              onChange={handleChange}
-              placeholder="Ex: Succession Dupont, Divorce Martin..."
               className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white placeholder-white/40 focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
               style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
             />

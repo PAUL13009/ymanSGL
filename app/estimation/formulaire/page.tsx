@@ -67,6 +67,9 @@ export default function EstimationFormulairePage() {
             Étape 1 / 2 — Vos coordonnées
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            Le formulaire prendra environ 5 min à être rempli.
+          </p>
+          <p className="text-white text-base mt-4 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             Afin de maximiser la précision de l'estimation de la valeur de votre bien, veuillez préparer s'il vous plaît des photos de votre bien.
           </p>
         </div>

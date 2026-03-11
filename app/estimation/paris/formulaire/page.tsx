@@ -67,11 +67,17 @@ export default function EstimationParisFormulairePage() {
             Étape 1 / 2 — Vos coordonnées
           </p>
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            Le formulaire prendra environ 5 min à être rempli.
+          </p>
+          <p className="text-white text-base mt-4 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             Afin de maximiser la précision de l&apos;estimation de la valeur de votre bien, veuillez préparer s&apos;il vous plaît des photos de votre bien.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-lg font-bold text-white uppercase tracking-wide mb-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+            Identité & Contact
+          </h2>
           {/* Civilité */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>

@@ -161,7 +161,7 @@ export default function AProposPage() {
               <div className="md:sticky md:top-32">
                 <h2 id="notre-facon-de-travailler" className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-white leading-none uppercase mb-6" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Un socle de compétences haut de bilan
-                </h2>
+              </h2>
                 <p className="text-base sm:text-lg text-white/50 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Une triple expertise — académique, judiciaire et terrain — au service de la valorisation de votre patrimoine immobilier.
                 </p>
@@ -211,9 +211,9 @@ export default function AProposPage() {
                             <p className="text-xs text-white/40 uppercase tracking-widest mt-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                               {item.subtitle}
                             </p>
-                          </div>
+                    </div>
                           <span className="text-white/30 transition-transform duration-300 text-xl" style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}>↓</span>
-                        </div>
+                      </div>
                         <div
                           className="overflow-hidden transition-all duration-700 ease-in-out"
                           style={{ maxHeight: isExpanded ? '120px' : '0px', opacity: isExpanded ? 1 : 0 }}
@@ -223,7 +223,7 @@ export default function AProposPage() {
                           </p>
                         </div>
                       </div>
-                    </div>
+              </div>
                   )
                 })}
               </div>
@@ -255,20 +255,20 @@ export default function AProposPage() {
               {/* Image à gauche + légende */}
               <div>
                 <div className="relative h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden rounded-lg">
-                  <Image
+                <Image
                     src="/images/ymannew.png"
                     alt="Yman Lahlou, Experte Immobilier Agréé à Saint-Germain-en-Laye"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                    </div>
                 <div className="text-center mt-4">
                   <p className="text-lg font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Yman Lahlou</p>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Fondatrice de l'Agence YL</p>
                 </div>
               </div>
-
+              
               {/* Contenu à droite */}
               <div className="flex flex-col justify-center h-full space-y-8">
                 {/* Titre principal — grande typographie bold */}
@@ -299,18 +299,18 @@ export default function AProposPage() {
               </p>
             </FadeContent>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                ref={venteButtonRef as any}
+                  <a
+                    ref={venteButtonRef as any}
                 href="/analyse"
                 aria-label="Prendre rendez-vous avec Yman Lahlou, experte immobilier"
                 className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
-                style={{
-                  fontFamily: 'var(--font-poppins), sans-serif',
+                    style={{
+                      fontFamily: 'var(--font-poppins), sans-serif',
                   fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
-                  textDecoration: 'none',
-                  letterSpacing: '0.5px',
-                }}
-              >
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
+                    }}
+                  >
                 PRENDRE RENDEZ-VOUS AVEC YMAN
               </a>
             </div>

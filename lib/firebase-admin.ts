@@ -293,13 +293,13 @@ export interface AnalyseLead {
   prestations?: string[] | null
   autres_prestations?: string | null
   exposition?: string | null
-  exposition_traversant?: string | null
+  exposition_traversant?: string | string[] | null
   vis_a_vis?: string | null
   distance_vis_a_vis?: string | null
   taxe_fonciere?: string | null
   charges_copro?: string | null
   dpe?: string | null
-  contexte_vente?: string | null
+  contexte_vente?: string | string[] | null
   nom_succession?: string | null
   delai_vente?: string | null
   situation_actuelle?: string | null
@@ -311,7 +311,7 @@ export interface AnalyseLead {
   photos_urls?: string[] | null
 
   mitoyennete?: string | null
-  vue?: string | null
+  vue?: string | string[] | null
 
   // Phase refonte: nouveaux champs communs
   annee_construction?: string | null
@@ -330,6 +330,9 @@ export interface AnalyseLead {
   type_vente_vide_meuble?: string | null
   equipements_premium?: string[] | null
   atout_principal?: string | null
+  element_negatif_valorisation?: string | null
+  residence_type_autre?: string | null
+  type_bien_sous_categorie?: string | null
   chauffage_type?: string | null
   chauffage_production?: string | null
   eau_chaude_production?: string | null

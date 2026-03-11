@@ -239,7 +239,7 @@ export default function AdminDashboard() {
         emissions_ges: propertyData.emissions_ges || null,
         images: propertyData.images || [],
       }
-
+      
       Object.keys(processedData).forEach(key => {
         if (processedData[key] === null || processedData[key] === undefined || processedData[key] === '') {
           if (typeof processedData[key] !== 'boolean') delete processedData[key]
@@ -350,17 +350,17 @@ export default function AdminDashboard() {
       <div className="flex items-center gap-2 mb-2 flex-wrap">
         <h3 className="text-sm sm:text-base font-semibold text-white truncate" style={f}>{ep.prenom} {ep.nom}</h3>
         {!ep.read && <span className="px-2 py-0.5 bg-orange-500 text-white text-[10px] font-semibold rounded-full shrink-0">Nouveau</span>}
-      </div>
+          </div>
       <div className="space-y-0.5 text-xs sm:text-sm text-white/50 mb-3" style={f}>
         <p className="truncate"><strong className="text-white/70">Email:</strong> {ep.email}</p>
         <p><strong className="text-white/70">Tél:</strong> {ep.telephone}</p>
         <p className="text-[10px] sm:text-xs text-white/30">{formatDate(ep.created_at)}</p>
-      </div>
+        </div>
       <div className="flex gap-2">
         <button onClick={() => togglePartielleRead(ep.id, ep.read ?? false)} className={`flex-1 px-2 py-1.5 rounded text-xs transition-all ${ep.read ? 'bg-white/10 text-white/50 hover:bg-white/20' : 'bg-white text-black hover:bg-white/90'}`} style={f}>{ep.read ? 'Non lu' : 'Marquer lu'}</button>
         <button onClick={() => deletePartielle(ep.id)} className="px-2 py-1.5 border border-red-500/50 text-red-400 rounded text-xs hover:bg-red-500/10 transition-all" style={f}>Suppr.</button>
-      </div>
-    </div>
+          </div>
+        </div>
   )
 
   // ─── Reusable: Complete estimation card ─────────────────
@@ -387,7 +387,7 @@ export default function AdminDashboard() {
             estimation.status === 'accepte' ? 'bg-green-500/20 text-green-300' :
             'bg-red-500/20 text-red-300'
           }`}>{estimation.status === 'nouveau' ? 'Nouveau' : estimation.status === 'en_cours' ? 'En cours' : estimation.status === 'accepte' ? 'Accepté' : 'Refusé'}</span>
-        </div>
+              </div>
 
         {/* Coordonnées */}
         <div className="mb-3 pb-3 border-b border-white/10">
@@ -398,7 +398,7 @@ export default function AdminDashboard() {
             {estimation.nom_dossier && <p><strong className="text-white/70">Dossier:</strong> <span className="text-amber-400 font-medium">{estimation.nom_dossier}</span></p>}
             <p className="text-[10px] sm:text-xs text-white/30">{formatDate(estimation.created_at)}</p>
           </div>
-        </div>
+                </div>
 
         {/* Bien */}
         {(estimation.localisation || estimation.type_bien) && (
@@ -413,8 +413,8 @@ export default function AdminDashboard() {
               {estimation.annee_construction && <p><strong className="text-white/70">Année:</strong> {estimation.annee_construction}</p>}
               {estimation.residence_type && <p><strong className="text-white/70">Usage:</strong> {estimation.residence_type}</p>}
             </div>
-          </div>
-        )}
+              </div>
+            )}
 
         {/* Caractéristiques */}
         {(estimation.nombre_pieces || estimation.nombre_chambres || estimation.nombre_salles_de_bain || estimation.etat_bien || estimation.exposition) && (
@@ -449,8 +449,8 @@ export default function AdminDashboard() {
               {estimation.complement_loyer && <p><strong className="text-white/70">Complément loyer:</strong> {estimation.complement_loyer}</p>}
               {estimation.nuisances_patrimoine && estimation.nuisances_patrimoine.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Nuisances:</strong> {estimation.nuisances_patrimoine.join(', ')}</p>}
             </div>
-          </div>
-        )}
+                    </div>
+                  )}
 
         {/* Projet de vente */}
         {(estimation.delai_vente || estimation.prix_envisage || estimation.contexte_vente) && (
@@ -465,8 +465,8 @@ export default function AdminDashboard() {
               {estimation.type_bail && <p><strong className="text-white/70">Bail:</strong> {estimation.type_bail}</p>}
               {estimation.prix_envisage && <p className="col-span-2"><strong className="text-white/70">Prix:</strong> <span className="text-white font-semibold">{estimation.prix_envisage}</span></p>}
               {estimation.ajustement_prix_echelle !== null && estimation.ajustement_prix_echelle !== undefined && <p><strong className="text-white/70">Ajust.:</strong> {estimation.ajustement_prix_echelle}/10</p>}
-            </div>
-          </div>
+                    </div>
+                    </div>
         )}
 
         {/* Message libre */}
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
           <div className="mb-3 pb-3 border-b border-white/10">
             <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Message</h4>
             <p className="text-xs sm:text-sm text-white/50 italic" style={f}>{estimation.message_libre}</p>
-          </div>
+                    </div>
         )}
 
         {/* Photos */}
@@ -487,8 +487,8 @@ export default function AdminDashboard() {
                   <img src={photoUrl} alt={`Photo ${index + 1}`} className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.open(photoUrl, '_blank')} />
                 </div>
               ))}
+              </div>
             </div>
-          </div>
         )}
 
         {/* Notes */}
@@ -501,7 +501,7 @@ export default function AdminDashboard() {
             rows={2}
             placeholder="Notes..."
           />
-        </div>
+            </div>
 
         {/* Actions — en bas de la carte, responsive */}
         <div className="flex gap-2 mt-3 pt-3 border-t border-white/10">
@@ -513,8 +513,8 @@ export default function AdminDashboard() {
             <option value="refuse" className="bg-black">Refusé</option>
           </select>
           <button onClick={() => deleteEstimation(estimation.id)} className="px-3 py-1.5 border border-red-500/50 text-red-400 rounded text-xs hover:bg-red-500/10 transition-all" style={f}>Suppr.</button>
-        </div>
-      </div>
+              </div>
+              </div>
     )
   }
 
@@ -528,7 +528,7 @@ export default function AdminDashboard() {
         <div className="text-center py-16">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white/40" style={f}>Chargement...</p>
-        </div>
+                        </div>
       )
     }
 
@@ -541,12 +541,12 @@ export default function AdminDashboard() {
             {unreadPartielles > 0 && (
               <span className="px-2 py-0.5 bg-orange-500 text-white text-[10px] sm:text-xs font-semibold rounded-full">{unreadPartielles}</span>
             )}
-          </div>
+                        </div>
           <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 min-h-[160px]">
             {partielles.length === 0 ? (
               <div className="flex items-center justify-center h-32 text-white/20 text-xs sm:text-sm" style={f}>
                 <p>Aucune estimation partielle</p>
-              </div>
+                      </div>
             ) : (
               <div className="space-y-3">
                 {partielles.map((ep) => (
@@ -555,7 +555,7 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-        </div>
+            </div>
 
         {/* ── Colonne droite : Complètes ── */}
         <div>
@@ -568,7 +568,7 @@ export default function AdminDashboard() {
                 'bg-white/70'
               }`}>{unreadCompletes}</span>
             )}
-          </div>
+              </div>
           <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 min-h-[160px]">
             {completes.length === 0 ? (
               <div className="flex items-center justify-center h-32 text-white/20 text-xs sm:text-sm" style={f}>
@@ -581,9 +581,9 @@ export default function AdminDashboard() {
                 ))}
               </div>
             )}
-          </div>
-        </div>
-      </div>
+                        </div>
+                          </div>
+                          </div>
     )
   }
 
@@ -601,15 +601,15 @@ export default function AdminDashboard() {
           </h1>
           <div className="flex items-center gap-3">
             <span className="text-white/40 text-xs sm:text-sm truncate max-w-[180px] sm:max-w-none" style={f}>{user?.email}</span>
-            <button
+                        <button
               onClick={handleLogout}
               className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 hover:text-white transition-all text-xs sm:text-sm shrink-0"
               style={f}
-            >
+                        >
               Déconnexion
-            </button>
-          </div>
-        </div>
+                        </button>
+                      </div>
+                    </div>
 
         {/* ═══ Tabs ═══ */}
         <div className="mb-5 sm:mb-8 border-b border-white/10 overflow-x-auto scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
@@ -629,9 +629,9 @@ export default function AdminDashboard() {
                 <span className="hidden sm:inline">{t.label}</span>
                 {t.count !== undefined && t.count > 0 ? ` (${t.count})` : ''}
               </button>
-            ))}
+                ))}
+              </div>
           </div>
-        </div>
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* VENDRE / LOUER                                        */}
@@ -640,14 +640,14 @@ export default function AdminDashboard() {
           <>
             {!showAddForm && (
               <div className="mb-4 sm:mb-6">
-                <button
+              <button
                   onClick={() => { setShowAddForm(true); setEditingProperty(null) }}
                   className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-all uppercase tracking-wide text-xs sm:text-sm"
                   style={f}
                 >
                   + Ajouter une annonce
-                </button>
-              </div>
+              </button>
+            </div>
             )}
 
             {showAddForm && (
@@ -657,7 +657,7 @@ export default function AdminDashboard() {
                     {editingProperty ? 'Modifier' : `Nouvelle - ${activeTab === 'vendre' ? 'Vente' : 'Location'}`}
                   </h2>
                   <button onClick={() => { setShowAddForm(false); setEditingProperty(null) }} className="text-white/40 hover:text-white text-xl sm:text-2xl">✕</button>
-                </div>
+              </div>
                 <PropertyForm
                   onSubmit={async (data) => { await handleSubmit({ ...data, status: activeTab === 'vendre' ? 'À vendre' : 'À louer' }) }}
                   onCancel={() => { setShowAddForm(false); setEditingProperty(null) }}
@@ -678,14 +678,14 @@ export default function AdminDashboard() {
                 <div className="text-center py-8 sm:py-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
                   <p className="text-white/40 text-sm" style={f}>Chargement...</p>
-                </div>
+                          </div>
               ) : properties.filter(p => {
                 const s = p.type || p.status || ''
                 return activeTab === 'vendre' ? s === 'À vendre' : s === 'À louer'
               }).length === 0 ? (
                 <div className="text-center py-8 sm:py-12 text-white/30 text-sm" style={f}>
                   <p>Aucun bien pour le moment.</p>
-                </div>
+                        </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {properties.filter(p => {
@@ -696,13 +696,13 @@ export default function AdminDashboard() {
                       {property.images && property.images.length > 0 && property.images[0].src && (
                         <div className="relative h-36 sm:h-48 w-full">
                           <Image src={property.images[0].src} alt={property.images[0].alt || property.title} fill className="object-cover" />
-                        </div>
-                      )}
+                              </div>
+                            )}
                       <div className="p-3 sm:p-4">
                         <div className="flex justify-between items-start mb-1 sm:mb-2">
                           <h3 className="font-semibold text-sm sm:text-lg text-white truncate mr-2" style={f}>{property.title}</h3>
                           <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-semibold bg-white/10 text-white/70 shrink-0">{property.type}</span>
-                        </div>
+                          </div>
                         <p className="text-white/40 text-xs sm:text-sm mb-1 sm:mb-2 truncate" style={f}>{property.location}</p>
                         <p className="font-semibold text-sm sm:text-lg mb-2 sm:mb-3 text-white" style={f}>{property.price}</p>
                         <div className="flex gap-3 text-xs sm:text-sm text-white/40 mb-3 sm:mb-4" style={f}>
@@ -713,13 +713,13 @@ export default function AdminDashboard() {
                         <div className="flex gap-2">
                           <button onClick={() => handleEdit(property)} className="flex-1 px-3 py-1.5 sm:px-4 sm:py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-all text-xs sm:text-sm font-medium" style={f}>Modifier</button>
                           <button onClick={() => handleDelete(property.id)} className="px-3 py-1.5 sm:px-4 sm:py-2 border border-red-500/50 text-red-400 rounded-lg hover:bg-red-500/10 transition-all text-xs sm:text-sm" style={f}>Suppr.</button>
-                        </div>
-                      </div>
-                    </div>
+                            </div>
+                          </div>
+                              </div>
                   ))}
-                </div>
-              )}
-            </div>
+                            </div>
+                                )}
+                              </div>
           </>
         )}
 
@@ -731,10 +731,10 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Essentielle</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                              </div>
             <EstimationTabContent completes={estimations} partielles={orphanPartiellesEssentielle} accentColor="white" />
-          </div>
-        )}
+                            </div>
+                          )}
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* ESTIMATION INVESTISSEUR                                */}
@@ -744,10 +744,10 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Investisseur</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                                </div>
             <EstimationTabContent completes={estimationsInvestisseur} partielles={orphanPartiellesInvestisseur} accentColor="purple" />
-          </div>
-        )}
+                                </div>
+                            )}
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* ESTIMATION PARIS                                       */}
@@ -757,10 +757,10 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Paris</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                            </div>
             <EstimationTabContent completes={estimationsParis} partielles={orphanPartiellesParis} accentColor="emerald" />
-          </div>
-        )}
+                          </div>
+                        )}
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* ESTIMATION ACTIVITÉS JURIDIQUES                        */}
@@ -770,27 +770,27 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Activités juridiques</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                          </div>
             <EstimationTabContent completes={estimationsJuridique} partielles={orphanPartiellesJuridique} accentColor="amber" />
-          </div>
-        )}
+                          </div>
+                        )}
 
         {activeTab === 'location_essentielle' && (
           <div>
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Location Essentielle</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                                </div>
             <EstimationTabContent completes={locationEssentielleCompletes} partielles={orphanLocationEssentiellePartielles} accentColor="emerald" />
-          </div>
-        )}
+                          </div>
+                        )}
 
         {activeTab === 'location_paris' && (
           <div>
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h2 className="text-base sm:text-xl font-bold text-white uppercase tracking-wide" style={f}>Location Paris</h2>
               <button onClick={fetchAllEstimationData} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20 text-white/70 rounded-lg hover:bg-white/10 transition-all text-xs sm:text-sm" style={f}>Actualiser</button>
-            </div>
+                        </div>
             <EstimationTabContent completes={locationParisCompletes} partielles={orphanLocationParisPartielles} accentColor="emerald" />
           </div>
         )}

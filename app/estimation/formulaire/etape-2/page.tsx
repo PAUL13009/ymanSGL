@@ -16,8 +16,10 @@ export default function EstimationEtape2Page() {
     codePostal: '',
     // Type de bien
     typeBien: '',
+    typeBienSousCategorie: '',
     // Surface
     surface: '',
+    surfaceCarrez: '',
     surfaceTerrain: '',
     // Composition
     nombrePieces: '',
@@ -31,16 +33,26 @@ export default function EstimationEtape2Page() {
     etage: '',
     nombreEtagesImmeuble: '',
     dernierEtage: '',
+    rooftopOuiNon: '',
+    rdcOuiNon: '',
     ascenseur: '',
     // Extérieurs
     exterieur: [] as string[],
     surfaceExterieur: '',
+    balconM2: '',
+    terrasseM2: '',
+    loggiaM2: '',
+    rezDeJardinM2: '',
+    caveM2: '',
     // Stationnement
     stationnement: '',
+    stationnementType: '', // intérieur / extérieur
     stationnementEmplacement: '',
+    stationnementExtPriveLibre: '', // privé / libre (si extérieur)
     stationnementCouvert: '',
     stationnementFerme: '',
     surfaceStationnement: '',
+    hasBox: '',
     // État général
     etatBien: '',
     // Travaux récents
@@ -59,7 +71,7 @@ export default function EstimationEtape2Page() {
     showAutresPrestations: false,
     // Exposition
     exposition: '',
-    expositionTraversant: '',
+    expositionTraversant: [] as string[],
     // Vis-à-vis
     visAVis: '',
     distanceVisAVis: '',
@@ -68,7 +80,8 @@ export default function EstimationEtape2Page() {
     chargesCopro: '',
     dpe: '',
     // Contexte
-    contexteVente: '',
+    contexteVente: [] as string[],
+    contexteVenteAutre: '',
     nomSuccession: '',
     // Délai de vente
     delaiVente: '',
@@ -85,7 +98,31 @@ export default function EstimationEtape2Page() {
     messageLibre: '',
     // Mitoyenneté & Vue
     mitoyennete: '',
-    vue: '',
+    // Configuration maison
+    maisonType: '',
+    maisonEnsembleOrganise: '',
+    sousSolTotalM2: '',
+    sousSolAmenageM2: '',
+    comblesM2: '',
+    comblesAmenageesM2: '',
+    studioDependancesM2: '',
+    foragePuits: '',
+    // Prestations intérieures maison
+    prestationsInterieuresMaison: [] as string[],
+    prestationsInterieuresMaisonAutres: '',
+    // Copropriété horizontale (si maison)
+    nombreLotsCoproHorizontale: '',
+    chargesCoproHorizontale: '',
+    chargesCoproHorizontaleContenu: [] as string[],
+    travauxCoproHorizontaleRecents: '',
+    travauxCoproHorizontaleRecentsDetail: '',
+    travauxCoproHorizontaleRecentsMontant: '',
+    travauxCoproHorizontaleVotesNonRealises: '',
+    travauxCoproHorizontaleVotesDetail: '',
+    travauxCoproHorizontaleVotesDelai: '',
+    travauxCoproHorizontalePrevusNonVotes: [] as string[],
+    procedureEnCoursCoproHorizontale: '',
+    vue: [] as string[],
     // Année de construction
     anneeConstruction: '',
     // État extérieur
@@ -99,6 +136,13 @@ export default function EstimationEtape2Page() {
     etatSols: '',
     etatPlafonds: '',
     etatMenuiserie: '',
+    // Prestations détaillées (appartement)
+    standingResidence: '',
+    gardienConcierge: '',
+    residenceFermeeType: [] as string[],
+    typeSyndic: '',
+    chargesCoproTrimestriel: '',
+    statutCopro: '',
     // Prestations détaillées
     standing: '',
     materiaux: '',
@@ -107,6 +151,9 @@ export default function EstimationEtape2Page() {
     typeVenteVideMeuble: '',
     equipementsPremium: [] as string[],
     atoutPrincipal: '',
+    elementNegatifValorisation: '',
+    luminosite: 5,
+    residenceTypeAutre: '',
     // Chauffage & Eau chaude
     chauffageType: '',
     chauffageProduction: '',
@@ -137,6 +184,12 @@ export default function EstimationEtape2Page() {
     travauxCoproRecents: '',
     travauxCoproRecentsDetail: '',
     travauxCoproRecentsMontant: '',
+    travauxCoproRecentsAnnee: '',
+    travauxCoproVotesNature: '',
+    travauxCoproVotesCout: '',
+    travauxCoproPrevusNature: '',
+    travauxCoproPrevusCout: '',
+    travauxCoproPrevusDate: '',
     travauxCoproPrevusNonVotes: [] as string[],
     travauxVotesNonRealises: '',
     travauxVotesNonRealisesDetail: '',
@@ -152,6 +205,7 @@ export default function EstimationEtape2Page() {
     travauxASLVotesDetail: '',
     travauxASLVotesDelai: '',
     travauxASLPrevusNonVotes: [] as string[],
+    procedureEnCoursASL: '',
     // Situation actuelle détaillée
     typeBailLoue: '',
     finBail: '',
@@ -262,8 +316,9 @@ export default function EstimationEtape2Page() {
         localisation: formData.localisation,
         ville: formData.ville || null,
         code_postal: formData.codePostal || null,
-        type_bien: formData.typeBien,
-        surface: formData.surface || null,
+        type_bien: formData.typeBienSousCategorie || formData.typeBien || null,
+        surface: formData.typeBien === 'Appartement' ? (formData.surfaceCarrez || null) : (formData.surface || null),
+        surface_carrez: formData.typeBien === 'Appartement' ? (formData.surfaceCarrez || null) : null,
         surface_terrain: formData.surfaceTerrain || null,
         description_initiale: formData.description || null,
         nombre_pieces: formData.nombrePieces ? parseInt(formData.nombrePieces) : null,
@@ -281,9 +336,18 @@ export default function EstimationEtape2Page() {
         surface_exterieur: formData.surfaceExterieur || null,
         stationnement: formData.stationnement || null,
         stationnement_emplacement: formData.stationnementEmplacement || null,
+        stationnement_ext_prive_libre: formData.stationnementExtPriveLibre || null,
+        has_box: formData.hasBox || null,
         stationnement_couvert: formData.stationnementCouvert || null,
         stationnement_ferme: formData.stationnementFerme || null,
         surface_stationnement: formData.surfaceStationnement || null,
+        rooftop_ou_non: formData.rooftopOuiNon || null,
+        rdc_ou_non: formData.rdcOuiNon || null,
+        balcon_m2: formData.balconM2 || null,
+        terrasse_m2: formData.terrasseM2 || null,
+        loggia_m2: formData.loggiaM2 || null,
+        rez_de_jardin_m2: formData.rezDeJardinM2 || null,
+        cave_m2: formData.caveM2 || null,
         etat_bien: formData.etatBien || null,
         travaux_recents: formData.travauxRecents === 'oui' ? true : formData.travauxRecents === 'non' ? false : null,
         nature_travaux: formData.natureTravaux || null,
@@ -296,13 +360,19 @@ export default function EstimationEtape2Page() {
         prestations: formData.prestations.length > 0 ? formData.prestations : null,
         autres_prestations: formData.autresPrestations || null,
         exposition: formData.exposition || null,
-        exposition_traversant: formData.expositionTraversant || null,
+        exposition_traversant: formData.expositionTraversant?.length ? formData.expositionTraversant.join(', ') : null,
         vis_a_vis: formData.visAVis || null,
         distance_vis_a_vis: formData.distanceVisAVis || null,
         taxe_fonciere: formData.taxeFonciere || null,
         charges_copro: formData.chargesCopro || null,
+        charges_copro_trimestriel: formData.chargesCoproTrimestriel || null,
+        type_syndic: formData.typeSyndic || null,
+        statut_copro: formData.statutCopro || null,
+        standing_residence: formData.standingResidence || null,
+        gardien_concierge: formData.gardienConcierge || null,
+        residence_fermee_type: formData.residenceFermeeType?.length ? formData.residenceFermeeType : null,
         dpe: formData.dpe || null,
-        contexte_vente: formData.contexteVente || null,
+        contexte_vente: formData.contexteVente?.length ? formData.contexteVente.map(o => o === 'Autre à préciser' && formData.contexteVenteAutre ? formData.contexteVenteAutre : o).filter(Boolean).join('; ') : null,
         nom_succession: formData.nomSuccession || null,
         delai_vente: formData.delaiVente || null,
         situation_actuelle: formData.situationActuelle || null,
@@ -314,7 +384,29 @@ export default function EstimationEtape2Page() {
 
         // Nouveaux champs
         mitoyennete: formData.mitoyennete || null,
-        vue: formData.vue || null,
+        maison_type: formData.maisonType || null,
+        maison_ensemble_organise: formData.maisonEnsembleOrganise || null,
+        sous_sol_total_m2: formData.sousSolTotalM2 || null,
+        sous_sol_amenage_m2: formData.sousSolAmenageM2 || null,
+        combles_m2: formData.comblesM2 || null,
+        combles_amenagees_m2: formData.comblesAmenageesM2 || null,
+        studio_dependances_m2: formData.studioDependancesM2 || null,
+        forage_puits: formData.foragePuits || null,
+        prestations_interieures_maison: formData.prestationsInterieuresMaison?.length ? formData.prestationsInterieuresMaison : null,
+        prestations_interieures_maison_autres: formData.prestationsInterieuresMaisonAutres || null,
+        procedure_en_cours_asl: formData.procedureEnCoursASL || null,
+        nombre_lots_copro_horizontale: formData.nombreLotsCoproHorizontale || null,
+        charges_copro_horizontale: formData.chargesCoproHorizontale || null,
+        charges_copro_horizontale_contenu: formData.chargesCoproHorizontaleContenu?.length ? formData.chargesCoproHorizontaleContenu : null,
+        travaux_copro_horizontale_recents: formData.travauxCoproHorizontaleRecents || null,
+        travaux_copro_horizontale_recents_detail: formData.travauxCoproHorizontaleRecentsDetail || null,
+        travaux_copro_horizontale_recents_montant: formData.travauxCoproHorizontaleRecentsMontant || null,
+        travaux_copro_horizontale_votes_non_realises: formData.travauxCoproHorizontaleVotesNonRealises || null,
+        travaux_copro_horizontale_votes_detail: formData.travauxCoproHorizontaleVotesDetail || null,
+        travaux_copro_horizontale_votes_delai: formData.travauxCoproHorizontaleVotesDelai || null,
+        travaux_copro_horizontale_prevus_non_votes: formData.travauxCoproHorizontalePrevusNonVotes?.length ? formData.travauxCoproHorizontalePrevusNonVotes : null,
+        procedure_en_cours_copro_horizontale: formData.procedureEnCoursCoproHorizontale || null,
+        vue: formData.vue?.length ? formData.vue.join(', ') : null,
         annee_construction: formData.anneeConstruction || null,
         etat_toiture: formData.etatToiture || null,
         etat_facade: formData.etatFacade || null,
@@ -331,6 +423,8 @@ export default function EstimationEtape2Page() {
         type_vente_vide_meuble: formData.typeVenteVideMeuble || null,
         equipements_premium: formData.equipementsPremium.length > 0 ? formData.equipementsPremium : null,
         atout_principal: formData.atoutPrincipal || null,
+        element_negatif_valorisation: formData.elementNegatifValorisation || null,
+        luminosite: formData.luminosite ?? null,
         chauffage_type: formData.chauffageType || null,
         chauffage_production: formData.chauffageProduction || null,
         eau_chaude_production: formData.eauChaudeProduction || null,
@@ -344,6 +438,7 @@ export default function EstimationEtape2Page() {
         dpe_valide: formData.dpeValide || null,
         classe_ges: formData.classeGes || null,
         residence_type: formData.residenceType || null,
+        residence_type_autre: formData.residenceType === 'Autre (à préciser)' ? formData.residenceTypeAutre || null : null,
         charges_copro_contenu: formData.chargesCoproContenu.length > 0 ? formData.chargesCoproContenu : null,
         eau_chaude_type: formData.eauChaudeType || null,
         travaux_autorisations: formData.travauxAutorisations || null,
@@ -353,6 +448,12 @@ export default function EstimationEtape2Page() {
         travaux_copro_recents: formData.travauxCoproRecents || null,
         travaux_copro_recents_detail: formData.travauxCoproRecentsDetail || null,
         travaux_copro_recents_montant: formData.travauxCoproRecentsMontant || null,
+        travaux_copro_recents_annee: formData.travauxCoproRecentsAnnee || null,
+        travaux_copro_votes_nature: formData.travauxCoproVotesNature || null,
+        travaux_copro_votes_cout: formData.travauxCoproVotesCout || null,
+        travaux_copro_prevus_nature: formData.travauxCoproPrevusNature || null,
+        travaux_copro_prevus_cout: formData.travauxCoproPrevusCout || null,
+        travaux_copro_prevus_date: formData.travauxCoproPrevusDate || null,
         travaux_copro_prevus_non_votes: formData.travauxCoproPrevusNonVotes.length > 0 ? formData.travauxCoproPrevusNonVotes : null,
         travaux_votes_non_realises: formData.travauxVotesNonRealises || null,
         travaux_votes_non_realises_detail: formData.travauxVotesNonRealisesDetail || null,
@@ -466,32 +567,32 @@ export default function EstimationEtape2Page() {
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
             <div>
-              <p className={sectionTitleClass} style={fontStyle}>Contexte</p>
-              <div className="mt-4">
-                <select name="contexteVente" value={formData.contexteVente} onChange={handleChange} className={selectClass} style={fontStyle}>
-                  <option value="" className="bg-black text-white">Sélectionnez...</option>
-                  <option value="Mutation" className="bg-black text-white">Mutation</option>
-                  <option value="Mariage" className="bg-black text-white">Mariage</option>
-                  <option value="Naissance" className="bg-black text-white">Naissance</option>
-                  <option value="Départ des enfants" className="bg-black text-white">Départ des enfants</option>
-                  <option value="Problème de santé" className="bg-black text-white">Problème de santé</option>
-                  <option value="Besoin de liquidité" className="bg-black text-white">Besoin de liquidité</option>
-                  <option value="Difficultés financières" className="bg-black text-white">Difficultés financières</option>
-                  <option value="Vente pour rachat plus adapté" className="bg-black text-white">Vente pour rachat plus adapté</option>
-                  <option value="Arbitrage patrimonial" className="bg-black text-white">Arbitrage patrimonial</option>
-                  <option value="Revente pour réinvestir ailleurs" className="bg-black text-white">Revente pour réinvestir ailleurs</option>
-                  <option value="Donation / partage" className="bg-black text-white">Donation / partage</option>
-                  <option value="Indivision compliquée" className="bg-black text-white">Indivision compliquée</option>
-                  <option value="Fin de dispositif fiscal" className="bg-black text-white">Fin de dispositif fiscal</option>
-                  <option value="Arbitrage SCI" className="bg-black text-white">Arbitrage SCI</option>
-                  <option value="Optimisation fiscale" className="bg-black text-white">Optimisation fiscale</option>
-                  <option value="Marché favorable" className="bg-black text-white">Marché favorable</option>
-                  <option value="Changement de projet de vie / déménagement" className="bg-black text-white">Changement de projet de vie / déménagement</option>
-                  <option value="Divorce" className="bg-black text-white">Divorce</option>
-                  <option value="Succession" className="bg-black text-white">Succession</option>
-                </select>
+              <p className={sectionTitleClass} style={fontStyle}>Contexte (plusieurs réponses possibles)</p>
+              <div className="grid md:grid-cols-2 gap-3 mt-4">
+                {[
+                  'Mariage / divorce',
+                  'Succession / donation / donation partage / indivision',
+                  'Départ des enfants / naissance',
+                  'Difficultés financières / besoin de liquidités',
+                  'Problème de santé',
+                  'Vente pour investir ailleurs',
+                  'Marché favorable',
+                  'Fin dispositif fiscal / Optimisation fiscale',
+                  'Autre à préciser',
+                ].map((option) => (
+                  <label key={option} className={getOptionClass(formData.contexteVente.includes(option))}>
+                    <input type="checkbox" checked={formData.contexteVente.includes(option)} onChange={() => handleCheckboxChange('contexteVente', option)} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
               </div>
-              {formData.contexteVente === 'Succession' && (
+              {formData.contexteVente.includes('Autre à préciser') && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Précisez</label>
+                  <input type="text" name="contexteVenteAutre" value={formData.contexteVenteAutre} onChange={handleChange} placeholder="Précisez votre situation..." className={inputClass} style={fontStyle} />
+                </div>
+              )}
+              {formData.contexteVente.includes('Succession / donation / donation partage / indivision') && (
                 <div className="mt-4">
                   <label className={labelClass} style={fontStyle}>Nom de la succession</label>
                   <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
@@ -566,38 +667,56 @@ export default function EstimationEtape2Page() {
             {/* Type de bien */}
             <div>
               <label className={labelClass} style={fontStyle}>Type de bien</label>
-              <select
-                name="typeBien"
-                value={formData.typeBien}
-                onChange={handleChange}
-                className={selectClass}
-                style={fontStyle}
-              >
-                <option value="" className="bg-black text-white">Sélectionnez...</option>
-                <option value="Appartement" className="bg-black text-white">Appartement</option>
-                <option value="Maison" className="bg-black text-white">Maison</option>
-                <option value="Villa" className="bg-black text-white">Villa</option>
-                <option value="Maison de ville" className="bg-black text-white">Maison de ville</option>
-                <option value="Hôtel particulier" className="bg-black text-white">Hôtel particulier</option>
-                <option value="Loft" className="bg-black text-white">Loft</option>
-                <option value="Studio" className="bg-black text-white">Studio</option>
-                <option value="Duplex" className="bg-black text-white">Duplex</option>
-                <option value="Triplex" className="bg-black text-white">Triplex</option>
-                <option value="Penthouse" className="bg-black text-white">Penthouse</option>
-                <option value="Chambre de bonne" className="bg-black text-white">Chambre de bonne</option>
-                <option value="Terrain" className="bg-black text-white">Terrain</option>
-                <option value="Parking / Box" className="bg-black text-white">Parking / Box</option>
-                <option value="Cave" className="bg-black text-white">Cave</option>
-                <option value="Château" className="bg-black text-white">Château</option>
-                <option value="Propriété" className="bg-black text-white">Propriété</option>
-                <option value="Ferme" className="bg-black text-white">Ferme</option>
-                <option value="Autre" className="bg-black text-white">Autre</option>
-              </select>
+              <div className="flex gap-4 mt-2">
+                {['Appartement', 'Maison'].map((option) => (
+                  <label key={option} className={getOptionClass(formData.typeBien === option)}>
+                    <input type="radio" name="typeBien" value={option} checked={formData.typeBien === option} onChange={(e) => { handleChange(e); setFormData(prev => ({ ...prev, typeBienSousCategorie: '' })); }} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
+              </div>
+              {formData.typeBien === 'Appartement' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Sous-catégorie</label>
+                  <select name="typeBienSousCategorie" value={formData.typeBienSousCategorie} onChange={handleChange} className={selectClass} style={fontStyle}>
+                    <option value="" className="bg-black text-white">Sélectionnez...</option>
+                    {['Studio', 'Duplex', 'Triplex', 'Loft', 'Penthouse'].map((opt) => (
+                      <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              {formData.typeBien === 'Maison' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Sous-catégorie</label>
+                  <select name="typeBienSousCategorie" value={formData.typeBienSousCategorie} onChange={handleChange} className={selectClass} style={fontStyle}>
+                    <option value="" className="bg-black text-white">Sélectionnez...</option>
+                    {['Maison individuelle', 'Maison de ville', 'Villa', 'Hôtel particulier', 'Bâtisse / propriété / Mas', 'Ferme', 'Château'].map((opt) => (
+                      <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
 
             {/* Surface */}
             <div className="grid md:grid-cols-2 gap-4">
-              {formData.typeBien !== 'Terrain' && (
+              {formData.typeBien === 'Appartement' && (
+                <div>
+                  <label className={labelClass} style={fontStyle}>Surface m² Loi Carrez</label>
+                  <input
+                    type="number"
+                    name="surfaceCarrez"
+                    value={formData.surfaceCarrez}
+                    onChange={handleChange}
+                    min="1"
+                    placeholder="Ex: 75"
+                    className={inputClass}
+                    style={fontStyle}
+                  />
+                </div>
+              )}
+              {formData.typeBien === 'Maison' && (
                 <div>
                   <label className={labelClass} style={fontStyle}>Surface habitable (m²)</label>
                   <input
@@ -612,7 +731,7 @@ export default function EstimationEtape2Page() {
                   />
                 </div>
               )}
-              {['Maison', 'Villa', 'Maison de ville', 'Hôtel particulier', 'Propriété', 'Ferme', 'Château', 'Terrain'].includes(formData.typeBien) && (
+              {formData.typeBien === 'Maison' && (
                 <div>
                   <label className={labelClass} style={fontStyle}>Surface du terrain (m²)</label>
                   <input
@@ -632,7 +751,7 @@ export default function EstimationEtape2Page() {
             {/* Année de construction */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className={labelClass} style={fontStyle}>Année de construction</label>
+                <label className={labelClass} style={fontStyle}>{formData.typeBien === 'Appartement' ? 'Année de construction de l\'immeuble' : 'Année de construction'}</label>
                 <input type="number" name="anneeConstruction" value={formData.anneeConstruction} onChange={handleChange} min="1800" max="2026" placeholder="Ex: 1985" className={inputClass} style={fontStyle} />
               </div>
             </div>
@@ -648,6 +767,12 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
+              {formData.residenceType === 'Autre (à préciser)' && (
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Précisez la situation</label>
+                  <input type="text" name="residenceTypeAutre" value={formData.residenceTypeAutre} onChange={handleChange} placeholder="Ex: Bien en indivision..." className={inputClass} style={fontStyle} />
+                </div>
+              )}
             </div>
 
           </div>
@@ -658,7 +783,7 @@ export default function EstimationEtape2Page() {
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Photos du bien</h2>
             <p className="text-white/60 text-sm leading-relaxed -mt-2" style={fontStyle}>
-              Ajoutez jusqu'à 20 photos de votre bien pour affiner l'estimation. Formats acceptés : JPG, PNG, WEBP (max 10 Mo par photo).
+              Ajoutez jusqu'à 20 photos de votre bien pour affiner l&apos;estimation. Pensez à inclure les photos des anomalies du bien (fissures, humidité, etc.). Formats acceptés : JPG, PNG, WEBP (max 10 Mo par photo).
             </p>
 
             {/* Zone de drop / sélection */}
@@ -772,7 +897,7 @@ export default function EstimationEtape2Page() {
               </div>
 
               {/* Nombre de niveaux (maisons, villas, etc.) */}
-              {['Maison', 'Villa', 'Maison de ville', 'Hôtel particulier', 'Propriété', 'Ferme'].includes(formData.typeBien) && (
+              {formData.typeBien === 'Maison' && (
                 <div className="grid md:grid-cols-3 gap-4 mt-4">
                   <div>
                     <label className={labelClass} style={fontStyle}>Nombre de niveaux</label>
@@ -789,30 +914,41 @@ export default function EstimationEtape2Page() {
                 </div>
               )}
 
-              {/* Mitoyenneté (maisons et similaires) */}
-              {['Maison', 'Villa', 'Maison de ville', 'Hôtel particulier', 'Propriété', 'Ferme'].includes(formData.typeBien) && (
-                <div className="grid md:grid-cols-3 gap-4 mt-4">
-                  <div className="md:col-span-2">
-                    <label className={labelClass} style={fontStyle}>Mitoyenneté</label>
-                    <select name="mitoyennete" value={formData.mitoyennete} onChange={handleChange} className={selectClass} style={fontStyle}>
+              {/* Configuration de la maison */}
+              {formData.typeBien === 'Maison' && (
+                <div className="pt-4 border-t border-white/10 space-y-4">
+                  <p className={sectionTitleClass} style={fontStyle}>Configuration de la maison</p>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Type</label>
+                    <select name="maisonType" value={formData.maisonType} onChange={handleChange} className={selectClass} style={fontStyle}>
                       <option value="" className="bg-black text-white">Sélectionnez...</option>
-                      <option value="Non mitoyenne" className="bg-black text-white">Non mitoyenne</option>
-                      <option value="Mitoyenneté 1 côté" className="bg-black text-white">Mitoyenneté 1 côté</option>
+                      <option value="Individuelle" className="bg-black text-white">Individuelle</option>
+                      <option value="Mitoyenne 1 côté" className="bg-black text-white">Mitoyenne 1 côté</option>
                       <option value="Mitoyenne 2 côtés" className="bg-black text-white">Mitoyenne 2 côtés</option>
-                      <option value="Mitoyenneté par annexe (garage)" className="bg-black text-white">Mitoyenneté par annexe (garage)</option>
-                      <option value="Mitoyenneté en bande (maisons accolées)" className="bg-black text-white">Mitoyenneté en bande (maisons accolées)</option>
-                      <option value="Je ne sais pas" className="bg-black text-white">Je ne sais pas</option>
+                      <option value="Mitoyenne par garage ou dépendance" className="bg-black text-white">Mitoyenne par garage ou dépendance</option>
+                      <option value="Mitoyenneté partielle" className="bg-black text-white">Mitoyenneté partielle</option>
                     </select>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Fait partie d&apos;un ensemble organisé</label>
+                    <div className="grid md:grid-cols-2 gap-3 mt-2">
+                      {['Lotissement avec ASL', 'Copropriété horizontale', 'Aucun', 'Je ne sais pas'].map((opt) => (
+                        <label key={opt} className={getOptionClass(formData.maisonEnsembleOrganise === opt)}>
+                          <input type="radio" name="maisonEnsembleOrganise" value={opt} checked={formData.maisonEnsembleOrganise === opt} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{opt}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Étage & accès (conditionnel : appartements et assimilés) */}
-            {['Appartement', 'Loft', 'Studio', 'Chambre de bonne', 'Duplex', 'Triplex', 'Penthouse'].includes(formData.typeBien) && (
+            {/* POSITION DANS L'IMMEUBLE (Appartement) */}
+            {formData.typeBien === 'Appartement' && (
               <div className="pt-4 border-t border-white/10">
-                <p className={sectionTitleClass} style={fontStyle}>Étage & accès</p>
-                <div className="grid md:grid-cols-3 gap-4 mt-4">
+                <p className={sectionTitleClass} style={fontStyle}>Position dans l&apos;immeuble</p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                   <div>
                     <label className={labelClass} style={fontStyle}>Étage</label>
                     <select name="etage" value={formData.etage} onChange={handleChange} className={selectClass} style={fontStyle}>
@@ -831,11 +967,11 @@ export default function EstimationEtape2Page() {
                     </select>
                   </div>
                   <div>
-                    <label className={labelClass} style={fontStyle}>Nombre d'étages de l'immeuble</label>
+                    <label className={labelClass} style={fontStyle}>Nombre total d&apos;étages de l&apos;immeuble</label>
                     <input type="number" name="nombreEtagesImmeuble" value={formData.nombreEtagesImmeuble} onChange={handleChange} min="1" placeholder="Ex: 5" className={inputClass} style={fontStyle} />
                   </div>
                   <div>
-                    <label className={labelClass} style={fontStyle}>Dernier étage ?</label>
+                    <label className={labelClass} style={fontStyle}>Dernier étage</label>
                     <div className="flex gap-3 mt-1">
                       {['oui', 'non'].map((val) => (
                         <label key={val} className={getOptionClass(formData.dernierEtage === val)}>
@@ -845,15 +981,38 @@ export default function EstimationEtape2Page() {
                       ))}
                     </div>
                   </div>
-                </div>
-                <div className="grid md:grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Rooftop</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.rooftopOuiNon === val)}>
+                          <input type="radio" name="rooftopOuiNon" value={val} checked={formData.rooftopOuiNon === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>RDC</label>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.rdcOuiNon === val)}>
+                          <input type="radio" name="rdcOuiNon" value={val} checked={formData.rdcOuiNon === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                   <div>
                     <label className={labelClass} style={fontStyle}>Ascenseur</label>
-                    <select name="ascenseur" value={formData.ascenseur} onChange={handleChange} className={selectClass} style={fontStyle}>
-                      <option value="" className="bg-black text-white">Sélectionnez...</option>
-                      <option value="oui" className="bg-black text-white">Oui</option>
-                      <option value="non" className="bg-black text-white">Non</option>
-                    </select>
+                    <div className="flex gap-3 mt-1">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.ascenseur === val)}>
+                          <input type="radio" name="ascenseur" value={val} checked={formData.ascenseur === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -861,132 +1020,228 @@ export default function EstimationEtape2Page() {
 
             {/* Vue */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>La vue</p>
+              <p className={sectionTitleClass} style={fontStyle}>La vue (plusieurs réponses possibles)</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
                 {['Complètement dégagée', 'Partiellement dégagée', 'Vue sur cour', 'Vue sur rue', 'Vue sur mer', 'Vue sur montagne', 'Vue sur jardin', 'Vue immeuble', 'Aucune'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.vue === option)}>
-                    <input type="radio" name="vue" value={option} checked={formData.vue === option} onChange={handleChange} className="mr-2 accent-white" />
+                  <label key={option} className={getOptionClass(formData.vue.includes(option))}>
+                    <input type="checkbox" checked={formData.vue.includes(option)} onChange={() => handleCheckboxChange('vue', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Extérieurs */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Extérieurs</p>
-              <div className="grid md:grid-cols-4 gap-4 mt-4">
-                {['Balcon', 'Terrasse', 'Jardin', 'Rooftop', 'Cour', 'Loggia', 'Forage', 'Puits (ouvert ou fermé)', 'Aucun'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.exterieur.includes(option))}>
-                    <input
-                      type="checkbox"
-                      checked={formData.exterieur.includes(option)}
-                      onChange={() => handleCheckboxChange('exterieur', option)}
-                      className="mr-2 accent-white"
-                    />
-                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-              {(formData.exterieur.includes('Balcon') || formData.exterieur.includes('Terrasse') || formData.exterieur.includes('Jardin') || formData.exterieur.includes('Rooftop') || formData.exterieur.includes('Cour') || formData.exterieur.includes('Loggia')) && (
-                <div className="mt-4">
-                  <label className={labelClass} style={fontStyle}>Surface approximative de l'extérieur</label>
-                  <input type="text" name="surfaceExterieur" value={formData.surfaceExterieur} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
-                </div>
-              )}
-            </div>
-
-            {/* Stationnement */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Stationnement</p>
-              <div className="grid md:grid-cols-5 gap-4 mt-4">
-                {['Aucun', 'Parking', 'Box', 'Garage'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.stationnement === option)}>
-                    <input
-                      type="radio"
-                      name="stationnement"
-                      value={option}
-                      checked={formData.stationnement === option}
-                      onChange={handleChange}
-                      className="mr-2 accent-white"
-                    />
-                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.stationnement && formData.stationnement !== 'Aucun' && (
-                <div className="mt-4 space-y-4">
-                  {/* Emplacement : Intérieur / Extérieur */}
-                  {formData.stationnement === 'Parking' && (
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Emplacement</label>
-                      <div className="grid md:grid-cols-2 gap-4 mt-2">
-                        {['Intérieur', 'Extérieur'].map((option) => (
-                          <label key={option} className={getOptionClass(formData.stationnementEmplacement === option)}>
-                            <input
-                              type="radio"
-                              name="stationnementEmplacement"
-                              value={option}
-                              checked={formData.stationnementEmplacement === option}
-                              onChange={handleChange}
-                              className="mr-2 accent-white"
-                            />
-                            <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {/* Couvert / Non couvert */}
+            {/* AMENAGEMENT EXTERIEUR - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Aménagement extérieur</p>
+                <p className="text-white/60 text-sm mb-4" style={fontStyle}>Balcon / terrasse / loggia / rez de jardin / cave + leur surface en m²</p>
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
                   <div>
-                    <label className={labelClass} style={fontStyle}>Couverture</label>
-                    <div className="grid md:grid-cols-2 gap-4 mt-2">
-                      {['Couvert', 'Non couvert'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.stationnementCouvert === option)}>
-                          <input
-                            type="radio"
-                            name="stationnementCouvert"
-                            value={option}
-                            checked={formData.stationnementCouvert === option}
-                            onChange={handleChange}
-                            className="mr-2 accent-white"
-                          />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                    <label className={labelClass} style={fontStyle}>Balcon (m²)</label>
+                    <input type="text" name="balconM2" value={formData.balconM2} onChange={handleChange} placeholder="Ex: 8" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Terrasse (m²)</label>
+                    <input type="text" name="terrasseM2" value={formData.terrasseM2} onChange={handleChange} placeholder="Ex: 15" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Loggia (m²)</label>
+                    <input type="text" name="loggiaM2" value={formData.loggiaM2} onChange={handleChange} placeholder="Ex: 6" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Rez de jardin (m²)</label>
+                    <input type="text" name="rezDeJardinM2" value={formData.rezDeJardinM2} onChange={handleChange} placeholder="Ex: 20" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Cave (m²)</label>
+                    <input type="text" name="caveM2" value={formData.caveM2} onChange={handleChange} placeholder="Ex: 6" className={inputClass} style={fontStyle} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Caractéristiques du bien si maison */}
+            {formData.typeBien === 'Maison' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Caractéristiques du bien si maison</p>
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Surface terrain (m²)</label>
+                    <input type="text" name="surfaceTerrain" value={formData.surfaceTerrain} onChange={handleChange} placeholder="Ex: 200" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Sous-sol total (m²)</label>
+                    <input type="text" name="sousSolTotalM2" value={formData.sousSolTotalM2} onChange={handleChange} placeholder="Ex: 50" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Sous-sol aménagé (m²)</label>
+                    <input type="text" name="sousSolAmenageM2" value={formData.sousSolAmenageM2} onChange={handleChange} placeholder="Ex: 25" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Combles (m²)</label>
+                    <input type="text" name="comblesM2" value={formData.comblesM2} onChange={handleChange} placeholder="Ex: 60" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Combles aménagées (m²)</label>
+                    <input type="text" name="comblesAmenageesM2" value={formData.comblesAmenageesM2} onChange={handleChange} placeholder="Ex: 30" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Studio indépendant ou dépendances (m²)</label>
+                    <input type="text" name="studioDependancesM2" value={formData.studioDependancesM2} onChange={handleChange} placeholder="Ex: 20" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className={labelClass} style={fontStyle}>Forage / Puits</label>
+                    <div className="flex gap-4 mt-2">
+                      {['Aucun', 'Fonctionnel', 'Fermé'].map((opt) => (
+                        <label key={opt} className={getOptionClass(formData.foragePuits === opt)}>
+                          <input type="radio" name="foragePuits" value={opt} checked={formData.foragePuits === opt} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{opt}</span>
                         </label>
                       ))}
                     </div>
                   </div>
-                  {/* Fermé / Non fermé (Box et Garage) */}
-                  {(formData.stationnement === 'Box' || formData.stationnement === 'Garage') && (
+                </div>
+              </div>
+            )}
+
+            {/* Extérieurs - Maison */}
+            {formData.typeBien === 'Maison' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Extérieurs</p>
+                <div className="grid md:grid-cols-4 gap-4 mt-4">
+                  {['Balcon', 'Terrasse', 'Jardin', 'Rooftop', 'Cour', 'Loggia', 'Forage', 'Puits (ouvert ou fermé)', 'Aucun'].map((option) => (
+                    <label key={option} className={getOptionClass(formData.exterieur.includes(option))}>
+                      <input type="checkbox" checked={formData.exterieur.includes(option)} onChange={() => handleCheckboxChange('exterieur', option)} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                    </label>
+                  ))}
+                </div>
+                {(formData.exterieur.includes('Balcon') || formData.exterieur.includes('Terrasse') || formData.exterieur.includes('Jardin') || formData.exterieur.includes('Rooftop') || formData.exterieur.includes('Cour') || formData.exterieur.includes('Loggia')) && (
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Surface approximative de l&apos;extérieur</label>
+                    <input type="text" name="surfaceExterieur" value={formData.surfaceExterieur} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Stationnement - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Stationnement</p>
+                <div className="space-y-4 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Parking</label>
+                    <div className="grid md:grid-cols-2 gap-4 mt-2">
+                      {['Aucun', 'Intérieur', 'Extérieur'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.stationnement === option)}>
+                          <input type="radio" name="stationnement" value={option} checked={formData.stationnement === option} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                    {formData.stationnement === 'Extérieur' && (
+                      <div className="mt-4 grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Privé ou libre</label>
+                          <div className="flex gap-3 mt-1">
+                            {['Privé', 'Libre'].map((opt) => (
+                              <label key={opt} className={getOptionClass(formData.stationnementExtPriveLibre === opt)}>
+                                <input type="radio" name="stationnementExtPriveLibre" value={opt} checked={formData.stationnementExtPriveLibre === opt} onChange={handleChange} className="mr-2 accent-white" />
+                                <span className="text-white text-sm" style={fontStyle}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Couvert ou non couvert</label>
+                          <div className="flex gap-3 mt-1">
+                            {['Couvert', 'Non couvert'].map((opt) => (
+                              <label key={opt} className={getOptionClass(formData.stationnementCouvert === opt)}>
+                                <input type="radio" name="stationnementCouvert" value={opt} checked={formData.stationnementCouvert === opt} onChange={handleChange} className="mr-2 accent-white" />
+                                <span className="text-white text-sm" style={fontStyle}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Box</label>
+                    <div className="flex gap-4 mt-2">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.hasBox === val)}>
+                          <input type="radio" name="hasBox" value={val} checked={formData.hasBox === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stationnement - Maison */}
+            {formData.typeBien === 'Maison' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Stationnement</p>
+                <div className="grid md:grid-cols-4 gap-4 mt-4">
+                  {['Aucun', 'Parking', 'Box', 'Garage'].map((option) => (
+                    <label key={option} className={getOptionClass(formData.stationnement === option)}>
+                      <input type="radio" name="stationnement" value={option} checked={formData.stationnement === option} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                    </label>
+                  ))}
+                </div>
+                {formData.stationnement && formData.stationnement !== 'Aucun' && (
+                  <div className="mt-4 space-y-4">
+                    {formData.stationnement === 'Parking' && (
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Emplacement</label>
+                        <div className="grid md:grid-cols-2 gap-4 mt-2">
+                          {['Intérieur', 'Extérieur'].map((option) => (
+                            <label key={option} className={getOptionClass(formData.stationnementEmplacement === option)}>
+                              <input type="radio" name="stationnementEmplacement" value={option} checked={formData.stationnementEmplacement === option} onChange={handleChange} className="mr-2 accent-white" />
+                              <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     <div>
-                      <label className={labelClass} style={fontStyle}>Fermé ?</label>
+                      <label className={labelClass} style={fontStyle}>Couverture</label>
                       <div className="grid md:grid-cols-2 gap-4 mt-2">
-                        {['Fermé', 'Non fermé'].map((option) => (
-                          <label key={option} className={getOptionClass(formData.stationnementFerme === option)}>
-                            <input
-                              type="radio"
-                              name="stationnementFerme"
-                              value={option}
-                              checked={formData.stationnementFerme === option}
-                              onChange={handleChange}
-                              className="mr-2 accent-white"
-                            />
+                        {['Couvert', 'Non couvert'].map((option) => (
+                          <label key={option} className={getOptionClass(formData.stationnementCouvert === option)}>
+                            <input type="radio" name="stationnementCouvert" value={option} checked={formData.stationnementCouvert === option} onChange={handleChange} className="mr-2 accent-white" />
                             <span className="text-white text-sm" style={fontStyle}>{option}</span>
                           </label>
                         ))}
                       </div>
                     </div>
-                  )}
-                  {/* Superficie */}
-                  <div className="grid md:grid-cols-2 gap-4">
+                    {(formData.stationnement === 'Box' || formData.stationnement === 'Garage') && (
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Fermé ?</label>
+                        <div className="grid md:grid-cols-2 gap-4 mt-2">
+                          {['Fermé', 'Non fermé'].map((option) => (
+                            <label key={option} className={getOptionClass(formData.stationnementFerme === option)}>
+                              <input type="radio" name="stationnementFerme" value={option} checked={formData.stationnementFerme === option} onChange={handleChange} className="mr-2 accent-white" />
+                              <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     <div>
                       <label className={labelClass} style={fontStyle}>Superficie (m²)</label>
                       <input type="text" name="surfaceStationnement" value={formData.surfaceStationnement} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="border-t border-white/10" />
@@ -1015,88 +1270,105 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* ═══ TRAVAUX EFFECTUÉS ═══ */}
+            {/* Luminosité */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Travaux effectués</p>
-              <div className="flex gap-4 mt-4 mb-4">
-                {['oui', 'non'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.travauxRecents === val)}>
-                    <input type="radio" name="travauxRecents" value={val} checked={formData.travauxRecents === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.travauxRecents === 'oui' && (
-                <div className="space-y-4 mt-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Nature des travaux</label>
-                      <input type="text" name="natureTravaux" value={formData.natureTravaux} onChange={handleChange} placeholder="Ex: Rénovation complète..." className={inputClass} style={fontStyle} />
-                    </div>
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Année approximative</label>
-                      <input type="text" name="anneeTravaux" value={formData.anneeTravaux} onChange={handleChange} placeholder="Ex: 2023" className={inputClass} style={fontStyle} />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Montant total des travaux</label>
-                    <input type="text" name="montantTravaux" value={formData.montantTravaux} onChange={handleChange} placeholder="Ex: 25 000 €" className={inputClass} style={fontStyle} />
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Les travaux effectués ont-ils fait l&apos;objet des autorisations nécessaires ?</label>
-                    <div className="grid md:grid-cols-4 gap-3 mt-2">
-                      {['Oui', 'Non', 'En cours de régularisation', 'À vérifier'].map((val) => (
-                        <label key={val} className={getOptionClass(formData.travauxAutorisations === val)}>
-                          <input type="radio" name="travauxAutorisations" value={val} checked={formData.travauxAutorisations === val} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+              <p className={sectionTitleClass} style={fontStyle}>Luminosité</p>
+              <div className="mt-4">
+                <label className={labelClass} style={fontStyle}>Note de 1 à 10</label>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-white/50 text-sm" style={fontStyle}>1</span>
+                  <input type="range" name="luminosite" min="1" max="10" value={formData.luminosite} onChange={(e) => setFormData(prev => ({ ...prev, luminosite: parseInt(e.target.value) || 5 }))} className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white" />
+                  <span className="text-white font-semibold min-w-[2rem] text-center" style={fontStyle}>{formData.luminosite}</span>
+                  <span className="text-white/50 text-sm" style={fontStyle}>10</span>
                 </div>
-              )}
+              </div>
             </div>
 
-            {/* ═══ TRAVAUX PRÉVUS ═══ */}
+            {/* ═══ TRAVAUX EFFECTUÉS / TRAVAUX PRÉVUS ═══ */}
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Travaux prévus</p>
-              <div className="flex gap-4 mt-4 mb-4">
-                {['oui', 'non'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.travauxPrevus === val)}>
-                    <input type="radio" name="travauxPrevus" value={val} checked={formData.travauxPrevus === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.travauxPrevus === 'oui' && (
-                <div className="space-y-4 mt-4">
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Nature des travaux prévus</label>
-                      <input type="text" name="natureTravauxPrevus" value={formData.natureTravauxPrevus} onChange={handleChange} placeholder="Ex: Ravalement, extension..." className={inputClass} style={fontStyle} />
-                    </div>
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Budget estimé</label>
-                      <input type="text" name="budgetTravauxPrevus" value={formData.budgetTravauxPrevus} onChange={handleChange} placeholder="Ex: 15 000 €" className={inputClass} style={fontStyle} />
-                    </div>
-                    <div>
-                      <label className={labelClass} style={fontStyle}>Date prévue</label>
-                      <input type="text" name="dateTravauxPrevus" value={formData.dateTravauxPrevus} onChange={handleChange} placeholder="Ex: Été 2026" className={inputClass} style={fontStyle} />
-                    </div>
+              <p className={sectionTitleClass} style={fontStyle}>Travaux effectués / Travaux prévus (année, nature, montant)</p>
+              <div className="grid md:grid-cols-2 gap-6 mt-4">
+                <div>
+                  <p className="text-white/70 text-sm font-medium mb-3" style={fontStyle}>Travaux effectués</p>
+                  <div className="flex gap-4 mb-4">
+                    {['oui', 'non'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.travauxRecents === val)}>
+                        <input type="radio" name="travauxRecents" value={val} checked={formData.travauxRecents === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
                   </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Les travaux prévus ont-ils fait l&apos;objet des autorisations nécessaires ?</label>
-                    <div className="grid md:grid-cols-4 gap-3 mt-2">
-                      {['Oui', 'Non', 'En cours de régularisation', 'À vérifier'].map((val) => (
-                        <label key={val} className={getOptionClass(formData.travauxPrevusAutorisations === val)}>
-                          <input type="radio" name="travauxPrevusAutorisations" value={val} checked={formData.travauxPrevusAutorisations === val} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
+                  {formData.travauxRecents === 'oui' && (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Nature</label>
+                          <input type="text" name="natureTravaux" value={formData.natureTravaux} onChange={handleChange} placeholder="Ex: Rénovation complète..." className={inputClass} style={fontStyle} />
+                        </div>
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Année</label>
+                          <input type="text" name="anneeTravaux" value={formData.anneeTravaux} onChange={handleChange} placeholder="Ex: 2023" className={inputClass} style={fontStyle} />
+                        </div>
+                      </div>
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Montant</label>
+                        <input type="text" name="montantTravaux" value={formData.montantTravaux} onChange={handleChange} placeholder="Ex: 25 000 €" className={inputClass} style={fontStyle} />
+                      </div>
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Autorisations nécessaires ?</label>
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                          {['Oui', 'Non', 'En cours de régularisation', 'À vérifier'].map((val) => (
+                            <label key={val} className={getOptionClass(formData.travauxAutorisations === val)}>
+                              <input type="radio" name="travauxAutorisations" value={val} checked={formData.travauxAutorisations === val} onChange={handleChange} className="mr-2 accent-white" />
+                              <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
+                <div>
+                  <p className="text-white/70 text-sm font-medium mb-3" style={fontStyle}>Travaux prévus</p>
+                  <div className="flex gap-4 mb-4">
+                    {['oui', 'non'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.travauxPrevus === val)}>
+                        <input type="radio" name="travauxPrevus" value={val} checked={formData.travauxPrevus === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {formData.travauxPrevus === 'oui' && (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Nature</label>
+                          <input type="text" name="natureTravauxPrevus" value={formData.natureTravauxPrevus} onChange={handleChange} placeholder="Ex: Ravalement..." className={inputClass} style={fontStyle} />
+                        </div>
+                        <div>
+                          <label className={labelClass} style={fontStyle}>Budget</label>
+                          <input type="text" name="budgetTravauxPrevus" value={formData.budgetTravauxPrevus} onChange={handleChange} placeholder="Ex: 15 000 €" className={inputClass} style={fontStyle} />
+                        </div>
+                      </div>
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Date prévue</label>
+                        <input type="text" name="dateTravauxPrevus" value={formData.dateTravauxPrevus} onChange={handleChange} placeholder="Ex: Été 2026" className={inputClass} style={fontStyle} />
+                      </div>
+                      <div>
+                        <label className={labelClass} style={fontStyle}>Autorisations nécessaires ?</label>
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                          {['Oui', 'Non', 'En cours de régularisation', 'À vérifier'].map((val) => (
+                            <label key={val} className={getOptionClass(formData.travauxPrevusAutorisations === val)}>
+                              <input type="radio" name="travauxPrevusAutorisations" value={val} checked={formData.travauxPrevusAutorisations === val} onChange={handleChange} className="mr-2 accent-white" />
+                              <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* ═══ AUTORISATIONS D'URBANISME ═══ */}
@@ -1121,96 +1393,47 @@ export default function EstimationEtape2Page() {
               )}
             </div>
 
-            {/* ═══ TRAVAUX DE COPROPRIÉTÉ ═══ */}
+            {/* ═══ TRAVAUX DE COPROPRIÉTÉ (Appartement) ═══ */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-4 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Travaux de copropriété</p>
+
+                <div className="space-y-6 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Votés et payés mais non encore réalisés (nature et coût)</label>
+                    <div className="grid md:grid-cols-2 gap-4 mt-2">
+                      <input type="text" name="travauxCoproVotesNature" value={formData.travauxCoproVotesNature} onChange={handleChange} placeholder="Nature des travaux" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproVotesCout" value={formData.travauxCoproVotesCout} onChange={handleChange} placeholder="Coût (€)" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Récemment effectués (nature, coût pour le copropriétaire, année)</label>
+                    <div className="grid md:grid-cols-3 gap-4 mt-2">
+                      <input type="text" name="travauxCoproRecentsDetail" value={formData.travauxCoproRecentsDetail} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproRecentsMontant" value={formData.travauxCoproRecentsMontant} onChange={handleChange} placeholder="Coût copropriétaire (€)" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproRecentsAnnee" value={formData.travauxCoproRecentsAnnee} onChange={handleChange} placeholder="Année" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Prévus mais non encore votés (nature, coût estimatif, date estimative)</label>
+                    <div className="grid md:grid-cols-3 gap-4 mt-2">
+                      <input type="text" name="travauxCoproPrevusNature" value={formData.travauxCoproPrevusNature} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproPrevusCout" value={formData.travauxCoproPrevusCout} onChange={handleChange} placeholder="Coût estimatif (€)" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproPrevusDate" value={formData.travauxCoproPrevusDate} onChange={handleChange} placeholder="Date estimative mise en place" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ LOTISSEMENT AVEC ASL (si Maison + Lotissement avec ASL) ═══ */}
+            {formData.typeBien === 'Maison' && formData.maisonEnsembleOrganise === 'Lotissement avec ASL' && (
             <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Travaux de copropriété</p>
-
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Y a-t-il des travaux effectués récemment dans la copropriété ?</label>
-                <div className="flex gap-4 mt-2">
-                  {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.travauxCoproRecents === val)}>
-                      <input type="radio" name="travauxCoproRecents" value={val} checked={formData.travauxCoproRecents === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              {formData.travauxCoproRecents === 'Oui' && (
-                <div className="grid md:grid-cols-2 gap-4 mt-3">
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Lesquels ?</label>
-                    <input type="text" name="travauxCoproRecentsDetail" value={formData.travauxCoproRecentsDetail} onChange={handleChange} placeholder="Ex: Ravalement façade..." className={inputClass} style={fontStyle} />
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Montant</label>
-                    <input type="text" name="travauxCoproRecentsMontant" value={formData.travauxCoproRecentsMontant} onChange={handleChange} placeholder="Ex: 50 000 €" className={inputClass} style={fontStyle} />
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Y a-t-il des travaux de copropriété prévus mais non encore votés ?</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Ravalement de façade', 'Réfection complète toiture', 'Étanchéité toiture terrasse', 'Reprise fissures structurelles', 'Consolidation fondations', 'Réfection balcons / garde-corps', 'Réfection plancher', 'À l\'étude', 'Je ne sais pas', 'Aucun travaux à prévoir'].map((option) => (
-                    <label key={option} className={getOptionClass(formData.travauxCoproPrevusNonVotes.includes(option))}>
-                      <input type="checkbox" checked={formData.travauxCoproPrevusNonVotes.includes(option)} onChange={() => handleCheckboxChange('travauxCoproPrevusNonVotes', option)} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Y a-t-il des travaux votés et payés mais non encore réalisés ?</label>
-                <div className="flex gap-4 mt-2">
-                  {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.travauxVotesNonRealises === val)}>
-                      <input type="radio" name="travauxVotesNonRealises" value={val} checked={formData.travauxVotesNonRealises === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              {formData.travauxVotesNonRealises === 'Oui' && (
-                <div className="grid md:grid-cols-2 gap-4 mt-3">
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Lesquels ?</label>
-                    <input type="text" name="travauxVotesNonRealisesDetail" value={formData.travauxVotesNonRealisesDetail} onChange={handleChange} placeholder="Ex: Ravalement..." className={inputClass} style={fontStyle} />
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Quand seront-ils réalisés ?</label>
-                    <select name="travauxVotesNonRealisesDelai" value={formData.travauxVotesNonRealisesDelai} onChange={handleChange} className={selectClass} style={fontStyle}>
-                      <option value="" className="bg-black text-white">Sélectionnez...</option>
-                      <option value="Moins de 6 mois" className="bg-black text-white">Moins de 6 mois</option>
-                      <option value="6 mois à 1 an" className="bg-black text-white">6 mois à 1 an</option>
-                      <option value="1 à 2 ans" className="bg-black text-white">1 à 2 ans</option>
-                      <option value="Plus de 2 ans" className="bg-black text-white">Plus de 2 ans</option>
-                      <option value="Date non communiquée" className="bg-black text-white">Date non communiquée</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* ═══ LOTISSEMENT AVEC ASL ═══ */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Lotissement avec ASL</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Le bien fait-il partie d&apos;un lotissement avec ASL ?</label>
-                <div className="flex gap-4 mt-2">
-                  {['Oui', 'Non'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.lotissementASL === val)}>
-                      <input type="radio" name="lotissementASL" value={val} checked={formData.lotissementASL === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {formData.lotissementASL === 'Oui' && (
-                <div className="space-y-4 mt-4">
-                  <div>
+              <p className={sectionTitleClass} style={fontStyle}>Lotissement avec ASL — Informations juridiques</p>
+              <div className="space-y-4 mt-4">
+                <div>
                     <label className={labelClass} style={fontStyle}>Montant des charges ANNUELLES (€)</label>
                     <input type="text" name="chargesASL" value={formData.chargesASL} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
                   </div>
@@ -1292,19 +1515,107 @@ export default function EstimationEtape2Page() {
                       ))}
                     </div>
                   </div>
+                  <div>
+                  <label className={labelClass} style={fontStyle}>Procédure en cours</label>
+                  <input type="text" name="procedureEnCoursASL" value={formData.procedureEnCoursASL} onChange={handleChange} placeholder="Ex: Contentieux, litige..." className={inputClass} style={fontStyle} />
                 </div>
-              )}
+              </div>
             </div>
+            )}
+
+            {/* ═══ COPROPRIÉTÉ HORIZONTALE (si Maison + Copropriété horizontale) ═══ */}
+            {formData.typeBien === 'Maison' && formData.maisonEnsembleOrganise === 'Copropriété horizontale' && (
+            <div className="pt-4 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Copropriété horizontale — Informations juridiques</p>
+              <div className="space-y-4 mt-4">
+                <div>
+                  <label className={labelClass} style={fontStyle}>Nombre de lots</label>
+                  <input type="text" name="nombreLotsCoproHorizontale" value={formData.nombreLotsCoproHorizontale} onChange={handleChange} placeholder="Ex: 12" className={inputClass} style={fontStyle} />
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Charges annuelles (€)</label>
+                  <input type="text" name="chargesCoproHorizontale" value={formData.chargesCoproHorizontale} onChange={handleChange} placeholder="Ex: 2 000 €" className={inputClass} style={fontStyle} />
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Détail des charges</label>
+                  <div className="grid md:grid-cols-2 gap-3 mt-2">
+                    {['Entretien voies privées', 'Réseaux (eau, assainissement)', 'Espaces verts', 'Équipements communs', 'Autres'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.chargesCoproHorizontaleContenu.includes(option))}>
+                        <input type="checkbox" checked={formData.chargesCoproHorizontaleContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproHorizontaleContenu', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Travaux effectués récemment</label>
+                  <div className="flex gap-4 mt-2">
+                    {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.travauxCoproHorizontaleRecents === val)}>
+                        <input type="radio" name="travauxCoproHorizontaleRecents" value={val} checked={formData.travauxCoproHorizontaleRecents === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {formData.travauxCoproHorizontaleRecents === 'Oui' && (
+                    <div className="grid md:grid-cols-2 gap-4 mt-3">
+                      <input type="text" name="travauxCoproHorizontaleRecentsDetail" value={formData.travauxCoproHorizontaleRecentsDetail} onChange={handleChange} placeholder="Nature des travaux" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproHorizontaleRecentsMontant" value={formData.travauxCoproHorizontaleRecentsMontant} onChange={handleChange} placeholder="Montant (€)" className={inputClass} style={fontStyle} />
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Travaux votés et payés mais non encore réalisés</label>
+                  <div className="flex gap-4 mt-2">
+                    {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.travauxCoproHorizontaleVotesNonRealises === val)}>
+                        <input type="radio" name="travauxCoproHorizontaleVotesNonRealises" value={val} checked={formData.travauxCoproHorizontaleVotesNonRealises === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {formData.travauxCoproHorizontaleVotesNonRealises === 'Oui' && (
+                    <div className="grid md:grid-cols-2 gap-4 mt-3">
+                      <input type="text" name="travauxCoproHorizontaleVotesDetail" value={formData.travauxCoproHorizontaleVotesDetail} onChange={handleChange} placeholder="Lesquels ?" className={inputClass} style={fontStyle} />
+                      <select name="travauxCoproHorizontaleVotesDelai" value={formData.travauxCoproHorizontaleVotesDelai} onChange={handleChange} className={selectClass} style={fontStyle}>
+                        <option value="" className="bg-black text-white">Quand ?</option>
+                        <option value="Moins de 6 mois" className="bg-black text-white">Moins de 6 mois</option>
+                        <option value="6 mois à 1 an" className="bg-black text-white">6 mois à 1 an</option>
+                        <option value="1 à 2 ans" className="bg-black text-white">1 à 2 ans</option>
+                        <option value="Plus de 2 ans" className="bg-black text-white">Plus de 2 ans</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Travaux prévus non encore votés</label>
+                  <div className="grid md:grid-cols-2 gap-3 mt-2">
+                    {['Voirie', 'Réseaux', 'Espaces verts', 'À l\'étude', 'Aucun'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.travauxCoproHorizontalePrevusNonVotes.includes(option))}>
+                        <input type="checkbox" checked={formData.travauxCoproHorizontalePrevusNonVotes.includes(option)} onChange={() => handleCheckboxChange('travauxCoproHorizontalePrevusNonVotes', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Procédure en cours</label>
+                  <input type="text" name="procedureEnCoursCoproHorizontale" value={formData.procedureEnCoursCoproHorizontale} onChange={handleChange} placeholder="Ex: Contentieux, litige..." className={inputClass} style={fontStyle} />
+                </div>
+              </div>
+            </div>
+            )}
 
             {/* Prestations */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Prestations principales</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
                 {[
-                  'Double vitrage', 'Climatisation', 'Cuisine équipée', 'Cave', 'Local vélo', 'Cheminée',
-                  'Eau chaude', 'Eau froide', 'Chauffage collectif', 'Chauffage individuel', 'Chauffage au sol',
-                  'Volets électriques', 'Volets manuels', 'Piscine', 'Immeuble sécurisé',
-                  'Ascenseur', 'Fibre optique', 'Alarme', 'Porte blindée'
+                  'Double vitrage', 'Climatisation / Gainable', 'Cave', 'Cheminée', 'Volets électriques', 'Fibre optique',
+                  'Domotique', 'Escalier colimaçons', 'Double séjour / triple réception', 'Mezzanine', 'Hauteur sous plafond remarquable',
+                  'Pièce de vie +50 m²', 'Chambre avec dressing intégré', 'Bureau indépendant', 'Bibliothèque intégrée', 'Salle de jeux / family room',
+                  'Hauteur sous plafond +3m', 'Suite parentale avec salle d\'eau / salle de bain + dressing', 'Buanderie indépendante', 'Cellier attenant à la cuisine',
+                  'Verrière intérieure', 'Baies vitrées grand format', 'Nombreux rangements sur mesure', 'Autres à préciser'
                 ].map((option) => (
                   <label key={option} className={getOptionClass(formData.prestations.includes(option))}>
                     <input type="checkbox" checked={formData.prestations.includes(option)} onChange={() => handleCheckboxChange('prestations', option)} className="mr-2 accent-white" />
@@ -1317,6 +1628,25 @@ export default function EstimationEtape2Page() {
                 <label className={labelClass} style={fontStyle}>Autres prestations</label>
                 <input type="text" name="autresPrestations" value={formData.autresPrestations} onChange={handleChange} placeholder="Précisez d'autres prestations..." className={inputClass} style={fontStyle} />
               </div>
+
+              {/* Prestations intérieures - Maison */}
+              {formData.typeBien === 'Maison' && (
+                <div className="pt-6 mt-6 border-t border-white/10">
+                  <p className={sectionTitleClass} style={fontStyle}>Prestations intérieures</p>
+                  <div className="grid md:grid-cols-2 gap-3 mt-4">
+                    {['Suite parentale en rez-de-chaussée', 'Cuisine ouverte sur jardin', 'Verrière intérieure / Baies vitrées grand format', 'Rangements sur mesure', 'Cave à vin', 'Pièce home cinéma', 'Salle de sport / SPA'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.prestationsInterieuresMaison.includes(option))}>
+                        <input type="checkbox" checked={formData.prestationsInterieuresMaison.includes(option)} onChange={() => handleCheckboxChange('prestationsInterieuresMaison', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Autres prestations</label>
+                    <input type="text" name="prestationsInterieuresMaisonAutres" value={formData.prestationsInterieuresMaisonAutres} onChange={handleChange} placeholder="Précisez..." className={inputClass} style={fontStyle} />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1385,9 +1715,49 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* Prestations détaillées (6 niveaux) */}
+            {/* Prestations détaillées */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Prestations détaillées</p>
+
+              {/* Standing de la résidence (Appartement uniquement) */}
+              {formData.typeBien === 'Appartement' && (
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Standing de la résidence</label>
+                    <div className="grid md:grid-cols-3 gap-3 mt-2">
+                      {['Standard', 'Bon standing', 'Haut de gamme'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.standingResidence === val)}>
+                          <input type="radio" name="standingResidence" value={val} checked={formData.standingResidence === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Présence d&apos;un gardien ou concierge</label>
+                    <div className="flex gap-4 mt-2">
+                      {['oui', 'non'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.gardienConcierge === val)}>
+                          <input type="radio" name="gardienConcierge" value={val} checked={formData.gardienConcierge === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Résidence fermée (plusieurs réponses possibles)</label>
+                    <p className="text-white/50 text-xs mb-2" style={fontStyle}>Portail ou barrière à l&apos;entrée, Digicode, Badge, Clé</p>
+                    <div className="grid md:grid-cols-2 gap-3 mt-2">
+                      {['Portail ou barrière à l\'entrée', 'Digicode', 'Badge', 'Clé'].map((opt) => (
+                        <label key={opt} className={getOptionClass(formData.residenceFermeeType.includes(opt))}>
+                          <input type="checkbox" checked={formData.residenceFermeeType.includes(opt)} onChange={() => handleCheckboxChange('residenceFermeeType', opt)} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* 1. Niveau global */}
               <div className="mt-4">
@@ -1480,12 +1850,7 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
 
-              {/* 6. Atout principal */}
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>6. Selon vous, quel est l&apos;atout principal de votre bien ?</label>
-                <input type="text" name="atoutPrincipal" value={formData.atoutPrincipal} onChange={handleChange} placeholder="Ex: Vue exceptionnelle, jardin privatif..." className={inputClass} style={fontStyle} />
               </div>
-            </div>
           </div>
 
           <div className="border-t border-white/10" />
@@ -1681,7 +2046,8 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* Si copropriété / Lotissement / ASL */}
+            {/* Si copropriété / Lotissement / ASL — visible uniquement pour Maison */}
+            {formData.typeBien === 'Maison' && (
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Si copropriété / Lotissement / ASL</p>
               <div className="grid md:grid-cols-2 gap-3 mt-4">
@@ -1693,6 +2059,7 @@ export default function EstimationEtape2Page() {
                 ))}
               </div>
             </div>
+            )}
           </div>
 
           <div className="border-t border-white/10" />
@@ -1707,19 +2074,22 @@ export default function EstimationEtape2Page() {
               <div className="grid md:grid-cols-5 gap-4 mt-4">
                 {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
                   <label key={option} className={getOptionClass(formData.exposition === option)}>
-                    <input type="radio" name="exposition" value={option} checked={formData.exposition === option} onChange={handleChange} className="mr-2 accent-white" />
+                    <input type="radio" name="exposition" value={option} checked={formData.exposition === option} onChange={(e) => { handleChange(e); if (option !== 'Traversant') setFormData(prev => ({ ...prev, expositionTraversant: [] })); }} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
                   </label>
                 ))}
               </div>
               {formData.exposition === 'Traversant' && (
-                <div className="grid md:grid-cols-2 gap-4 mt-4">
-                  {['Nord / Sud', 'Est / Ouest'].map((option) => (
-                    <label key={option} className={getOptionClass(formData.expositionTraversant === option)}>
-                      <input type="radio" name="expositionTraversant" value={option} checked={formData.expositionTraversant === option} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
-                  ))}
+                <div className="mt-4">
+                  <label className={labelClass} style={fontStyle}>Orientations (plusieurs réponses possibles)</label>
+                  <div className="grid grid-cols-4 gap-4 mt-2">
+                    {['Nord', 'Sud', 'Est', 'Ouest'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.expositionTraversant.includes(option))}>
+                        <input type="checkbox" checked={formData.expositionTraversant.includes(option)} onChange={() => handleCheckboxChange('expositionTraversant', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -1761,25 +2131,51 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
 
-            {/* Charges de copropriété */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Charges de copropriété</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Montant ANNUEL (€)</label>
-                <input type="text" name="chargesCopro" value={formData.chargesCopro} onChange={handleChange} placeholder="Ex: 3 000 €" className={inputClass} style={fontStyle} />
-              </div>
-              <div className="mt-3">
-                <label className={labelClass} style={fontStyle}>Ce qui est compris dans les charges :</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Eau chaude', 'Chauffage', 'Eau froide'].map((option) => (
-                    <label key={option} className={getOptionClass(formData.chargesCoproContenu.includes(option))}>
-                      <input type="checkbox" checked={formData.chargesCoproContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproContenu', option)} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
-                  ))}
+            {/* Charges de copropriété - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="space-y-6">
+                <div>
+                  <p className={sectionTitleClass} style={fontStyle}>Type de syndic</p>
+                  <div className="flex gap-4 mt-4">
+                    {['Professionnel', 'Bénévole', 'Je ne sais pas'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.typeSyndic === val)}>
+                        <input type="radio" name="typeSyndic" value={val} checked={formData.typeSyndic === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className={sectionTitleClass} style={fontStyle}>Charges de copropriété</p>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Montant € TRIMESTRIEL</label>
+                    <input type="text" name="chargesCoproTrimestriel" value={formData.chargesCoproTrimestriel} onChange={handleChange} placeholder="Ex: 750 €" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div className="mt-3">
+                    <label className={labelClass} style={fontStyle}>Ce qui est compris :</label>
+                    <div className="grid md:grid-cols-3 gap-3 mt-2">
+                      {['Chauffage', 'Eau chaude', 'Eau froide'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.chargesCoproContenu.includes(option))}>
+                          <input type="checkbox" checked={formData.chargesCoproContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproContenu', option)} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className={sectionTitleClass} style={fontStyle}>Statut de la copropriété</p>
+                  <div className="grid md:grid-cols-2 gap-3 mt-4">
+                    {['Mise en péril', 'Mise en sécurité', 'Procédure entre copropriété et copropriétaires', 'Procédure copropriété et fournisseurs / entreprises extérieures', 'Aucun'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.statutCopro === option)}>
+                        <input type="radio" name="statutCopro" value={option} checked={formData.statutCopro === option} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* DPE */}
             <div>
@@ -1838,6 +2234,21 @@ export default function EstimationEtape2Page() {
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* PERCEPTION DU BIEN */}
+            <div className="pt-6 mt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Perception du bien</p>
+              <div className="space-y-4 mt-4">
+                <div>
+                  <label className={labelClass} style={fontStyle}>Selon vous, quel est l&apos;atout principal de votre bien ?</label>
+                  <input type="text" name="atoutPrincipal" value={formData.atoutPrincipal} onChange={handleChange} placeholder="Ex: Vue exceptionnelle, jardin privatif..." className={inputClass} style={fontStyle} />
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Selon vous, y a-t-il un élément qui pourrait influencer négativement sa valorisation ?</label>
+                  <input type="text" name="elementNegatifValorisation" value={formData.elementNegatifValorisation} onChange={handleChange} placeholder="Ex: Vis-à-vis, travaux à prévoir..." className={inputClass} style={fontStyle} />
+                </div>
+              </div>
             </div>
           </div>
 
