@@ -401,6 +401,8 @@ export interface AnalyseLead {
 
   // Spécificités Juridique
   profession_juridique?: string | null
+  profession_juridique_autre?: string | null
+  nom_structure?: string | null
   raison_demande_juridique?: string | null
   contexte_juridique_libre?: string | null
 
