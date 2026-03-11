@@ -43,8 +43,9 @@ export default function EstimationJuridiqueFormulairePage() {
         nom: formData.nom,
         telephone: formData.telephone,
         email: formData.email,
-        nom_dossier: formData.nomDossier || null,
         profession_juridique: formData.professionJuridique || null,
+        profession_juridique_autre: formData.professionJuridiqueAutre || null,
+        nom_structure: formData.nomStructure || null,
         type_demande: 'estimation_partielle_juridique',
         status: 'nouveau'
       })
