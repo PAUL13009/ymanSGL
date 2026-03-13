@@ -34,14 +34,12 @@ export default function Navbar() {
 
   const menuItems = [
     { label: 'Accueil', link: '/', ariaLabel: 'Aller à la page d\'accueil' },
-    { label: 'A propos', link: '/a-propos', ariaLabel: 'Aller à la page A propos' },
-    { label: 'Notre méthode', link: '/notre-methode', ariaLabel: 'Aller à la page Notre méthode' },
     { label: 'Mon dossier d\'estimation', link: '/estimation', ariaLabel: 'Aller à la page Mon dossier d\'estimation' },
-    { label: 'Vendre', link: '/vente', ariaLabel: 'Aller à la page Vendre' },
-    { label: 'Louer', link: '/location', ariaLabel: 'Aller à la page Louer' },
-    { label: 'Services', link: '/services', ariaLabel: 'Aller à la page Services' },
-    { label: 'Catalogue', link: '/catalogue', ariaLabel: 'Aller au catalogue des biens' },
-    { label: 'Devis Personnalisé', link: '/devis-personnalise', ariaLabel: 'Demander un devis personnalisé' },
+    { label: 'Vendre à Saint-Germain-en-Laye & Environs', link: '/vente', ariaLabel: 'Vendre à Saint-Germain-en-Laye et environs' },
+    { label: 'Louer à Saint-Germain-en-Laye & Environs', link: '/location', ariaLabel: 'Louer à Saint-Germain-en-Laye et environs' },
+    { label: 'Notre Méthode', link: '/notre-methode', ariaLabel: 'Aller à la page Notre méthode' },
+    { label: 'Notre Catalogue', link: '/catalogue', ariaLabel: 'Aller au catalogue des biens' },
+    { label: 'A propos', link: '/a-propos', ariaLabel: 'Aller à la page A propos' },
   ]
 
   useEffect(() => {

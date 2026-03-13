@@ -111,8 +111,6 @@ export default function Home() {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<string | number, number>>({})
-  const [isImageHovered, setIsImageHovered] = useState(false)
-  const [isAgenceButtonHovered, setIsAgenceButtonHovered] = useState(false)
   const [isConfianceImageHovered, setIsConfianceImageHovered] = useState(false)
   const [isConfianceButtonHovered, setIsConfianceButtonHovered] = useState(false)
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | number | null>(null)
@@ -123,7 +121,6 @@ export default function Home() {
   
   // Hook pour l'animation de l'image de la fondatrice au scroll sur mobile
   const { imageRef: confianceImageRef, isAnimated: isConfianceImageAnimated } = useScrollImageAnimation()
-  const { imageRef: agenceImageRef, isAnimated: isAgenceImageAnimated } = useScrollImageAnimation()
 
   useEffect(() => {
     if (mainRef.current && containerRef) {
@@ -212,8 +209,8 @@ export default function Home() {
     <main ref={mainRef} className="min-h-screen bg-transparent relative" role="main">
       <Navbar />
       <Hero 
-        title="Vendez au juste prix. Estimation réaliste à Saint-Germain-en-Laye"
-        subtitle="Ne vous contentez pas d'une estimation automatique. Obtenez un dossier d'estimation complet pour sécuriser votre vente et valoriser votre patrimoine"
+        title="L'estimation immobilière nouvelle génération."
+        subtitle="Un service 100% digitalisé qui délivre un dossier d'analyse structuré, précis et confidentiel conçu pour éclairer vos décisions patrimoniales — qu'il s'agisse d'une vente, d'une succession ou d'une simple réflexion sur la valeur de votre bien."
         buttonText="Demander mon dossier d'estimation"
         buttonSubtext="Estimation gratuite – sans engagement"
         buttonLink="/estimation#grille-tarifaire"
@@ -509,86 +506,20 @@ export default function Home() {
         </FadeContent>
       </section>
 
-      {/* Section Présentation de l'agence */}
-      <section className="pt-12 pb-12 sm:pt-16 sm:pb-16 md:pt-20 md:pb-20 relative z-10" aria-labelledby="presentation-agence">
-        <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center mb-8 sm:mb-12">
-              {/* Image à gauche */}
-              <div 
-                ref={agenceImageRef}
-                className="relative h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden shadow-lg group"
-                onMouseEnter={() => setIsImageHovered(true)}
-                onMouseLeave={() => setIsImageHovered(false)}
-              >
-                <Image
-                  src="/images/chateau_saint_germain_en_laye.webp"
-                  alt="Château de Saint-Germain-en-Laye - L'Agence YL, agence immobilière à Saint-Germain-en-Laye"
-                  fill
-                  className={`object-cover transition-all duration-500 ${
-                    isImageHovered ? 'scale-105' : ''
-                  } ${
-                    isAgenceButtonHovered ? 'blur-md' : ''
-                  }`}
-                  loading="lazy"
-                />
-                {/* Overlay avec bouton CTA au survol */}
-                <div className={`absolute inset-0 bg-black/60 flex items-center justify-center transition-all duration-500 ${
-                  isImageHovered ? 'opacity-100' : 'opacity-0'
-                }`}>
-                  <Link
-                    href="/a-propos"
-                    className={`transform transition-all duration-500 ${
-                      isImageHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                    }`}
-                    onMouseEnter={() => setIsAgenceButtonHovered(true)}
-                    onMouseLeave={() => setIsAgenceButtonHovered(false)}
-                  >
-                    <button
-                      className="px-6 py-3 sm:px-8 sm:py-4 bg-sable-50 text-black font-medium rounded-lg hover:bg-sable-100 transition-colors duration-300"
-                      style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-                    >
-                      Découvrir l'agence
-                    </button>
-                  </Link>
-                </div>
-              </div>
-              
-              {/* Texte à droite */}
-              <div className="space-y-4 sm:space-y-6 text-center">
-                <h3 id="presentation-agence" className="sr-only">Présentation de l'agence immobilière à Saint-Germain-en-Laye</h3>
-                <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold px-2 mb-4 sm:mb-6 uppercase" style={{ color: '#ffffff', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  L'expertise au cœur de Saint-Germain-en-Laye.
-                </h4>
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl px-2" style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Parce que le marché de l'hyper-centre ne ressemble pas à celui de Pereire ou de l'Ermitage, l'Agence YL déploie une connaissance granulaire de chaque quartier.
-                </p>
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl px-2" style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Nous ne nous contentons pas de vendre des surfaces ; nous valorisons des emplacements historiques et des cadres de vie uniques. Notre priorité : transformer votre patrimoine en une transaction sereine, certifiée et sans surprise.
-                </p>
-              </div>
-            </div>
-          </div>
-        </FadeContent>
-      </section>
-
       {/* Section CTA Final */}
       <section className="relative z-10 py-32 md:py-44 flex items-center justify-center bg-black" aria-labelledby="cta-final">
         <div className="relative z-10 w-full">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-              <h2 id="cta-final" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold leading-tight mb-6 sm:mb-8 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              <h2 id="cta-final" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold leading-tight mb-10 sm:mb-14 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 Sécurisez votre patrimoine dès aujourd'hui.
               </h2>
-              <p className="text-base sm:text-lg md:text-xl text-white/80 font-normal leading-relaxed mb-10 sm:mb-14 uppercase max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Que vous soyez prêt à vendre ou simplement en phase de réflexion, échangez avec une experte qui connaît la réalité de votre quartier.
-              </p>
             </FadeContent>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 ref={estimationButtonRef as any}
                 href="/estimation#grille-tarifaire"
-                aria-label="Demander mon dossier d'estimation"
+                aria-label="Accéder à mon dossier d'estimation en ligne"
                 className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
@@ -597,8 +528,20 @@ export default function Home() {
                   letterSpacing: '0.5px',
                 }}
               >
-                Demander mon dossier d'estimation
+                Accéder à mon dossier d&apos;estimation en ligne
               </a>
+              <Link
+                href="/devis-personnalise"
+                className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                style={{
+                  fontFamily: 'var(--font-poppins), sans-serif',
+                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Prendre RDV avec Yman
+              </Link>
             </div>
           </div>
         </div>

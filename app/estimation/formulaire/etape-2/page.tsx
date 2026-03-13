@@ -381,7 +381,7 @@ export default function EstimationEtape2Page() {
         prix_envisage: formData.prixEnvisage || null,
         ajustement_prix_echelle: formData.ajustementPrix ? parseInt(formData.ajustementPrix) : null,
         message_libre: formData.messageLibre || null,
-
+        
         // Nouveaux champs
         mitoyennete: formData.mitoyennete || null,
         maison_type: formData.maisonType || null,
@@ -598,8 +598,8 @@ export default function EstimationEtape2Page() {
                   <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
                 </div>
               )}
+              </div>
             </div>
-          </div>
 
           <div className="border-t border-white/10" />
 
@@ -619,11 +619,11 @@ export default function EstimationEtape2Page() {
                 className={inputClass}
                 style={fontStyle}
               />
-            </div>
-
+                  </div>
+                  
             {/* Ville & Code postal */}
             <div className="grid md:grid-cols-2 gap-4">
-              <div>
+                    <div>
                 <label className={labelClass} style={fontStyle}>Ville *</label>
                 <input
                   type="text"
@@ -672,7 +672,7 @@ export default function EstimationEtape2Page() {
                   <label key={option} className={getOptionClass(formData.typeBien === option)}>
                     <input type="radio" name="typeBien" value={option} checked={formData.typeBien === option} onChange={(e) => { handleChange(e); setFormData(prev => ({ ...prev, typeBienSousCategorie: '' })); }} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                      </label>
                 ))}
               </div>
               {formData.typeBien === 'Appartement' && (
@@ -704,49 +704,49 @@ export default function EstimationEtape2Page() {
               {formData.typeBien === 'Appartement' && (
                 <div>
                   <label className={labelClass} style={fontStyle}>Surface m² Loi Carrez</label>
-                  <input
-                    type="number"
+                      <input
+                        type="number"
                     name="surfaceCarrez"
                     value={formData.surfaceCarrez}
-                    onChange={handleChange}
-                    min="1"
+                        onChange={handleChange}
+                        min="1"
                     placeholder="Ex: 75"
                     className={inputClass}
                     style={fontStyle}
-                  />
-                </div>
+                      />
+                    </div>
               )}
               {formData.typeBien === 'Maison' && (
-                <div>
+                    <div>
                   <label className={labelClass} style={fontStyle}>Surface habitable (m²)</label>
-                  <input
-                    type="number"
+                      <input
+                        type="number"
                     name="surface"
                     value={formData.surface}
-                    onChange={handleChange}
+                        onChange={handleChange}
                     min="1"
                     placeholder="Ex: 75"
                     className={inputClass}
                     style={fontStyle}
-                  />
-                </div>
+                      />
+                    </div>
               )}
               {formData.typeBien === 'Maison' && (
-                <div>
+                    <div>
                   <label className={labelClass} style={fontStyle}>Surface du terrain (m²)</label>
-                  <input
-                    type="number"
+                      <input
+                        type="number"
                     name="surfaceTerrain"
                     value={formData.surfaceTerrain}
-                    onChange={handleChange}
+                        onChange={handleChange}
                     min="1"
                     placeholder="Ex: 200"
                     className={inputClass}
                     style={fontStyle}
-                  />
-                </div>
+                      />
+                    </div>
               )}
-            </div>
+                </div>
 
             {/* Année de construction */}
             <div className="grid md:grid-cols-2 gap-4">
@@ -754,17 +754,17 @@ export default function EstimationEtape2Page() {
                 <label className={labelClass} style={fontStyle}>{formData.typeBien === 'Appartement' ? 'Année de construction de l\'immeuble' : 'Année de construction'}</label>
                 <input type="number" name="anneeConstruction" value={formData.anneeConstruction} onChange={handleChange} min="1800" max="2026" placeholder="Ex: 1985" className={inputClass} style={fontStyle} />
               </div>
-            </div>
-
+                    </div>
+                    
             {/* Le bien est actuellement */}
-            <div>
+                      <div>
               <label className={labelClass} style={fontStyle}>Le bien est actuellement :</label>
               <div className="grid md:grid-cols-3 gap-4 mt-2">
                 {['Résidence principale', 'Résidence secondaire', 'Investissement', 'Bien vacant', 'Occupé par un proche', 'Autre (à préciser)'].map((option) => (
                   <label key={option} className={getOptionClass(formData.residenceType === option)}>
                     <input type="radio" name="residenceType" value={option} checked={formData.residenceType === option} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                        </label>
                 ))}
               </div>
               {formData.residenceType === 'Autre (à préciser)' && (
@@ -791,7 +791,7 @@ export default function EstimationEtape2Page() {
               className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-white/40 hover:bg-white/5 transition-all duration-300"
               onClick={() => fileInputRef.current?.click()}
             >
-              <input
+                        <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
@@ -813,7 +813,7 @@ export default function EstimationEtape2Page() {
                     {photos.length} photo{photos.length > 1 ? 's' : ''} ajoutée{photos.length > 1 ? 's' : ''}
                   </p>
                 )}
-              </div>
+                      </div>
             </div>
 
             {/* Aperçu des photos */}
@@ -852,7 +852,7 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Caractéristiques</h2>
 
             {/* Composition */}
-            <div>
+                      <div>
               <p className={sectionTitleClass} style={fontStyle}>Composition</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
                 <div>
@@ -888,7 +888,7 @@ export default function EstimationEtape2Page() {
                           <label key={val} className={getOptionClass(formData.wcSepares === val)}>
                             <input type="radio" name="wcSepares" value={val} checked={formData.wcSepares === val} onChange={handleChange} className="mr-2 accent-white" />
                             <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                          </label>
+                        </label>
                         ))}
                       </div>
                     </div>
@@ -909,8 +909,8 @@ export default function EstimationEtape2Page() {
                       <option value="R+3" className="bg-black text-white">R+3</option>
                       <option value="R+4" className="bg-black text-white">R+4</option>
                       <option value="R+5 ou plus" className="bg-black text-white">R+5 ou plus</option>
-                    </select>
-                  </div>
+                        </select>
+                      </div>
                 </div>
               )}
 
@@ -918,7 +918,7 @@ export default function EstimationEtape2Page() {
               {formData.typeBien === 'Maison' && (
                 <div className="pt-4 border-t border-white/10 space-y-4">
                   <p className={sectionTitleClass} style={fontStyle}>Configuration de la maison</p>
-                  <div>
+                      <div>
                     <label className={labelClass} style={fontStyle}>Type</label>
                     <select name="maisonType" value={formData.maisonType} onChange={handleChange} className={selectClass} style={fontStyle}>
                       <option value="" className="bg-black text-white">Sélectionnez...</option>
@@ -964,8 +964,8 @@ export default function EstimationEtape2Page() {
                       <option value="8" className="bg-black text-white">8ème</option>
                       <option value="9" className="bg-black text-white">9ème</option>
                       <option value="10+" className="bg-black text-white">10ème et +</option>
-                    </select>
-                  </div>
+                        </select>
+                      </div>
                   <div>
                     <label className={labelClass} style={fontStyle}>Nombre total d&apos;étages de l&apos;immeuble</label>
                     <input type="number" name="nombreEtagesImmeuble" value={formData.nombreEtagesImmeuble} onChange={handleChange} min="1" placeholder="Ex: 5" className={inputClass} style={fontStyle} />
@@ -1014,9 +1014,9 @@ export default function EstimationEtape2Page() {
                       ))}
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
+                    </div>
+                  </div>
+                )}
 
             {/* Vue */}
             <div className="pt-4 border-t border-white/10">
@@ -1029,8 +1029,8 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
-            </div>
-
+                  </div>
+                  
             {/* AMENAGEMENT EXTERIEUR - Appartement */}
             {formData.typeBien === 'Appartement' && (
               <div className="pt-4 border-t border-white/10">
@@ -1097,9 +1097,9 @@ export default function EstimationEtape2Page() {
                         <label key={opt} className={getOptionClass(formData.foragePuits === opt)}>
                           <input type="radio" name="foragePuits" value={opt} checked={formData.foragePuits === opt} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{opt}</span>
-                        </label>
-                      ))}
-                    </div>
+                      </label>
+                    ))}
+                  </div>
                   </div>
                 </div>
               </div>
@@ -1114,16 +1114,16 @@ export default function EstimationEtape2Page() {
                     <label key={option} className={getOptionClass(formData.exterieur.includes(option))}>
                       <input type="checkbox" checked={formData.exterieur.includes(option)} onChange={() => handleCheckboxChange('exterieur', option)} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
+                      </label>
                   ))}
                 </div>
                 {(formData.exterieur.includes('Balcon') || formData.exterieur.includes('Terrasse') || formData.exterieur.includes('Jardin') || formData.exterieur.includes('Rooftop') || formData.exterieur.includes('Cour') || formData.exterieur.includes('Loggia')) && (
                   <div className="mt-4">
                     <label className={labelClass} style={fontStyle}>Surface approximative de l&apos;extérieur</label>
                     <input type="text" name="surfaceExterieur" value={formData.surfaceExterieur} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
             )}
 
             {/* Stationnement - Appartement */}
@@ -1140,7 +1140,7 @@ export default function EstimationEtape2Page() {
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
                         </label>
                       ))}
-                    </div>
+                  </div>
                     {formData.stationnement === 'Extérieur' && (
                       <div className="mt-4 grid md:grid-cols-2 gap-4">
                         <div>
@@ -1150,9 +1150,9 @@ export default function EstimationEtape2Page() {
                               <label key={opt} className={getOptionClass(formData.stationnementExtPriveLibre === opt)}>
                                 <input type="radio" name="stationnementExtPriveLibre" value={opt} checked={formData.stationnementExtPriveLibre === opt} onChange={handleChange} className="mr-2 accent-white" />
                                 <span className="text-white text-sm" style={fontStyle}>{opt}</span>
-                              </label>
-                            ))}
-                          </div>
+                      </label>
+                    ))}
+                  </div>
                         </div>
                         <div>
                           <label className={labelClass} style={fontStyle}>Couvert ou non couvert</label>
@@ -1195,7 +1195,7 @@ export default function EstimationEtape2Page() {
                     </label>
                   ))}
                 </div>
-                {formData.stationnement && formData.stationnement !== 'Aucun' && (
+                  {formData.stationnement && formData.stationnement !== 'Aucun' && (
                   <div className="mt-4 space-y-4">
                     {formData.stationnement === 'Parking' && (
                       <div>
@@ -1205,7 +1205,7 @@ export default function EstimationEtape2Page() {
                             <label key={option} className={getOptionClass(formData.stationnementEmplacement === option)}>
                               <input type="radio" name="stationnementEmplacement" value={option} checked={formData.stationnementEmplacement === option} onChange={handleChange} className="mr-2 accent-white" />
                               <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                            </label>
+                      </label>
                           ))}
                         </div>
                       </div>
@@ -1229,20 +1229,20 @@ export default function EstimationEtape2Page() {
                             <label key={option} className={getOptionClass(formData.stationnementFerme === option)}>
                               <input type="radio" name="stationnementFerme" value={option} checked={formData.stationnementFerme === option} onChange={handleChange} className="mr-2 accent-white" />
                               <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                            </label>
-                          ))}
-                        </div>
+                          </label>
+                        ))}
                       </div>
-                    )}
+                    </div>
+                  )}
                     <div>
                       <label className={labelClass} style={fontStyle}>Superficie (m²)</label>
                       <input type="text" name="surfaceStationnement" value={formData.surfaceStationnement} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
-                    </div>
+                </div>
                   </div>
                 )}
               </div>
             )}
-          </div>
+              </div>
 
           <div className="border-t border-white/10" />
 
@@ -1254,21 +1254,21 @@ export default function EstimationEtape2Page() {
             <div>
               <p className={sectionTitleClass} style={fontStyle}>État général du bien</p>
               <div className="grid md:grid-cols-4 gap-4 mt-4">
-                {['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'].map((option) => (
+                    {['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'].map((option) => (
                   <label key={option} className={getOptionClass(formData.etatBien === option)}>
-                    <input
-                      type="radio"
-                      name="etatBien"
-                      value={option}
-                      checked={formData.etatBien === option}
-                      onChange={handleChange}
+                        <input
+                          type="radio"
+                          name="etatBien"
+                          value={option}
+                          checked={formData.etatBien === option}
+                          onChange={handleChange}
                       className="mr-2 accent-white"
-                    />
+                        />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
             {/* Luminosité */}
             <div className="pt-4 border-t border-white/10">
@@ -1282,20 +1282,20 @@ export default function EstimationEtape2Page() {
                   <span className="text-white/50 text-sm" style={fontStyle}>10</span>
                 </div>
               </div>
-            </div>
-
+                  </div>
+                  
             {/* ═══ TRAVAUX EFFECTUÉS / TRAVAUX PRÉVUS ═══ */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Travaux effectués / Travaux prévus (année, nature, montant)</p>
               <div className="grid md:grid-cols-2 gap-6 mt-4">
-                <div>
+                  <div>
                   <p className="text-white/70 text-sm font-medium mb-3" style={fontStyle}>Travaux effectués</p>
                   <div className="flex gap-4 mb-4">
                     {['oui', 'non'].map((val) => (
                       <label key={val} className={getOptionClass(formData.travauxRecents === val)}>
                         <input type="radio" name="travauxRecents" value={val} checked={formData.travauxRecents === val} onChange={handleChange} className="mr-2 accent-white" />
                         <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                      </label>
+                    </label>
                     ))}
                   </div>
                   {formData.travauxRecents === 'oui' && (
@@ -1330,7 +1330,7 @@ export default function EstimationEtape2Page() {
                 </div>
                 <div>
                   <p className="text-white/70 text-sm font-medium mb-3" style={fontStyle}>Travaux prévus</p>
-                  <div className="flex gap-4 mb-4">
+                    <div className="flex gap-4 mb-4">
                     {['oui', 'non'].map((val) => (
                       <label key={val} className={getOptionClass(formData.travauxPrevus === val)}>
                         <input type="radio" name="travauxPrevus" value={val} checked={formData.travauxPrevus === val} onChange={handleChange} className="mr-2 accent-white" />
@@ -1361,7 +1361,7 @@ export default function EstimationEtape2Page() {
                             <label key={val} className={getOptionClass(formData.travauxPrevusAutorisations === val)}>
                               <input type="radio" name="travauxPrevusAutorisations" value={val} checked={formData.travauxPrevusAutorisations === val} onChange={handleChange} className="mr-2 accent-white" />
                               <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                            </label>
+                      </label>
                           ))}
                         </div>
                       </div>
@@ -1369,8 +1369,8 @@ export default function EstimationEtape2Page() {
                   )}
                 </div>
               </div>
-            </div>
-
+                    </div>
+                    
             {/* ═══ AUTORISATIONS D'URBANISME ═══ */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Autorisations d&apos;urbanisme</p>
@@ -1432,7 +1432,7 @@ export default function EstimationEtape2Page() {
             {formData.typeBien === 'Maison' && formData.maisonEnsembleOrganise === 'Lotissement avec ASL' && (
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Lotissement avec ASL — Informations juridiques</p>
-              <div className="space-y-4 mt-4">
+                      <div className="space-y-4 mt-4">
                 <div>
                     <label className={labelClass} style={fontStyle}>Montant des charges ANNUELLES (€)</label>
                     <input type="text" name="chargesASL" value={formData.chargesASL} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
@@ -1461,8 +1461,8 @@ export default function EstimationEtape2Page() {
                     </div>
                   </div>
                   {formData.travauxASLRecents === 'Oui' && (
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
+                        <div className="grid md:grid-cols-2 gap-4">
+                        <div>
                         <label className={labelClass} style={fontStyle}>Lesquels ?</label>
                         <input type="text" name="travauxASLRecentsDetail" value={formData.travauxASLRecentsDetail} onChange={handleChange} className={inputClass} style={fontStyle} />
                       </div>
@@ -1480,13 +1480,13 @@ export default function EstimationEtape2Page() {
                         <label key={val} className={getOptionClass(formData.travauxASLVotesNonRealises === val)}>
                           <input type="radio" name="travauxASLVotesNonRealises" value={val} checked={formData.travauxASLVotesNonRealises === val} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
+                          </label>
                       ))}
-                    </div>
+                        </div>
                   </div>
                   {formData.travauxASLVotesNonRealises === 'Oui' && (
                     <div className="grid md:grid-cols-2 gap-4">
-                      <div>
+                        <div>
                         <label className={labelClass} style={fontStyle}>Lesquels ?</label>
                         <input type="text" name="travauxASLVotesDetail" value={formData.travauxASLVotesDetail} onChange={handleChange} className={inputClass} style={fontStyle} />
                       </div>
@@ -1511,11 +1511,11 @@ export default function EstimationEtape2Page() {
                         <label key={option} className={getOptionClass(formData.travauxASLPrevusNonVotes.includes(option))}>
                           <input type="checkbox" checked={formData.travauxASLPrevusNonVotes.includes(option)} onChange={() => handleCheckboxChange('travauxASLPrevusNonVotes', option)} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
+                          </label>
                       ))}
-                    </div>
-                  </div>
-                  <div>
+                          </div>
+                        </div>
+                        <div>
                   <label className={labelClass} style={fontStyle}>Procédure en cours</label>
                   <input type="text" name="procedureEnCoursASL" value={formData.procedureEnCoursASL} onChange={handleChange} placeholder="Ex: Contentieux, litige..." className={inputClass} style={fontStyle} />
                 </div>
@@ -1543,9 +1543,9 @@ export default function EstimationEtape2Page() {
                       <label key={option} className={getOptionClass(formData.chargesCoproHorizontaleContenu.includes(option))}>
                         <input type="checkbox" checked={formData.chargesCoproHorizontaleContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproHorizontaleContenu', option)} className="mr-2 accent-white" />
                         <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
+                          </label>
                     ))}
-                  </div>
+                        </div>
                 </div>
                 <div>
                   <label className={labelClass} style={fontStyle}>Travaux effectués récemment</label>
@@ -1561,9 +1561,9 @@ export default function EstimationEtape2Page() {
                     <div className="grid md:grid-cols-2 gap-4 mt-3">
                       <input type="text" name="travauxCoproHorizontaleRecentsDetail" value={formData.travauxCoproHorizontaleRecentsDetail} onChange={handleChange} placeholder="Nature des travaux" className={inputClass} style={fontStyle} />
                       <input type="text" name="travauxCoproHorizontaleRecentsMontant" value={formData.travauxCoproHorizontaleRecentsMontant} onChange={handleChange} placeholder="Montant (€)" className={inputClass} style={fontStyle} />
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    )}
+                  </div>
                 <div>
                   <label className={labelClass} style={fontStyle}>Travaux votés et payés mais non encore réalisés</label>
                   <div className="flex gap-4 mt-2">
@@ -1573,7 +1573,7 @@ export default function EstimationEtape2Page() {
                         <span className="text-white text-sm" style={fontStyle}>{val}</span>
                       </label>
                     ))}
-                  </div>
+                </div>
                   {formData.travauxCoproHorizontaleVotesNonRealises === 'Oui' && (
                     <div className="grid md:grid-cols-2 gap-4 mt-3">
                       <input type="text" name="travauxCoproHorizontaleVotesDetail" value={formData.travauxCoproHorizontaleVotesDetail} onChange={handleChange} placeholder="Lesquels ?" className={inputClass} style={fontStyle} />
@@ -1622,8 +1622,8 @@ export default function EstimationEtape2Page() {
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
                   </label>
                 ))}
-              </div>
-
+                  </div>
+                  
               <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>Autres prestations</label>
                 <input type="text" name="autresPrestations" value={formData.autresPrestations} onChange={handleChange} placeholder="Précisez d'autres prestations..." className={inputClass} style={fontStyle} />
@@ -1648,8 +1648,8 @@ export default function EstimationEtape2Page() {
                 </div>
               )}
             </div>
-          </div>
-
+                  </div>
+                  
           <div className="border-t border-white/10" />
 
           {/* ═══════════ ÉTAT DÉTAILLÉ ═══════════ */}
@@ -1760,7 +1760,7 @@ export default function EstimationEtape2Page() {
               )}
 
               {/* 1. Niveau global */}
-              <div className="mt-4">
+                  <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>1. Niveau global du bien</label>
                 <div className="grid md:grid-cols-4 gap-3 mt-2">
                   {['Standard', 'Bon standing', 'Haut de gamme', 'Luxe / Exceptionnel'].map((val) => (
@@ -1770,8 +1770,8 @@ export default function EstimationEtape2Page() {
                     </label>
                   ))}
                 </div>
-              </div>
-
+                  </div>
+                  
               {/* 2. Matériaux & finitions */}
               <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>2. Matériaux & finitions</label>
@@ -1830,15 +1830,15 @@ export default function EstimationEtape2Page() {
                         <label key={val} className={getOptionClass(formData.description === val)}>
                           <input type="radio" name="description" value={val} checked={formData.description === val} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
-
+                  
               {/* 5. Équipements premium */}
-              <div className="mt-4">
+                  <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>5. Équipements premium</label>
                 <div className="grid md:grid-cols-3 gap-3 mt-2">
                   {['Climatisation intégrée', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
@@ -1847,11 +1847,11 @@ export default function EstimationEtape2Page() {
                       <span className="text-white text-sm" style={fontStyle}>{option}</span>
                     </label>
                   ))}
+                  </div>
+                </div>
+
                 </div>
               </div>
-
-              </div>
-          </div>
 
           <div className="border-t border-white/10" />
 
@@ -1870,11 +1870,11 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Production chauffage conditionnelle */}
             {formData.chauffageType === 'Collectif' && (
-              <div>
+                  <div>
                 <label className={labelClass} style={fontStyle}>Production de chauffage (collectif)</label>
                 <select name="chauffageProduction" value={formData.chauffageProduction} onChange={handleChange} className={selectClass} style={fontStyle}>
                   <option value="" className="bg-black text-white">Sélectionnez...</option>
@@ -1915,7 +1915,7 @@ export default function EstimationEtape2Page() {
                   <label key={val} className={getOptionClass(formData.eauChaudeType === val)}>
                     <input type="radio" name="eauChaudeType" value={val} checked={formData.eauChaudeType === val} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
+                    </label>
                 ))}
               </div>
             </div>
@@ -1963,11 +1963,11 @@ export default function EstimationEtape2Page() {
                   <label key={val} className={getOptionClass(formData.ancienneteInstallation === val)}>
                     <input type="radio" name="ancienneteInstallation" value={val} checked={formData.ancienneteInstallation === val} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
 
           <div className="border-t border-white/10" />
 
@@ -1985,8 +1985,8 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
-            </div>
-
+                  </div>
+                  
             {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -2008,11 +2008,11 @@ export default function EstimationEtape2Page() {
                   <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
                     <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
+                      </label>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
           <div className="border-t border-white/10" />
 
@@ -2031,8 +2031,8 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Technique et urbanistique */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Technique et urbanistique</p>
@@ -2069,14 +2069,14 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Confort & Environnement</h2>
 
             {/* Exposition */}
-            <div>
+                  <div>
               <p className={sectionTitleClass} style={fontStyle}>Exposition principale</p>
               <div className="grid md:grid-cols-5 gap-4 mt-4">
                 {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
                   <label key={option} className={getOptionClass(formData.exposition === option)}>
                     <input type="radio" name="exposition" value={option} checked={formData.exposition === option} onChange={(e) => { handleChange(e); if (option !== 'Traversant') setFormData(prev => ({ ...prev, expositionTraversant: [] })); }} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                    </label>
                 ))}
               </div>
               {formData.exposition === 'Traversant' && (
@@ -2087,12 +2087,12 @@ export default function EstimationEtape2Page() {
                       <label key={option} className={getOptionClass(formData.expositionTraversant.includes(option))}>
                         <input type="checkbox" checked={formData.expositionTraversant.includes(option)} onChange={() => handleCheckboxChange('expositionTraversant', option)} className="mr-2 accent-white" />
                         <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
-                    ))}
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                </div>
               )}
-            </div>
+                </div>
 
             {/* Vis-à-vis */}
             <div className="pt-4 border-t border-white/10">
@@ -2114,8 +2114,8 @@ export default function EstimationEtape2Page() {
                 </div>
               )}
             </div>
-          </div>
-
+                  </div>
+                  
           <div className="border-t border-white/10" />
 
           {/* ═══════════ CHARGES & DPE ═══════════ */}
@@ -2123,7 +2123,7 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Charges & DPE</h2>
 
             {/* Taxe foncière */}
-            <div>
+                  <div>
               <p className={sectionTitleClass} style={fontStyle}>Taxe foncière</p>
               <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
@@ -2141,7 +2141,7 @@ export default function EstimationEtape2Page() {
                       <label key={val} className={getOptionClass(formData.typeSyndic === val)}>
                         <input type="radio" name="typeSyndic" value={val} checked={formData.typeSyndic === val} onChange={handleChange} className="mr-2 accent-white" />
                         <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                      </label>
+                    </label>
                     ))}
                   </div>
                 </div>
@@ -2178,7 +2178,7 @@ export default function EstimationEtape2Page() {
             )}
 
             {/* DPE */}
-            <div>
+                      <div>
               <p className={sectionTitleClass} style={fontStyle}>Diagnostic de Performance Énergétique (DPE)</p>
               <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>Disposez-vous d&apos;un DPE valide (après juillet 2021) ?</label>
@@ -2187,7 +2187,7 @@ export default function EstimationEtape2Page() {
                     <label key={val} className={getOptionClass(formData.dpeValide === val)}>
                       <input type="radio" name="dpeValide" value={val} checked={formData.dpeValide === val} onChange={handleChange} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
+                        </label>
                   ))}
                 </div>
               </div>
@@ -2201,10 +2201,10 @@ export default function EstimationEtape2Page() {
                         <label key={option} className={getOptionClass(formData.dpe === option)}>
                           <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
                   <div className="mt-4">
                     <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
                     <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
@@ -2214,8 +2214,8 @@ export default function EstimationEtape2Page() {
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
                         </label>
                       ))}
+                      </div>
                     </div>
-                  </div>
                 </>
               )}
 
@@ -2233,8 +2233,8 @@ export default function EstimationEtape2Page() {
                     ))}
                   </div>
                 </div>
-              )}
-            </div>
+                  )}
+                </div>
 
             {/* PERCEPTION DU BIEN */}
             <div className="pt-6 mt-6 border-t border-white/10">
@@ -2250,8 +2250,8 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
             </div>
-          </div>
-
+                  </div>
+                  
           <div className="border-t border-white/10" />
 
           {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}
@@ -2259,17 +2259,17 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Projet de vente</h2>
 
             {/* Délai de vente */}
-            <div>
+                  <div>
               <p className={sectionTitleClass} style={fontStyle}>Délai de vente souhaité</p>
               <div className="grid md:grid-cols-4 gap-4 mt-4">
                 {['Moins de 3 mois', '3 à 6 mois', 'Plus de 6 mois', 'Je me renseigne'].map((option) => (
                   <label key={option} className={getOptionClass(formData.delaiVente === option)}>
                     <input type="radio" name="delaiVente" value={option} checked={formData.delaiVente === option} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                    </label>
                 ))}
-              </div>
-            </div>
+                  </div>
+                </div>
 
             {/* Situation actuelle */}
             <div className="pt-4 border-t border-white/10">
@@ -2344,58 +2344,58 @@ export default function EstimationEtape2Page() {
             <div className="pt-4 border-t border-white/10">
               <label className="block text-sm font-medium text-white/70 mb-4 leading-relaxed" style={fontStyle}>
                 Si l'estimation proposée diffère du prix que vous aviez en tête, dans quelle mesure seriez-vous disposé(e) à ajuster le prix ?
-              </label>
-              <div className="flex items-center gap-4">
+                    </label>
+                    <div className="flex items-center gap-4">
                 <span className="text-sm text-white/50" style={fontStyle}>1</span>
-                <input
-                  type="range"
-                  name="ajustementPrix"
-                  value={formData.ajustementPrix}
-                  onChange={handleChange}
-                  min="1"
-                  max="10"
-                  step="1"
+                      <input
+                        type="range"
+                        name="ajustementPrix"
+                        value={formData.ajustementPrix}
+                        onChange={handleChange}
+                        min="1"
+                        max="10"
+                        step="1"
                   className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white"
-                />
+                      />
                 <span className="text-sm text-white/50" style={fontStyle}>10</span>
-                {formData.ajustementPrix && (
+                      {formData.ajustementPrix && (
                   <span className="text-lg font-semibold text-white min-w-[2rem] text-center" style={fontStyle}>
-                    {formData.ajustementPrix}
-                  </span>
-                )}
-              </div>
+                          {formData.ajustementPrix}
+                        </span>
+                      )}
+                    </div>
               <div className="flex justify-between mt-2 text-xs text-white/40" style={fontStyle}>
-                <span>Pas du tout</span>
-                <span>Très disposé(e)</span>
+                      <span>Pas du tout</span>
+                      <span>Très disposé(e)</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
           <div className="border-t border-white/10" />
 
           {/* ═══════════ MESSAGE LIBRE ═══════════ */}
-          <div className="space-y-4">
+                <div className="space-y-4">
             <h2 className={groupTitleClass} style={fontStyle}>Message libre</h2>
-            <div>
+                  <div>
               <label className={labelClass} style={fontStyle}>Souhaitez-vous ajouter une information importante ?</label>
-              <textarea
-                name="messageLibre"
-                value={formData.messageLibre}
-                onChange={handleChange}
-                rows={5}
+                    <textarea
+                      name="messageLibre"
+                      value={formData.messageLibre}
+                      onChange={handleChange}
+                      rows={5}
                 placeholder="Toute information complémentaire utile à l'analyse de votre bien..."
                 className={inputClass}
                 style={fontStyle}
               />
-            </div>
-          </div>
+                </div>
+              </div>
 
           {/* ═══════════ VALIDATION ═══════════ */}
-          {submitError && (
+              {submitError && (
             <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">
-              {submitError}
-            </div>
-          )}
+                  {submitError}
+                </div>
+              )}
 
           {/* Bloc RGPD + consentement */}
           <div className="space-y-3 p-4 rounded-lg bg-white/5 border border-white/10">
@@ -2408,20 +2408,20 @@ export default function EstimationEtape2Page() {
             </label>
           </div>
 
-          <button
-            type="submit"
+                <button
+                  type="submit"
             disabled={submitting || !acceptPrivacy}
             className="w-full px-8 py-4 rounded-full font-medium bg-white text-black hover:bg-white/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide"
-            style={{
-              fontFamily: 'var(--font-poppins), sans-serif',
+                  style={{
+                    fontFamily: 'var(--font-poppins), sans-serif',
               fontSize: '1rem',
             }}
           >
             {submitting ? (uploadProgress || 'Envoi en cours...') : 'Paiement de l\'estimation'}
-          </button>
-
-        </form>
-      </div>
+                </button>
+                
+            </form>
+          </div>
     </main>
   )
 }

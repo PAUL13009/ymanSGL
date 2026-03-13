@@ -401,11 +401,11 @@ export default function VentePage() {
                   VOTRE PATRIMOINE MÉRITE UNE EVALUATION APPROFONDIE
                 </h2>
               </FadeContent>
-              <div className="flex flex-col items-center gap-6">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <a
                   ref={ctaFinalButtonRef as any}
                   href="/estimation#grille-tarifaire"
-                  aria-label="Demander une estimation immobilière"
+                  aria-label="Demander mon dossier d'estimation en ligne"
                   className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
                   style={{
                     fontFamily: 'var(--font-poppins), sans-serif',
@@ -414,16 +414,28 @@ export default function VentePage() {
                     letterSpacing: '0.5px',
                   }}
                 >
-                  DEMANDER MON DOSSIER D'ESTIMATION
+                  Demander mon dossier d&apos;estimation en ligne
                 </a>
-                <a
-                  href="/notre-methode"
-                  className="text-white/50 text-sm sm:text-base underline underline-offset-4 hover:text-white transition-colors duration-300"
-                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+                <Link
+                  href="/devis-personnalise"
+                  className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                  style={{
+                    fontFamily: 'var(--font-poppins), sans-serif',
+                    fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                    textDecoration: 'none',
+                    letterSpacing: '0.5px',
+                  }}
                 >
-                  Consultez notre méthode de travail
-                </a>
+                  Prendre RDV avec Yman
+                </Link>
               </div>
+              <a
+                href="/notre-methode"
+                className="text-white/50 text-sm sm:text-base underline underline-offset-4 hover:text-white transition-colors duration-300"
+                style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+              >
+                Consultez notre méthode de travail
+              </a>
             </div>
           </div>
         </section>

@@ -92,9 +92,9 @@ export default function EstimationPage() {
       
       {/* SECTION 1 — HERO */}
       <Hero 
-        title="Estimation immobilière basée sur la valeur vénale réelle"
-        subtitle="Au-delà d'une simple estimation, nous réalisons un dossier d'estimation complet de votre bien. Une approche rigoureuse et impartiale pour sécuriser vos prises de décision à Saint-Germain-en-Laye et ses alentours"
-        buttonText="Demander mon dossier d'estimation"
+        title="Une estimation immobilière digitale, accessible partout en France."
+        subtitle="Recevez une analyse rigoureuse et confidentielle, délivrée à distance et sans rendez-vous, conçue pour vous offrir une vision claire, structurée et pleinement exploitable."
+        buttonText="Accéder à mon dossier d'estimation en ligne"
         buttonLink="#grille-tarifaire"
         imagePath="/images/herosectionimage.png"
         centered={true}
@@ -338,10 +338,10 @@ export default function EstimationPage() {
             <div className="mb-12 text-center">
               <div className="w-16 h-1 bg-white mb-6 mx-auto" style={{ backgroundColor: '#ffffff' }} aria-hidden="true" role="presentation"></div>
               <h2 id="grille-tarifaire-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                GRILLE TARIFAIRE — ESTIMATIONS IMMOBILIÈRES
+                Nos formules d&apos;estimation
               </h2>
               <p className="text-base md:text-lg text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Estimations indépendantes · Sans engagement · Sans démarchage
+                Estimation Immobilière — Valeur vénale
               </p>
             </div>
             
@@ -376,7 +376,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/50"><svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" /></svg><span className="line-through">Spécificités locales</span></li>
                 </ul>
                 <a href="/estimation/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Demander cette estimation
+                  Accéder à cette estimation
                 </a>
                 <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
@@ -409,7 +409,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/50"><svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" /></svg><span className="line-through">Lecture investissement</span></li>
                 </ul>
                 <a href="/estimation/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Demander cette estimation
+                  Accéder à cette estimation
                 </a>
                 <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
@@ -444,7 +444,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/90"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Document PDF remis</li>
                 </ul>
                 <a href="/estimation/investisseur/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Demander cette estimation
+                  Accéder à cette estimation
                 </a>
                 <p className="mt-4 text-sm text-white/90 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
@@ -456,10 +456,10 @@ export default function EstimationPage() {
                   <div className="flex items-baseline gap-1 mb-3">
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>249€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
-                  </div>
+            </div>
                   <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Professionnels du droit & du chiffre. Notaires, Avocats, experts-comptables</p>
-                </div>
+          </div>
                 <div className="mb-6 flex flex-wrap gap-2">
                   <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Sécuriser une décision à fort enjeu</span>
                   <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Évaluation encadrée et documentée</span>
@@ -478,7 +478,7 @@ export default function EstimationPage() {
                   <li className="flex items-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Document PDF remis</li>
                 </ul>
                 <a href="/estimation/juridique/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Demander cette estimation
+                  Accéder à cette estimation
                 </a>
                 <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
@@ -506,6 +506,43 @@ export default function EstimationPage() {
             </div>
           </div>
         </FadeContent>
+      </section>
+
+      {/* Section CTA Final */}
+      <section className="relative z-10 py-24 md:py-32 flex items-center justify-center bg-black" aria-labelledby="cta-estimation">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+            <h2 id="cta-estimation" className="text-3xl sm:text-4xl md:text-5xl text-white font-bold leading-tight mb-8 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+              Sécurisez votre patrimoine dès aujourd&apos;hui.
+            </h2>
+          </FadeContent>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="#grille-tarifaire"
+              className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
+              style={{
+                fontFamily: 'var(--font-poppins), sans-serif',
+                fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                textDecoration: 'none',
+                letterSpacing: '0.5px',
+              }}
+            >
+              Accéder à mon dossier d&apos;estimation en ligne
+            </a>
+            <Link
+              href="/devis-personnalise"
+              className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+              style={{
+                fontFamily: 'var(--font-poppins), sans-serif',
+                fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                textDecoration: 'none',
+                letterSpacing: '0.5px',
+              }}
+            >
+              Prendre rendez-vous avec Yman
+            </Link>
+          </div>
+        </div>
       </section>
 
           </div>

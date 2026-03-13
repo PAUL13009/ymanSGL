@@ -396,8 +396,20 @@ export default function NotreMethodePage() {
                       letterSpacing: '0.5px',
                     }}
                   >
-                DEMANDER MON DOSSIER D'ESTIMATION
+                DEMANDER MON DOSSIER D&apos;ESTIMATION
                   </a>
+                  <Link
+                    href="/devis-personnalise"
+                    className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                    style={{
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
+                    }}
+                  >
+                    Prendre rendez-vous avec Yman
+                  </Link>
             </div>
           </div>
         </div>

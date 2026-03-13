@@ -102,13 +102,13 @@ export default function LocationPage() {
                 </p>
               </div>
             </div>
-          </div>
-
+            </div>
+            
           {/* Process Bars */}
           <div className="w-full">
             {[
               { num: '0001', title: 'VALORISATION & DIFFUSION STRATÉGIQUE', content: 'NOUS NE NOUS CONTENTONS PAS DE PUBLIER UNE ANNONCE. NOUS RÉALISONS UNE EXPERTISE DE LA VALEUR LOCATIVE ET UNE MISE EN VALEUR VISUELLE PREMIUM POUR ATTIRER DES PROFILS DE LOCATAIRES À HAUT DOSSIER (CADRES EN MOBILITÉ, EXPATRIÉS, INSTITUTIONNELS).' },
-              { num: '0002', title: 'AUDIT DE SOLVABILITÉ CHIRURGICAL', content: 'C\'EST NOTRE CŒUR DE MÉTIER D\'EXPERTE. CHAQUE DOSSIER EST PASSÉ AU CRIBLE : VÉRIFICATION DE L\'AUTHENTICITÉ DES PIÈCES, ANALYSE DU RATIO D\'ENDETTEMENT, ET VALIDATION DES GARANTIES (PHYSIQUES OU INSTITUTIONNELLES). NOUS NE VOUS PRÉSENTONS QUE L\'EXCELLENCE.' },
+              { num: '0002', title: 'ANALYSE DE SOLVABILITÉ', content: 'C\'EST NOTRE CŒUR DE MÉTIER D\'EXPERTE. CHAQUE DOSSIER EST PASSÉ AU CRIBLE : VÉRIFICATION DE L\'AUTHENTICITÉ DES PIÈCES, ANALYSE DU RATIO D\'ENDETTEMENT, ET VALIDATION DES GARANTIES (PHYSIQUES OU INSTITUTIONNELLES). NOUS NE VOUS PRÉSENTONS QUE L\'EXCELLENCE.' },
               { num: '0003', title: 'SÉCURISATION DE L\'ENTRÉE', content: 'RÉDACTION D\'UN BAIL CONFORME AUX DERNIÈRES ÉVOLUTIONS LÉGISLATIVES ET RÉALISATION D\'UN ÉTAT DES LIEUX CONTRADICTOIRE D\'UNE PRÉCISION TOTALE. VOUS RÉCUPÉREZ UN DOSSIER COMPLET, PRÊT POUR L\'ENCAISSEMENT DE VOS LOYERS.' },
             ].map((item, index) => {
               const colors = [
@@ -137,7 +137,7 @@ export default function LocationPage() {
                         <h3 className="text-xl md:text-2xl font-bold text-white uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                           {item.title}
                         </h3>
-                      </div>
+                    </div>
                       <span className="text-5xl md:text-7xl lg:text-8xl font-bold text-white/10 leading-none select-none" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                         {item.num}
                       </span>
@@ -150,8 +150,8 @@ export default function LocationPage() {
                         {item.content}
                       </p>
                     </div>
-                  </div>
-                </div>
+              </div>
+            </div>
               )
             })}
           </div>
@@ -167,9 +167,9 @@ export default function LocationPage() {
               <div className="md:sticky md:top-32">
                 <h2 id="kit-serenite" className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   VOTRE "KIT SÉRÉNITÉ" DE BAILLEUR
-                </h2>
-              </div>
-
+              </h2>
+            </div>
+            
               {/* Colonne droite : Liste d'éléments avec icônes */}
               <div className="space-y-0" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                 {/* Item 1 */}
@@ -184,8 +184,8 @@ export default function LocationPage() {
                       <h3 className="text-xl font-bold text-white mb-2">LE DOSSIER DE CANDIDATURE AUDITÉ</h3>
                       <p className="text-white/70 leading-relaxed">
                         Un dossier complet, vérifié pièce par pièce, avec une analyse de solvabilité certifiée par l'agence.
-                      </p>
-                    </div>
+                </p>
+              </div>
                   </div>
                 </div>
 
@@ -230,15 +230,15 @@ export default function LocationPage() {
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
-                    </div>
+                  </div>
                     <div>
                       <h3 className="text-xl font-bold text-white mb-2">LE GUIDE DE GESTION</h3>
                       <p className="text-white/70 leading-relaxed">
                         Un mémo pratique pour vous aider à gérer la relation avec votre locataire (indexation des loyers, charges, calendrier) en toute autonomie.
                       </p>
-                    </div>
                   </div>
-                </div>
+                  </div>
+            </div>
               </div>
             </div>
           </div>
@@ -252,10 +252,10 @@ export default function LocationPage() {
             <div className="mb-12 text-center">
               <div className="w-16 h-1 bg-white mb-6 mx-auto" aria-hidden="true" role="presentation"></div>
               <h2 id="pourquoi-confier" className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Pourquoi me confier votre dossier ?
+                Pourquoi nous confier votre dossier ?
               </h2>
             </div>
-
+            
             {/* Timeline verticale */}
             <div className="flex flex-col items-center">
               {[
@@ -296,7 +296,7 @@ export default function LocationPage() {
                   {/* Titre */}
                   <h3 className="text-xl md:text-2xl font-bold text-white mt-5 mb-3 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     {item.title}
-                  </h3>
+              </h3>
                   {/* Description */}
                   <p className="text-base md:text-lg text-white/70 leading-relaxed text-center max-w-lg" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                     {item.content}
@@ -309,7 +309,7 @@ export default function LocationPage() {
                       ))}
                     </div>
                   )}
-                </div>
+              </div>
               ))}
             </div>
           </div>
@@ -323,10 +323,10 @@ export default function LocationPage() {
             <div className="mb-12 text-center">
               <div className="w-16 h-1 bg-white mb-6 mx-auto" aria-hidden="true" role="presentation"></div>
               <h2 id="grille-tarifaire-location-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                GRILLE TARIFAIRE — RECHERCHE DE LOCATAIRE
+                Nos formules d&apos;estimation
               </h2>
               <p className="text-base md:text-lg text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Mise en location sécurisée · Saint-Germain-en-Laye et alentours
+                Estimation immobilière — Valeur locative
               </p>
             </div>
 
@@ -338,18 +338,18 @@ export default function LocationPage() {
                   <div className="flex items-baseline justify-center gap-1 mb-3">
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>35€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
-                  </div>
+                        </div>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Hors Paris Intramuros</p>
-                </div>
+                      </div>
                 <div className="mb-6">
                   <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Mise en location sereine</span>
-                </div>
+                        </div>
                 <ul className="space-y-3 flex-1 w-full flex flex-col items-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion stratégique</li>
                   <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité du dossier</li>
                   <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
                   <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
-                </ul>
+                      </ul>
                 <a href="/location/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   Confier ma recherche de locataire
                 </a>
@@ -385,7 +385,47 @@ export default function LocationPage() {
           </div>
         </FadeContent>
       </section>
-      </div>
+
+      {/* Section CTA Final */}
+      <section className="relative z-10 py-32 md:py-44 flex items-center justify-center bg-black" aria-labelledby="cta-final-location">
+        <div className="relative z-10 w-full">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
+              <h2 id="cta-final-location" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold leading-tight mb-10 sm:mb-14 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                Sécurisez votre patrimoine dès aujourd&apos;hui.
+              </h2>
+            </FadeContent>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="/estimation#grille-tarifaire"
+                aria-label="Demander mon dossier d'estimation en ligne"
+                className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
+                style={{
+                  fontFamily: 'var(--font-poppins), sans-serif',
+                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Demander mon dossier d&apos;estimation en ligne
+              </a>
+              <Link
+                href="/devis-personnalise"
+                className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                style={{
+                  fontFamily: 'var(--font-poppins), sans-serif',
+                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Prendre RDV avec Yman
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+          </div>
 
       {/* Footer */}
       <footer className="relative z-10 bg-black py-6" role="contentinfo">
