@@ -38,6 +38,7 @@ export default function EstimationParisEtape2Page() {
     typeBienAutre: '',
     surfaceHabitable: '',
     surfaceSolTotale: '',
+    surfaceTerrain: '',
     anneeConstruction: '',
     statutActuel: '',
     statutActuelAutre: '',
@@ -185,6 +186,7 @@ export default function EstimationParisEtape2Page() {
         type_bien_autre: formData.typeBienAutre || null,
         surface_habitable: formData.surfaceHabitable || null,
         surface_sol_totale: formData.surfaceSolTotale || null,
+        surface_terrain: formData.surfaceTerrain || null,
         annee_construction: formData.anneeConstruction || null,
         statut_actuel: formData.statutActuel || null,
         statut_actuel_autre: formData.statutActuelAutre || null,
@@ -370,6 +372,7 @@ export default function EstimationParisEtape2Page() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div><label className={labelClass} style={fontStyle}>Surface habitable (m²)</label><input type="text" name="surfaceHabitable" value={formData.surfaceHabitable} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
                 <div><label className={labelClass} style={fontStyle}>Surface au sol totale (si différente)</label><input type="text" name="surfaceSolTotale" value={formData.surfaceSolTotale} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+                <div><label className={labelClass} style={fontStyle}>Surface de terrain (m²)</label><input type="text" name="surfaceTerrain" value={formData.surfaceTerrain} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
                 <div><label className={labelClass} style={fontStyle}>Année de construction</label><input type="text" name="anneeConstruction" value={formData.anneeConstruction} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
               </div>
             )}
