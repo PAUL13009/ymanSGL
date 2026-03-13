@@ -356,7 +356,6 @@ export default function EstimationPage() {
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>79€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d'un mandat exclusif confié à l'agence</p>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers : France entière (hors Paris)</p>
                 </div>
                 <div className="mb-6">
@@ -389,7 +388,6 @@ export default function EstimationPage() {
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>129€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers : Paris et Grandes Métropoles</p>
                 </div>
                 <div className="mb-6">
@@ -422,7 +420,6 @@ export default function EstimationPage() {
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>189€</span>
                     <span className="text-sm text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
                   <p className="text-sm text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Investisseurs et structures : (SCI, foncières, sociétés, marchand de biens)</p>
                 </div>
                 <div className="mb-6">
@@ -457,7 +454,6 @@ export default function EstimationPage() {
                     <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>249€</span>
                     <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
             </div>
-                  <p className="text-xs italic text-white/40 mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence</p>
                   <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Professionnels du droit & du chiffre. Notaires, Avocats, experts-comptables</p>
           </div>
                 <div className="mb-6 flex flex-wrap gap-2">
@@ -486,7 +482,9 @@ export default function EstimationPage() {
 
             {/* Note de bas */}
             <p className="text-sm text-white/50 text-center max-w-3xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Les tarifs sont définis selon la complexité du marché et le niveau d&apos;analyse requis, et non selon le profil du client. Certains biens à forte valeur ou atypiques peuvent faire l&apos;objet d&apos;une analyse complémentaire ou d&apos;un devis sur mesure.
+              Les tarifs sont déterminés en fonction de la complexité du bien, de son marché et du niveau d&apos;analyse requis, et non du profil du client.
+              <br /><br />
+              Certains actifs immobiliers à forte valeur ou présentant des caractéristiques particulières peuvent nécessiter une analyse complémentaire ou faire l&apos;objet d&apos;un devis spécifique.
             </p>
 
             {/* Mentions importantes */}

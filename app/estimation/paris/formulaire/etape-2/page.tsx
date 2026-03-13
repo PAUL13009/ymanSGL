@@ -320,6 +320,11 @@ export default function EstimationParisEtape2Page() {
                 <option value="" className="bg-black">Sélectionnez...</option>
                 {CODES_POSTAUX_PARIS.map(cp => <option key={cp} value={cp} className="bg-black">{cp}</option>)}
               </select>
+              {formData.codePostal && (
+                <p className="mt-2 text-xs italic text-white/40" style={fontStyle}>
+                  Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence
+                </p>
+              )}
             </div>
 
             <div>

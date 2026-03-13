@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+
+const CODES_POSTAUX_DEDUCTIBLE = ['75001','75002','75003','75004','75005','75006','75007','75008','75009','75010','75011','75012','75013','75014','75015','75016','75017','75018','75019','75020','78100','78230','78110','78290','78400','78160','92500','92210','92150','92100','92200','78000','78150']
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
@@ -512,6 +514,11 @@ export default function EstimationInvestisseurEtape2Page() {
               <div>
                 <label className={labelClass} style={fontStyle}>Code postal</label>
                 <input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} placeholder="Ex: 78100" className={inputClass} style={fontStyle} />
+                {formData.codePostal.trim() && CODES_POSTAUX_DEDUCTIBLE.includes(formData.codePostal.trim()) && (
+                  <p className="mt-2 text-xs italic text-white/40" style={fontStyle}>
+                    Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence
+                  </p>
+                )}
               </div>
               <div>
                 <label className={labelClass} style={fontStyle}>Ville</label>

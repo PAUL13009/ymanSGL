@@ -263,7 +263,7 @@ export default function Home() {
                       }}
                     >
                       <span className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                        Notre catalogue
+                        Sélection
                       </span>
                       <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
