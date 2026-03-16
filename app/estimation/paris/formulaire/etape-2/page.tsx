@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
-const CODES_POSTAUX_PARIS = Array.from({ length: 20 }, (_, i) => `750${String(i + 1).padStart(2, '0')}`)
+const CODES_POSTAUX_DEDUCTIBLE = ['75001','75002','75003','75004','75005','75006','75007','75008','75009','75010','75011','75012','75013','75014','75015','75016','75017','75018','75019','75020','78100','78230','78110','78290','78400','78160','92500','92210','92150','92100','92200','78000','78150']
 
 const APPARTEMENT_SOUS_CATEGORIES = ['Studio / type 1', 'T2', 'T3', 'T4', 'T5 et +', 'Duplex / Triplex', 'Atelier / Loft', 'Penthouse', 'Chambre de service', 'Autre à préciser']
 
@@ -23,7 +23,7 @@ const EXTERIEURS_OPTIONS = ['Balcon', 'Balcon filant', 'Terrasse', 'Rooftop', 'J
 
 const ANNEXES_OPTIONS = ['Cave', 'Box', 'Parking privé', 'Local vélo', 'Chambre de service']
 
-const OBJECTIF_OPTIONS = ['Estimation pour mise en vente', 'Analyse patrimoniale', 'Estimation locative', 'Arbitrage patrimonial', 'Autre']
+const OBJECTIF_OPTIONS = ['Estimation pour mise en vente', 'Analyse patrimoniale', 'Estimation patrimoniale', 'Estimation locative', 'Arbitrage patrimonial', 'Autre']
 
 const DOCUMENTS_OPTIONS = ['Diagnostics techniques', 'Titre de propriété', 'Plans', 'Règlement de copropriété', 'Dernier PV d\'AG', 'Taxe foncière']
 
@@ -317,12 +317,9 @@ export default function EstimationParisEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Identification du bien</h2>
             <div><label className={labelClass} style={fontStyle}>Adresse complète</label><input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
             <div>
-              <label className={labelClass} style={fontStyle}>Code postal (75001 à 75020 uniquement)</label>
-              <select name="codePostal" value={formData.codePostal} onChange={handleChange} className={selectClass} style={fontStyle}>
-                <option value="" className="bg-black">Sélectionnez...</option>
-                {CODES_POSTAUX_PARIS.map(cp => <option key={cp} value={cp} className="bg-black">{cp}</option>)}
-              </select>
-              {formData.codePostal && (
+              <label className={labelClass} style={fontStyle}>Code postal</label>
+              <input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} placeholder="Ex: 78100" className={inputClass} style={fontStyle} />
+              {formData.codePostal.trim() && CODES_POSTAUX_DEDUCTIBLE.includes(formData.codePostal.trim()) && (
                 <p className="mt-2 text-xs italic text-white/40" style={fontStyle}>
                   Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence
                 </p>

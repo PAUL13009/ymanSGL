@@ -30,7 +30,7 @@ export default function EstimationJuridiqueFormulairePage() {
     setSubmitting(true)
     setSubmitError('')
 
-    if (!formData.prenom || !formData.nom || !formData.telephone || !formData.email) {
+    if (!formData.professionJuridique || !formData.prenom || !formData.nom || !formData.telephone || !formData.email) {
       setSubmitError('Veuillez remplir tous les champs obligatoires.')
       setSubmitting(false)
       return
@@ -82,12 +82,13 @@ export default function EstimationJuridiqueFormulairePage() {
           {/* Profession */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-              Profession
+              Profession *
             </label>
             <select
               name="professionJuridique"
               value={formData.professionJuridique}
               onChange={handleChange}
+              required
               className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white/5 text-white focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
               style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
             >

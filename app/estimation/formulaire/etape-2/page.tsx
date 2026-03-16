@@ -580,6 +580,7 @@ export default function EstimationEtape2Page() {
                   'Vente pour investir ailleurs',
                   'Marché favorable',
                   'Fin dispositif fiscal / Optimisation fiscale',
+                  'Estimation patrimoniale',
                   'Autre à préciser',
                 ].map((option) => (
                   <label key={option} className={getOptionClass(formData.contexteVente.includes(option))}>

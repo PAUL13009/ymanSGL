@@ -29,7 +29,7 @@ export default function EstimationInvestisseurFormulairePage() {
     setSubmitting(true)
     setSubmitError('')
 
-    if (!formData.prenom || !formData.nom || !formData.telephone || !formData.email) {
+    if (!formData.siret || !formData.prenom || !formData.nom || !formData.telephone || !formData.email) {
       setSubmitError('Veuillez remplir tous les champs obligatoires.')
       setSubmitting(false)
       return
@@ -100,13 +100,14 @@ export default function EstimationInvestisseurFormulairePage() {
           {/* SIRET */}
           <div>
             <label className={labelClass} style={fontStyle}>
-              Numéro de SIRET
+              Numéro de SIRET *
             </label>
             <input
               type="text"
               name="siret"
               value={formData.siret}
               onChange={handleChange}
+              required
               placeholder="Ex: 123 456 789 00012"
               className={inputClass}
               style={fontStyle}
