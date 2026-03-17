@@ -190,6 +190,10 @@ export default function EstimationInvestisseurEtape2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!formData.adresseComplete?.trim()) {
+      setSubmitError('Veuillez renseigner l\'adresse complète du bien.')
+      return
+    }
     setSubmitting(true)
     setSubmitError('')
 
@@ -506,8 +510,8 @@ export default function EstimationInvestisseurEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Identification du bien</h2>
 
             <div>
-              <label className={labelClass} style={fontStyle}>Adresse complète</label>
-              <input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} placeholder="Ex: 12 rue de la Paix" className={inputClass} style={fontStyle} />
+              <label className={labelClass} style={fontStyle}>Adresse complète *</label>
+              <input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} required placeholder="Ex: 12 rue de la Paix" className={inputClass} style={fontStyle} />
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">

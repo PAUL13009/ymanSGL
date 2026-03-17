@@ -172,6 +172,11 @@ export default function EstimationParisEtape2Page() {
       setSubmitting(false)
       return
     }
+    if (!formData.adresseComplete?.trim()) {
+      setSubmitError('Veuillez renseigner l\'adresse complète du bien.')
+      setSubmitting(false)
+      return
+    }
 
     try {
       const d: Record<string, any> = {
@@ -315,7 +320,7 @@ export default function EstimationParisEtape2Page() {
           {/* IDENTIFICATION DU BIEN */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Identification du bien</h2>
-            <div><label className={labelClass} style={fontStyle}>Adresse complète</label><input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            <div><label className={labelClass} style={fontStyle}>Adresse complète *</label><input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} required className={inputClass} style={fontStyle} /></div>
             <div>
               <label className={labelClass} style={fontStyle}>Code postal</label>
               <input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} placeholder="Ex: 78100" className={inputClass} style={fontStyle} />
@@ -686,7 +691,7 @@ export default function EstimationParisEtape2Page() {
             <div>
               <label className={labelClass} style={fontStyle}>Équipements intérieur</label>
               <div className="grid md:grid-cols-3 gap-3">
-                {['Climatisation intégrée', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map(o => (
+                {['Climatisation gainable', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map(o => (
                   <label key={o} className={getOptionClass(formData.equipementsInterieur.includes(o))}>
                     <input type="checkbox" checked={formData.equipementsInterieur.includes(o)} onChange={() => handleCheckboxChange('equipementsInterieur', o)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{o}</span>

@@ -71,9 +71,8 @@ export default function EstimationEtape2Page() {
     prestations: [] as string[],
     autresPrestations: '',
     showAutresPrestations: false,
-    // Exposition
-    exposition: '',
-    expositionTraversant: [] as string[],
+    // Exposition (plusieurs réponses possibles)
+    exposition: [] as string[],
     // Vis-à-vis
     visAVis: '',
     distanceVisAVis: '',
@@ -302,6 +301,10 @@ export default function EstimationEtape2Page() {
       setSubmitError('Le code postal saisi correspond à Paris. Veuillez utiliser le formulaire Estimation Paris.')
       return
     }
+    if (!formData.localisation?.trim()) {
+      setSubmitError('Veuillez renseigner l\'adresse exacte du bien.')
+      return
+    }
     setSubmitting(true)
     setSubmitError('')
 
@@ -361,8 +364,7 @@ export default function EstimationEtape2Page() {
         date_travaux_prevus: formData.dateTravauxPrevus || null,
         prestations: formData.prestations.length > 0 ? formData.prestations : null,
         autres_prestations: formData.autresPrestations || null,
-        exposition: formData.exposition || null,
-        exposition_traversant: formData.expositionTraversant?.length ? formData.expositionTraversant.join(', ') : null,
+        exposition: formData.exposition?.length ? formData.exposition.join(', ') : null,
         vis_a_vis: formData.visAVis || null,
         distance_vis_a_vis: formData.distanceVisAVis || null,
         taxe_fonciere: formData.taxeFonciere || null,
@@ -573,7 +575,7 @@ export default function EstimationEtape2Page() {
               <div className="grid md:grid-cols-2 gap-3 mt-4">
                 {[
                   'Mariage / divorce',
-                  'Succession / donation / donation partage / indivision',
+                  'Succession / indivision',
                   'Départ des enfants / naissance',
                   'Difficultés financières / besoin de liquidités',
                   'Problème de santé',
@@ -595,7 +597,7 @@ export default function EstimationEtape2Page() {
                   <input type="text" name="contexteVenteAutre" value={formData.contexteVenteAutre} onChange={handleChange} placeholder="Précisez votre situation..." className={inputClass} style={fontStyle} />
                 </div>
               )}
-              {formData.contexteVente.includes('Succession / donation / donation partage / indivision') && (
+              {formData.contexteVente.includes('Succession / indivision') && (
                 <div className="mt-4">
                   <label className={labelClass} style={fontStyle}>Nom de la succession</label>
                   <input type="text" name="nomSuccession" value={formData.nomSuccession} onChange={handleChange} placeholder="Ex: Succession Dupont" className={inputClass} style={fontStyle} />
@@ -612,12 +614,13 @@ export default function EstimationEtape2Page() {
 
             {/* Localisation */}
             <div>
-              <label className={labelClass} style={fontStyle}>Adresse exacte du bien</label>
+              <label className={labelClass} style={fontStyle}>Adresse exacte du bien *</label>
               <input
                 type="text"
                 name="localisation"
                 value={formData.localisation}
                 onChange={handleChange}
+                required
                 placeholder="Ex: 12 rue de la Paix"
                 className={inputClass}
                 style={fontStyle}
@@ -688,7 +691,7 @@ export default function EstimationEtape2Page() {
                   <label className={labelClass} style={fontStyle}>Sous-catégorie</label>
                   <select name="typeBienSousCategorie" value={formData.typeBienSousCategorie} onChange={handleChange} className={selectClass} style={fontStyle}>
                     <option value="" className="bg-black text-white">Sélectionnez...</option>
-                    {['Studio', 'Duplex', 'Triplex', 'Loft', 'Penthouse'].map((opt) => (
+                    {['Type 1', 'Type 2', 'Type 3', 'Type 4', 'Type 5 ou +', 'Studio', 'Duplex', 'Triplex', 'Loft', 'Penthouse'].map((opt) => (
                       <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
                     ))}
                   </select>
@@ -1619,7 +1622,7 @@ export default function EstimationEtape2Page() {
               <p className={sectionTitleClass} style={fontStyle}>Prestations principales</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
                 {[
-                  'Double vitrage', 'Climatisation / Gainable', 'Cave', 'Cheminée', 'Volets électriques', 'Fibre optique',
+                  'Double vitrage', 'Climatisation / Gainable', 'Cave', 'Cheminée', 'Volets électriques', 'Alarme', 'Fibre optique',
                   'Domotique', 'Escalier colimaçons', 'Double séjour / triple réception', 'Mezzanine', 'Hauteur sous plafond remarquable',
                   'Pièce de vie +50 m²', 'Chambre avec dressing intégré', 'Bureau indépendant', 'Bibliothèque intégrée', 'Salle de jeux / family room',
                   'Hauteur sous plafond +3m', 'Suite parentale avec salle d\'eau / salle de bain + dressing', 'Buanderie indépendante', 'Cellier attenant à la cuisine',
@@ -1664,40 +1667,55 @@ export default function EstimationEtape2Page() {
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>État détaillé</h2>
 
-            {/* État extérieur */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>État extérieur</p>
-              <div className="grid md:grid-cols-3 gap-4 mt-4">
-                {[
-                  { name: 'etatToiture', label: 'Toiture' },
-                  { name: 'etatFacade', label: 'Façade' },
-                  { name: 'etatTerrainExt', label: 'Terrain' },
-                ].map((field) => (
-                  <div key={field.name}>
-                    <label className={labelClass} style={fontStyle}>{field.label}</label>
-                    <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
-                      <option value="" className="bg-black text-white">Sélectionnez...</option>
-                      <option value="À rénover" className="bg-black text-white">À rénover</option>
-                      <option value="À rafraîchir" className="bg-black text-white">À rafraîchir</option>
-                      <option value="Bon état" className="bg-black text-white">Bon état</option>
-                      <option value="Excellent état" className="bg-black text-white">Excellent état</option>
-                    </select>
-                  </div>
-                ))}
+            {/* État extérieur - Maison uniquement */}
+            {formData.typeBien === 'Maison' && (
+              <div>
+                <p className={sectionTitleClass} style={fontStyle}>État extérieur</p>
+                <div className="grid md:grid-cols-3 gap-4 mt-4">
+                  {[
+                    { name: 'etatToiture', label: 'Toiture' },
+                    { name: 'etatFacade', label: 'Façade' },
+                    { name: 'etatTerrainExt', label: 'Terrain' },
+                  ].map((field) => (
+                    <div key={field.name}>
+                      <label className={labelClass} style={fontStyle}>{field.label}</label>
+                      <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
+                        <option value="" className="bg-black text-white">Sélectionnez...</option>
+                        <option value="À rénover" className="bg-black text-white">À rénover</option>
+                        <option value="À rafraîchir" className="bg-black text-white">À rafraîchir</option>
+                        <option value="Bon état" className="bg-black text-white">Bon état</option>
+                        <option value="Excellent état" className="bg-black text-white">Excellent état</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Sécurité & Confort */}
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Sécurité & Confort</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
-                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme', 'Volets roulants électriques'].map((option) => (
+                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme'].map((option) => (
                   <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
                     <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
                   </label>
                 ))}
               </div>
+              {formData.securiteConfort.includes('Résidence fermée') && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className={labelClass} style={fontStyle}>Accès résidence fermée (plusieurs réponses possibles)</p>
+                  <div className="grid md:grid-cols-3 gap-4 mt-2">
+                    {['Digicode', 'Clés', 'Badge'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
+                        <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* État intérieur */}
@@ -1849,7 +1867,7 @@ export default function EstimationEtape2Page() {
                   <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>5. Équipements premium</label>
                 <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Climatisation intégrée', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
+                  {['Climatisation gainable', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
                     <label key={option} className={getOptionClass(formData.equipementsPremium.includes(option))}>
                       <input type="checkbox" checked={formData.equipementsPremium.includes(option)} onChange={() => handleCheckboxChange('equipementsPremium', option)} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{option}</span>
@@ -1979,48 +1997,50 @@ export default function EstimationEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ ASSAINISSEMENT ═══════════ */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Assainissement</h2>
+          {/* ═══════════ ASSAINISSEMENT (Maison uniquement) ═══════════ */}
+          {formData.typeBien === 'Maison' && (
+            <div className="space-y-6">
+              <h2 className={groupTitleClass} style={fontStyle}>Assainissement</h2>
 
-            <div>
-              <label className={labelClass} style={fontStyle}>Type d&apos;assainissement</label>
-              <div className="flex gap-4 mt-2">
-                {['Collectif', 'Non-collectif (Fosse septique)'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.assainissementType === val)}>
-                    <input type="radio" name="assainissementType" value={val} checked={formData.assainissementType === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
-              </div>
-                  </div>
-                  
-            {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelClass} style={fontStyle}>Validité diagnostic SPANC</label>
-                  <select name="spancValidite" value={formData.spancValidite} onChange={handleChange} className={selectClass} style={fontStyle}>
-                    <option value="" className="bg-black text-white">Sélectionnez...</option>
-                    <option value="Moins de 3 ans" className="bg-black text-white">Moins de 3 ans</option>
-                    <option value="Plus de 3 ans" className="bg-black text-white">Plus de 3 ans</option>
-                    <option value="Pas de diagnostic" className="bg-black text-white">Pas de diagnostic</option>
-                  </select>
+              <div>
+                <label className={labelClass} style={fontStyle}>Type d&apos;assainissement</label>
+                <div className="flex gap-4 mt-2">
+                  {['Collectif', 'Non-collectif (Fosse septique)'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.assainissementType === val)}>
+                      <input type="radio" name="assainissementType" value={val} checked={formData.assainissementType === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
-            )}
 
-            <div>
-              <label className={labelClass} style={fontStyle}>Raccordabilité</label>
-              <div className="flex gap-4 mt-2">
-                {['Raccordable', 'Non raccordable', 'Ne sait pas'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
-                    <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                      </label>
-                    ))}
+              {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Validité diagnostic SPANC</label>
+                    <select name="spancValidite" value={formData.spancValidite} onChange={handleChange} className={selectClass} style={fontStyle}>
+                      <option value="" className="bg-black text-white">Sélectionnez...</option>
+                      <option value="Moins de 3 ans" className="bg-black text-white">Moins de 3 ans</option>
+                      <option value="Plus de 3 ans" className="bg-black text-white">Plus de 3 ans</option>
+                      <option value="Pas de diagnostic" className="bg-black text-white">Pas de diagnostic</option>
+                    </select>
                   </div>
                 </div>
+              )}
+
+              <div>
+                <label className={labelClass} style={fontStyle}>Raccordabilité</label>
+                <div className="flex gap-4 mt-2">
+                  {['Raccordable', 'Non raccordable', 'Ne sait pas'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
+                      <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
+            </div>
+          )}
 
           <div className="border-t border-white/10" />
 
@@ -2076,31 +2096,18 @@ export default function EstimationEtape2Page() {
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Confort & Environnement</h2>
 
-            {/* Exposition */}
-                  <div>
-              <p className={sectionTitleClass} style={fontStyle}>Exposition principale</p>
+            {/* Exposition (plusieurs réponses possibles) */}
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>Exposition (plusieurs réponses possibles)</p>
               <div className="grid md:grid-cols-5 gap-4 mt-4">
                 {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.exposition === option)}>
-                    <input type="radio" name="exposition" value={option} checked={formData.exposition === option} onChange={(e) => { handleChange(e); if (option !== 'Traversant') setFormData(prev => ({ ...prev, expositionTraversant: [] })); }} className="mr-2 accent-white" />
+                  <label key={option} className={getOptionClass(formData.exposition.includes(option))}>
+                    <input type="checkbox" checked={formData.exposition.includes(option)} onChange={() => handleCheckboxChange('exposition', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
+                  </label>
                 ))}
               </div>
-              {formData.exposition === 'Traversant' && (
-                <div className="mt-4">
-                  <label className={labelClass} style={fontStyle}>Orientations (plusieurs réponses possibles)</label>
-                  <div className="grid grid-cols-4 gap-4 mt-2">
-                    {['Nord', 'Sud', 'Est', 'Ouest'].map((option) => (
-                      <label key={option} className={getOptionClass(formData.expositionTraversant.includes(option))}>
-                        <input type="checkbox" checked={formData.expositionTraversant.includes(option)} onChange={() => handleCheckboxChange('expositionTraversant', option)} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-              )}
-                </div>
+            </div>
 
             {/* Vis-à-vis */}
             <div className="pt-4 border-t border-white/10">

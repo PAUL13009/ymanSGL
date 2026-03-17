@@ -259,6 +259,10 @@ export default function LocationParisFormulaireEtape2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!formData.localisation?.trim()) {
+      setSubmitError('Veuillez renseigner l\'adresse exacte du bien.')
+      return
+    }
     setSubmitting(true)
     setSubmitError('')
 
@@ -533,12 +537,13 @@ export default function LocationParisFormulaireEtape2Page() {
 
             {/* Localisation */}
             <div>
-              <label className={labelClass} style={fontStyle}>Adresse exacte du bien</label>
+              <label className={labelClass} style={fontStyle}>Adresse exacte du bien *</label>
               <input
                 type="text"
                 name="localisation"
                 value={formData.localisation}
                 onChange={handleChange}
+                required
                 placeholder="Ex: 12 rue de la Paix"
                 className={inputClass}
                 style={fontStyle}
@@ -1653,13 +1658,26 @@ export default function LocationParisFormulaireEtape2Page() {
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Sécurité & Confort</p>
               <div className="grid md:grid-cols-3 gap-4 mt-4">
-                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme', 'Volets roulants électriques'].map((option) => (
+                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme'].map((option) => (
                   <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
                     <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
                   </label>
                 ))}
               </div>
+              {formData.securiteConfort.includes('Résidence fermée') && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className={labelClass} style={fontStyle}>Accès résidence fermée (plusieurs réponses possibles)</p>
+                  <div className="grid md:grid-cols-3 gap-4 mt-2">
+                    {['Digicode', 'Clés', 'Badge'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
+                        <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* État intérieur */}
@@ -1771,7 +1789,7 @@ export default function LocationParisFormulaireEtape2Page() {
               <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>5. Équipements premium</label>
                 <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Climatisation intégrée', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
+                  {['Climatisation gainable', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
                     <label key={option} className={getOptionClass(formData.equipementsPremium.includes(option))}>
                       <input type="checkbox" checked={formData.equipementsPremium.includes(option)} onChange={() => handleCheckboxChange('equipementsPremium', option)} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{option}</span>
@@ -1906,48 +1924,50 @@ export default function LocationParisFormulaireEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ ASSAINISSEMENT ═══════════ */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Assainissement</h2>
+          {/* ═══════════ ASSAINISSEMENT (Maison uniquement) ═══════════ */}
+          {['Maison', 'Villa', 'Maison de ville', 'Hôtel particulier', 'Propriété', 'Ferme', 'Château'].includes(formData.typeBien) && (
+            <div className="space-y-6">
+              <h2 className={groupTitleClass} style={fontStyle}>Assainissement</h2>
 
-            <div>
-              <label className={labelClass} style={fontStyle}>Type d&apos;assainissement</label>
-              <div className="flex gap-4 mt-2">
-                {['Collectif', 'Non-collectif (Fosse septique)'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.assainissementType === val)}>
-                    <input type="radio" name="assainissementType" value={val} checked={formData.assainissementType === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelClass} style={fontStyle}>Validité diagnostic SPANC</label>
-                  <select name="spancValidite" value={formData.spancValidite} onChange={handleChange} className={selectClass} style={fontStyle}>
-                    <option value="" className="bg-black text-white">Sélectionnez...</option>
-                    <option value="Moins de 3 ans" className="bg-black text-white">Moins de 3 ans</option>
-                    <option value="Plus de 3 ans" className="bg-black text-white">Plus de 3 ans</option>
-                    <option value="Pas de diagnostic" className="bg-black text-white">Pas de diagnostic</option>
-                  </select>
+              <div>
+                <label className={labelClass} style={fontStyle}>Type d&apos;assainissement</label>
+                <div className="flex gap-4 mt-2">
+                  {['Collectif', 'Non-collectif (Fosse septique)'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.assainissementType === val)}>
+                      <input type="radio" name="assainissementType" value={val} checked={formData.assainissementType === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
-            )}
 
-            <div>
-              <label className={labelClass} style={fontStyle}>Raccordabilité</label>
-              <div className="flex gap-4 mt-2">
-                {['Raccordable', 'Non raccordable', 'Ne sait pas'].map((val) => (
-                  <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
-                    <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
-                ))}
+              {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Validité diagnostic SPANC</label>
+                    <select name="spancValidite" value={formData.spancValidite} onChange={handleChange} className={selectClass} style={fontStyle}>
+                      <option value="" className="bg-black text-white">Sélectionnez...</option>
+                      <option value="Moins de 3 ans" className="bg-black text-white">Moins de 3 ans</option>
+                      <option value="Plus de 3 ans" className="bg-black text-white">Plus de 3 ans</option>
+                      <option value="Pas de diagnostic" className="bg-black text-white">Pas de diagnostic</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className={labelClass} style={fontStyle}>Raccordabilité</label>
+                <div className="flex gap-4 mt-2">
+                  {['Raccordable', 'Non raccordable', 'Ne sait pas'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
+                      <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="border-t border-white/10" />
 
