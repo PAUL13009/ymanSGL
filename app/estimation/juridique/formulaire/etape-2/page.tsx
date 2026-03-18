@@ -306,9 +306,9 @@ export default function EstimationJuridiqueEtape2Page() {
 
         <form onSubmit={handleSubmit} className="space-y-10">
 
-          {/* CONTEXTE JURIDIQUE */}
+          {/* BLOC 1 — CONTEXTE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Contexte juridique de la demande</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Contexte</h2>
             <p className="text-white/60 text-sm -mt-2" style={fontStyle}>Plusieurs choix possibles</p>
             <div className="grid md:grid-cols-2 gap-3">
               {CONTEXTE_JURIDIQUE_OPTIONS.map(opt => (
@@ -329,9 +329,58 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* HORIZON */}
+          {/* BLOC 2 — DATE DE RÉFÉRENCE SOUHAITÉE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Horizon envisagé pour l&apos;actif immobilier</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Date de référence souhaitée pour l&apos;évaluation</h2>
+            <div className="flex gap-4">
+              {['Valeur actuelle', 'Valeur à une date spécifique'].map(o => (
+                <label key={o} className={getOptionClass(formData.dateReference === o)}>
+                  <input type="radio" name="dateReference" value={o} checked={formData.dateReference === o} onChange={handleChange} className="mr-2 accent-white" />
+                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                </label>
+              ))}
+            </div>
+            {formData.dateReference === 'Valeur à une date spécifique' && <div><label className={labelClass} style={fontStyle}>Date spécifique</label><input type="text" name="dateSpecifique" value={formData.dateSpecifique} onChange={handleChange} placeholder="Champ libre" className={inputClass} style={fontStyle} /></div>}
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 3 — RÉFÉRENCE DE VALEUR ÉVENTUELLE */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Référence de valeur éventuelle</h2>
+            <p className="text-white/60 text-sm -mt-2" style={fontStyle}>Le client ou le conseil dispose-t-il d&apos;une référence de valeur préalable ?</p>
+            <div className="flex gap-4">
+              {['Oui', 'Non'].map(o => (
+                <label key={o} className={getOptionClass(formData.referenceValeur === o)}>
+                  <input type="radio" name="referenceValeur" value={o} checked={formData.referenceValeur === o} onChange={handleChange} className="mr-2 accent-white" />
+                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                </label>
+              ))}
+            </div>
+            {formData.referenceValeur === 'Oui' && (
+              <div className="space-y-4 pt-4 border-t border-white/10">
+                <div>
+                  <label className={labelClass} style={fontStyle}>Nature de cette référence</label>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    {['Estimation d\'agence', 'Évaluation notariale', 'Référence de marché', 'Valeur déclarative (fiscale, succession…)', 'Autre à préciser'].map(o => (
+                      <label key={o} className={getOptionClass(formData.natureReference === o)}>
+                        <input type="radio" name="natureReference" value={o} checked={formData.natureReference === o} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {formData.natureReference === 'Autre à préciser' && <div className="mt-4"><input type="text" name="natureReferenceAutre" value={formData.natureReferenceAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
+                </div>
+                <div><label className={labelClass} style={fontStyle}>Montant indicatif (€)</label><input type="text" name="montantReference" value={formData.montantReference} onChange={handleChange} placeholder="Champ libre" className={inputClass} style={fontStyle} /></div>
+              </div>
+            )}
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 4 — HORIZON ENVISAGÉ */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Horizon envisagé</h2>
             <div className="grid md:grid-cols-2 gap-3">
               {['Vente envisagée à court terme', 'Vente envisagée à moyen terme', 'Analyse patrimoniale uniquement', 'Non déterminé à ce stade'].map(opt => (
                 <label key={opt} className={getOptionClass(formData.horizonActif === opt)}>
@@ -344,51 +393,23 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* IDENTIFICATION DU BIEN */}
+          {/* BLOC 5 — OBJECTIF PRINCIPAL DE L'ANALYSE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Identification du bien</h2>
-            <div><label className={labelClass} style={fontStyle}>Adresse complète *</label><input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} required className={inputClass} style={fontStyle} /></div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div><label className={labelClass} style={fontStyle}>Code postal</label><input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
-              <div><label className={labelClass} style={fontStyle}>Ville</label><input type="text" name="ville" value={formData.ville} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            <h2 className={groupTitleClass} style={fontStyle}>Objectif principal de l&apos;analyse</h2>
+            <div className="grid md:grid-cols-2 gap-3">
+              {['Détermination d\'une valeur vénale', 'Arbitrage patrimonial', 'Évaluation dans un cadre juridique', 'Analyse de valeur locative', 'Analyse stratégique d\'actif', 'Autre (à préciser)'].map(o => (
+                <label key={o} className={getOptionClass(formData.objectifAnalyse === o)}>
+                  <input type="radio" name="objectifAnalyse" value={o} checked={formData.objectifAnalyse === o} onChange={handleChange} className="mr-2 accent-white" />
+                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                </label>
+              ))}
             </div>
-            <div>
-              <label className={labelClass} style={fontStyle}>Type de bien</label>
-              <select name="typeBien" value={formData.typeBien} onChange={handleChange} className={selectClass} style={fontStyle}>
-                <option value="" className="bg-black">Sélectionnez...</option>
-                {TYPE_BIEN_OPTIONS.map(o => <option key={o} value={o} className="bg-black">{o}</option>)}
-              </select>
-              {formData.typeBien === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="typeBienAutre" value={formData.typeBienAutre} onChange={handleChange} placeholder="Précisez" className={inputClass} style={fontStyle} /></div>}
-            </div>
-            <div>
-              <label className={labelClass} style={fontStyle}>Destination actuelle</label>
-              <div className="grid md:grid-cols-2 gap-3">
-                {DESTINATION_OPTIONS.map(o => (
-                  <label key={o} className={getOptionClass(formData.destinationActuelle === o)}>
-                    <input type="radio" name="destinationActuelle" value={o} checked={formData.destinationActuelle === o} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.destinationActuelle === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="destinationAutre" value={formData.destinationAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
-            </div>
-            <div>
-              <label className={labelClass} style={fontStyle}>Usage actuel</label>
-              <div className="grid md:grid-cols-2 gap-3">
-                {USAGE_OPTIONS.map(o => (
-                  <label key={o} className={getOptionClass(formData.usageActuel === o)}>
-                    <input type="radio" name="usageActuel" value={o} checked={formData.usageActuel === o} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.usageActuel === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="usageAutre" value={formData.usageAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
-            </div>
+            {formData.objectifAnalyse === 'Autre (à préciser)' && <div><input type="text" name="objectifAnalyseAutre" value={formData.objectifAnalyseAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
           </div>
 
           <div className="border-t border-white/10" />
 
-          {/* SITUATION JURIDIQUE */}
+          {/* BLOC 6 — SITUATION JURIDIQUE DU BIEN */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Situation juridique du bien</h2>
             <div className="grid md:grid-cols-2 gap-3">
@@ -419,7 +440,63 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* CARACTÉRISTIQUES */}
+          {/* BLOC 7 — IDENTIFICATION DU BIEN */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Identification du bien</h2>
+            <div><label className={labelClass} style={fontStyle}>Adresse complète *</label><input type="text" name="adresseComplete" value={formData.adresseComplete} onChange={handleChange} required className={inputClass} style={fontStyle} /></div>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div><label className={labelClass} style={fontStyle}>Code postal</label><input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+              <div><label className={labelClass} style={fontStyle}>Ville</label><input type="text" name="ville" value={formData.ville} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            </div>
+            <div>
+              <label className={labelClass} style={fontStyle}>Type de bien</label>
+              <select name="typeBien" value={formData.typeBien} onChange={handleChange} className={selectClass} style={fontStyle}>
+                <option value="" className="bg-black">Sélectionnez...</option>
+                {TYPE_BIEN_OPTIONS.map(o => <option key={o} value={o} className="bg-black">{o}</option>)}
+              </select>
+              {formData.typeBien === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="typeBienAutre" value={formData.typeBienAutre} onChange={handleChange} placeholder="Précisez" className={inputClass} style={fontStyle} /></div>}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 8 — DESTINATION ACTUELLE */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Destination actuelle</h2>
+            <div>
+              <div className="grid md:grid-cols-2 gap-3">
+                {DESTINATION_OPTIONS.map(o => (
+                  <label key={o} className={getOptionClass(formData.destinationActuelle === o)}>
+                    <input type="radio" name="destinationActuelle" value={o} checked={formData.destinationActuelle === o} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                  </label>
+                ))}
+              </div>
+              {formData.destinationActuelle === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="destinationAutre" value={formData.destinationAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 9 — USAGE ACTUEL */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Usage actuel</h2>
+            <div>
+              <div className="grid md:grid-cols-2 gap-3">
+                {USAGE_OPTIONS.map(o => (
+                  <label key={o} className={getOptionClass(formData.usageActuel === o)}>
+                    <input type="radio" name="usageActuel" value={o} checked={formData.usageActuel === o} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                  </label>
+                ))}
+              </div>
+              {formData.usageActuel === 'Autre (à préciser)' && <div className="mt-4"><input type="text" name="usageAutre" value={formData.usageAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 10 — CARACTÉRISTIQUES PRINCIPALES */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Caractéristiques principales</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -473,7 +550,7 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ÉTAT GÉNÉRAL */}
+          {/* BLOC 11 — ÉTAT GÉNÉRAL DU BIEN */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>État général du bien</h2>
             <div>
@@ -493,9 +570,9 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* SITUATION LOCATIVE */}
+          {/* BLOC 12 — SITUATION LOCATIVE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Situation locative (si applicable)</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Situation locative</h2>
             <div>
               <label className={labelClass} style={fontStyle}>Le bien est-il actuellement loué ?</label>
               <div className="flex gap-4">
@@ -545,35 +622,9 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* COPROPRIÉTÉ */}
+          {/* BLOC 13 — CHAUFFAGE / EAU CHAUDE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Copropriété (si applicable)</h2>
-            <div><label className={labelClass} style={fontStyle}>Nombre de lots dans l&apos;immeuble</label><input type="text" name="nbLots" value={formData.nbLots} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
-            <div><label className={labelClass} style={fontStyle}>Charges annuelles de copropriété</label><input type="text" name="chargesAnnuellesCopro" value={formData.chargesAnnuellesCopro} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
-            <div><label className={labelClass} style={fontStyle}>Travaux votés ou prévus : Nature / montant</label><textarea name="travauxVotesPrevus" value={formData.travauxVotesPrevus} onChange={handleChange} rows={2} className={inputClass} style={fontStyle} /></div>
-            <div>
-              <label className={labelClass} style={fontStyle}>Procédure en cours</label>
-              <div className="flex gap-4">
-                {['Oui', 'Non'].map(o => (
-                  <label key={o} className={getOptionClass(formData.procedureEnCoursCopro === o)}>
-                    <input type="radio" name="procedureEnCoursCopro" value={o} checked={formData.procedureEnCoursCopro === o} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-white/10" />
-
-          {/* PERFORMANCE ÉNERGÉTIQUE */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Performance énergétique</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div><label className={labelClass} style={fontStyle}>Classe DPE</label><select name="classeDpe" value={formData.classeDpe} onChange={handleChange} className={selectClass} style={fontStyle}><option value="" className="bg-black">—</option>{['A','B','C','D','E','F','G'].map(c=>(<option key={c} value={c} className="bg-black">{c}</option>))}</select></div>
-              <div><label className={labelClass} style={fontStyle}>Classe GES</label><select name="classeGes" value={formData.classeGes} onChange={handleChange} className={selectClass} style={fontStyle}><option value="" className="bg-black">—</option>{['A','B','C','D','E','F','G'].map(c=>(<option key={c} value={c} className="bg-black">{c}</option>))}</select></div>
-            </div>
-            <div><label className={labelClass} style={fontStyle}>Année du diagnostic</label><input type="text" name="anneeDpe" value={formData.anneeDpe} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            <h2 className={groupTitleClass} style={fontStyle}>Chauffage / eau chaude</h2>
             <div>
               <label className={labelClass} style={fontStyle}>Système de chauffage</label>
               <div className="flex gap-4">
@@ -585,6 +636,18 @@ export default function EstimationJuridiqueEtape2Page() {
                 ))}
               </div>
             </div>
+          </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* BLOC 14 — DPE ET TRAVAUX ÉNERGÉTIQUES */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>DPE et travaux énergétiques réalisés ou envisagés</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div><label className={labelClass} style={fontStyle}>Classe DPE</label><select name="classeDpe" value={formData.classeDpe} onChange={handleChange} className={selectClass} style={fontStyle}><option value="" className="bg-black">—</option>{['A','B','C','D','E','F','G'].map(c=>(<option key={c} value={c} className="bg-black">{c}</option>))}</select></div>
+              <div><label className={labelClass} style={fontStyle}>Classe GES</label><select name="classeGes" value={formData.classeGes} onChange={handleChange} className={selectClass} style={fontStyle}><option value="" className="bg-black">—</option>{['A','B','C','D','E','F','G'].map(c=>(<option key={c} value={c} className="bg-black">{c}</option>))}</select></div>
+            </div>
+            <div><label className={labelClass} style={fontStyle}>Année du diagnostic</label><input type="text" name="anneeDpe" value={formData.anneeDpe} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
             <div>
               <label className={labelClass} style={fontStyle}>Travaux énergétiques réalisés ou envisagés</label>
               <div className="flex gap-4 mb-2">
@@ -601,7 +664,7 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* DONNÉES FINANCIÈRES */}
+          {/* BLOC 15 — DONNÉES FINANCIÈRES */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Données financières</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -626,9 +689,9 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* SERVITUDES */}
+          {/* BLOC 16 — SERVITUDE / CONTRAINTE JURIDIQUE */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Servitudes ou contraintes juridiques connues</h2>
+            <h2 className={groupTitleClass} style={fontStyle}>Servitude / contrainte juridique</h2>
             <p className="text-white/60 text-sm -mt-2" style={fontStyle}>Le bien est-il concerné par une servitude ou une contrainte particulière ?</p>
             <div className="grid md:grid-cols-2 gap-3">
               {SERVITUDES_OPTIONS.map(o => (
@@ -643,72 +706,28 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* DATE DE RÉFÉRENCE */}
+          {/* BLOC 17 — COPROPRIÉTÉ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Date de référence souhaitée pour l&apos;évaluation</h2>
-            <div className="flex gap-4">
-              {['Valeur actuelle', 'Valeur à une date spécifique'].map(o => (
-                <label key={o} className={getOptionClass(formData.dateReference === o)}>
-                  <input type="radio" name="dateReference" value={o} checked={formData.dateReference === o} onChange={handleChange} className="mr-2 accent-white" />
-                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                </label>
-              ))}
-            </div>
-            {formData.dateReference === 'Valeur à une date spécifique' && <div><label className={labelClass} style={fontStyle}>Date spécifique</label><input type="text" name="dateSpecifique" value={formData.dateSpecifique} onChange={handleChange} placeholder="Champ libre" className={inputClass} style={fontStyle} /></div>}
-          </div>
-
-          <div className="border-t border-white/10" />
-
-          {/* OBJECTIF ANALYSE */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Objectif principal de l&apos;analyse</h2>
-            <div className="grid md:grid-cols-2 gap-3">
-              {['Détermination d\'une valeur vénale', 'Arbitrage patrimonial', 'Évaluation dans un cadre juridique', 'Analyse de valeur locative', 'Analyse stratégique d\'actif', 'Autre (à préciser)'].map(o => (
-                <label key={o} className={getOptionClass(formData.objectifAnalyse === o)}>
-                  <input type="radio" name="objectifAnalyse" value={o} checked={formData.objectifAnalyse === o} onChange={handleChange} className="mr-2 accent-white" />
-                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                </label>
-              ))}
-            </div>
-            {formData.objectifAnalyse === 'Autre (à préciser)' && <div><input type="text" name="objectifAnalyseAutre" value={formData.objectifAnalyseAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
-          </div>
-
-          <div className="border-t border-white/10" />
-
-          {/* RÉFÉRENCE DE VALEUR */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Référence de valeur éventuelle</h2>
-            <p className="text-white/60 text-sm -mt-2" style={fontStyle}>Le client ou le conseil dispose-t-il d&apos;une référence de valeur préalable ?</p>
-            <div className="flex gap-4">
-              {['Oui', 'Non'].map(o => (
-                <label key={o} className={getOptionClass(formData.referenceValeur === o)}>
-                  <input type="radio" name="referenceValeur" value={o} checked={formData.referenceValeur === o} onChange={handleChange} className="mr-2 accent-white" />
-                  <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                </label>
-              ))}
-            </div>
-            {formData.referenceValeur === 'Oui' && (
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <div>
-                  <label className={labelClass} style={fontStyle}>Nature de cette référence</label>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    {['Estimation d\'agence', 'Évaluation notariale', 'Référence de marché', 'Valeur déclarative (fiscale, succession…)', 'Autre à préciser'].map(o => (
-                      <label key={o} className={getOptionClass(formData.natureReference === o)}>
-                        <input type="radio" name="natureReference" value={o} checked={formData.natureReference === o} onChange={handleChange} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{o}</span>
-                      </label>
-                    ))}
-                  </div>
-                  {formData.natureReference === 'Autre à préciser' && <div className="mt-4"><input type="text" name="natureReferenceAutre" value={formData.natureReferenceAutre} onChange={handleChange} className={inputClass} style={fontStyle} /></div>}
-                </div>
-                <div><label className={labelClass} style={fontStyle}>Montant indicatif (€)</label><input type="text" name="montantReference" value={formData.montantReference} onChange={handleChange} placeholder="Champ libre" className={inputClass} style={fontStyle} /></div>
+            <h2 className={groupTitleClass} style={fontStyle}>Copropriété</h2>
+            <div><label className={labelClass} style={fontStyle}>Nombre de lots dans l&apos;immeuble</label><input type="text" name="nbLots" value={formData.nbLots} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            <div><label className={labelClass} style={fontStyle}>Charges annuelles de copropriété</label><input type="text" name="chargesAnnuellesCopro" value={formData.chargesAnnuellesCopro} onChange={handleChange} className={inputClass} style={fontStyle} /></div>
+            <div><label className={labelClass} style={fontStyle}>Travaux votés ou prévus : Nature / montant</label><textarea name="travauxVotesPrevus" value={formData.travauxVotesPrevus} onChange={handleChange} rows={2} className={inputClass} style={fontStyle} /></div>
+            <div>
+              <label className={labelClass} style={fontStyle}>Procédure en cours</label>
+              <div className="flex gap-4">
+                {['Oui', 'Non'].map(o => (
+                  <label key={o} className={getOptionClass(formData.procedureEnCoursCopro === o)}>
+                    <input type="radio" name="procedureEnCoursCopro" value={o} checked={formData.procedureEnCoursCopro === o} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{o}</span>
+                  </label>
+                ))}
               </div>
-            )}
+            </div>
           </div>
 
           <div className="border-t border-white/10" />
 
-          {/* DOCUMENTS */}
+          {/* BLOC 18 — DOCUMENTS ÉVENTUELS */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Documents éventuellement disponibles</h2>
             <div className="grid md:grid-cols-2 gap-3">
@@ -724,7 +743,7 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* INFORMATIONS COMPLÉMENTAIRES */}
+          {/* BLOC 19 — INFORMATIONS COMPLÉMENTAIRES */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Informations complémentaires</h2>
             <div>
@@ -735,7 +754,7 @@ export default function EstimationJuridiqueEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* PROBLÉMATIQUE SPÉCIFIQUE */}
+          {/* BLOC 20 — PROBLÉMATIQUE SPÉCIFIQUE */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>Problématique spécifique</h2>
             <div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 
-const CODES_POSTAUX_DEDUCTIBLE = ['75001','75002','75003','75004','75005','75006','75007','75008','75009','75010','75011','75012','75013','75014','75015','75016','75017','75018','75019','75020','78100','78230','78110','78290','78400','78160','92500','92210','92150','92100','92200','78000','78150']
+const CODES_POSTAUX_ZONE_ESSENTIEL = ['92100', '92210', '92200', '78100', '78230', '78110', '78000', '78370', '78450', '78860', '78160']
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -297,12 +297,12 @@ export default function EstimationEtape2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (parisCodePostalError) {
-      setSubmitError('Le code postal saisi correspond à Paris. Veuillez utiliser le formulaire Estimation Paris.')
-      return
-    }
     if (!formData.localisation?.trim()) {
       setSubmitError('Veuillez renseigner l\'adresse exacte du bien.')
+      return
+    }
+    if (parisCodePostalError) {
+      setSubmitError('Le code postal saisi correspond à Paris. Veuillez utiliser le formulaire Estimation Paris.')
       return
     }
     setSubmitting(true)
@@ -667,9 +667,9 @@ export default function EstimationEtape2Page() {
                     </Link>
                   </div>
                 )}
-                {!parisCodePostalError && formData.codePostal.trim() && CODES_POSTAUX_DEDUCTIBLE.includes(formData.codePostal.trim()) && (
-                  <p className="mt-2 text-xs italic text-white/40" style={fontStyle}>
-                    Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence
+                {!parisCodePostalError && formData.codePostal.trim() && CODES_POSTAUX_ZONE_ESSENTIEL.includes(formData.codePostal.trim()) && (
+                  <p className="mt-2 p-3 bg-white/5 border border-white/20 rounded-lg text-white/90 text-sm" style={fontStyle}>
+                    Bonne nouvelle : votre bien est situé dans les zones que nous couvrons. À ce titre, si vous souhaitez nous confier la mise en vente de votre bien ultérieurement, le montant de l&apos;estimation pourra être déduit de nos frais d&apos;agence
                   </p>
                 )}
               </div>
@@ -855,6 +855,47 @@ export default function EstimationEtape2Page() {
               </div>
             )}
           </div>
+
+          <div className="border-t border-white/10" />
+
+          {/* ═══════════ CONFORT & ENVIRONNEMENT ═══════════ */}
+          <div className="space-y-6">
+            <h2 className={groupTitleClass} style={fontStyle}>Confort & Environnement</h2>
+
+            {/* Exposition (plusieurs réponses possibles) */}
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>Exposition (plusieurs réponses possibles)</p>
+              <div className="grid md:grid-cols-5 gap-4 mt-4">
+                {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
+                  <label key={option} className={getOptionClass(formData.exposition.includes(option))}>
+                    <input type="checkbox" checked={formData.exposition.includes(option)} onChange={() => handleCheckboxChange('exposition', option)} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Vis-à-vis */}
+            <div className="pt-4 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Vis-à-vis</p>
+              <div className="grid md:grid-cols-4 gap-4 mt-4">
+                {['Important', 'Modéré', 'Faible', 'Aucun'].map((option) => (
+                  <label key={option} className={getOptionClass(formData.visAVis === option)}>
+                    <input type="radio" name="visAVis" value={option} checked={formData.visAVis === option} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
+              </div>
+              {formData.visAVis && formData.visAVis !== 'Aucun' && (
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Distance du voisin le plus proche</label>
+                    <input type="text" name="distanceVisAVis" value={formData.distanceVisAVis} onChange={handleChange} placeholder="Ex: 5 mètres" className={inputClass} style={fontStyle} />
+                  </div>
+                </div>
+              )}
+            </div>
+                  </div>
 
           <div className="border-t border-white/10" />
 
@@ -1072,10 +1113,10 @@ export default function EstimationEtape2Page() {
               </div>
             )}
 
-            {/* Caractéristiques du bien si maison */}
+            {/* Caractéristiques du bien */}
             {formData.typeBien === 'Maison' && (
               <div className="pt-4 border-t border-white/10">
-                <p className={sectionTitleClass} style={fontStyle}>Caractéristiques du bien si maison</p>
+                <p className={sectionTitleClass} style={fontStyle}>Caractéristiques du bien</p>
                 <div className="grid md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <label className={labelClass} style={fontStyle}>Surface terrain (m²)</label>
@@ -1253,13 +1294,87 @@ export default function EstimationEtape2Page() {
                 )}
               </div>
             )}
-              </div>
 
           <div className="border-t border-white/10" />
 
           {/* ═══════════ ÉTAT & PRESTATIONS ═══════════ */}
           <div className="space-y-6">
             <h2 className={groupTitleClass} style={fontStyle}>État & Prestations</h2>
+
+            {/* État intérieur */}
+            <div>
+              <p className={sectionTitleClass} style={fontStyle}>État intérieur</p>
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                {[
+                  { name: 'etatMurs', label: 'Murs', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
+                  { name: 'etatSols', label: 'Sols', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
+                  { name: 'etatPlafonds', label: 'Plafonds', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
+                  { name: 'etatMenuiserie', label: 'Menuiserie', options: ['À rénover', 'Passable', 'Bon état', 'Excellent état'] },
+                ].map((field) => (
+                  <div key={field.name}>
+                    <label className={labelClass} style={fontStyle}>{field.label}</label>
+                    <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
+                      <option value="" className="bg-black text-white">Sélectionnez...</option>
+                      {field.options.map((opt) => (
+                        <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Niveau global du bien */}
+            <div className="pt-4 border-t border-white/10">
+              <label className={labelClass} style={fontStyle}>Niveau global du bien</label>
+              <div className="grid md:grid-cols-4 gap-3 mt-2">
+                {['Standard', 'Bon standing', 'Haut de gamme', 'Luxe / Exceptionnel'].map((val) => (
+                  <label key={val} className={getOptionClass(formData.standing === val)}>
+                    <input type="radio" name="standing" value={val} checked={formData.standing === val} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Matériaux & finitions */}
+            <div className="pt-4 border-t border-white/10">
+              <label className={labelClass} style={fontStyle}>Matériaux & finitions</label>
+              <div className="grid md:grid-cols-3 gap-3 mt-2">
+                {['Parquet massif / Point de Hongrie', 'Pierre naturelle / Marbre', 'Moulures / Hauteur sous plafond remarquable', 'Menuiseries sur-mesure', 'Cuisine sur-mesure', 'Aucun élément particulier'].map((val) => (
+                  <label key={val} className={getOptionClass(formData.materiaux === val)}>
+                    <input type="radio" name="materiaux" value={val} checked={formData.materiaux === val} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Cuisine / Électroménager / Marques principales */}
+            <div className="pt-4 border-t border-white/10">
+              <label className={labelClass} style={fontStyle}>Cuisine</label>
+              <div className="grid md:grid-cols-3 gap-3 mt-2">
+                {['Standard', 'Aménagée', 'Sur-mesure / Architecte'].map((val) => (
+                  <label key={val} className={getOptionClass(formData.cuisineElectromenager === val)}>
+                    <input type="radio" name="cuisineElectromenager" value={val} checked={formData.cuisineElectromenager === val} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                  </label>
+                ))}
+              </div>
+              <label className={`${labelClass} mt-3`} style={fontStyle}>Électroménager</label>
+              <div className="grid md:grid-cols-3 gap-3 mt-2">
+                {['Non inclus', 'Inclus (entrée / milieu de gamme)', 'Inclus (haut de gamme)'].map((val) => (
+                  <label key={val} className={getOptionClass(formData.autresPrestations === val)}>
+                    <input type="radio" name="autresPrestations" value={val} checked={formData.autresPrestations === val} onChange={handleChange} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="mt-3">
+                <label className={labelClass} style={fontStyle}>Marques principales (si connues)</label>
+                <input type="text" name="marquesCuisine" value={formData.marquesCuisine} onChange={handleChange} placeholder="Ex: Miele, Siemens, Boffi..." className={inputClass} style={fontStyle} />
+              </div>
+            </div>
 
             {/* État général */}
             <div>
@@ -1403,41 +1518,6 @@ export default function EstimationEtape2Page() {
                 </div>
               )}
             </div>
-
-            {/* ═══ TRAVAUX DE COPROPRIÉTÉ (Appartement) ═══ */}
-            {formData.typeBien === 'Appartement' && (
-              <div className="pt-4 border-t border-white/10">
-                <p className={sectionTitleClass} style={fontStyle}>Travaux de copropriété</p>
-
-                <div className="space-y-6 mt-4">
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Votés et payés mais non encore réalisés (nature et coût)</label>
-                    <div className="grid md:grid-cols-2 gap-4 mt-2">
-                      <input type="text" name="travauxCoproVotesNature" value={formData.travauxCoproVotesNature} onChange={handleChange} placeholder="Nature des travaux" className={inputClass} style={fontStyle} />
-                      <input type="text" name="travauxCoproVotesCout" value={formData.travauxCoproVotesCout} onChange={handleChange} placeholder="Coût (€)" className={inputClass} style={fontStyle} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Récemment effectués (nature, coût pour le copropriétaire, année)</label>
-                    <div className="grid md:grid-cols-3 gap-4 mt-2">
-                      <input type="text" name="travauxCoproRecentsDetail" value={formData.travauxCoproRecentsDetail} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
-                      <input type="text" name="travauxCoproRecentsMontant" value={formData.travauxCoproRecentsMontant} onChange={handleChange} placeholder="Coût copropriétaire (€)" className={inputClass} style={fontStyle} />
-                      <input type="text" name="travauxCoproRecentsAnnee" value={formData.travauxCoproRecentsAnnee} onChange={handleChange} placeholder="Année" className={inputClass} style={fontStyle} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Prévus mais non encore votés (nature, coût estimatif, date estimative)</label>
-                    <div className="grid md:grid-cols-3 gap-4 mt-2">
-                      <input type="text" name="travauxCoproPrevusNature" value={formData.travauxCoproPrevusNature} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
-                      <input type="text" name="travauxCoproPrevusCout" value={formData.travauxCoproPrevusCout} onChange={handleChange} placeholder="Coût estimatif (€)" className={inputClass} style={fontStyle} />
-                      <input type="text" name="travauxCoproPrevusDate" value={formData.travauxCoproPrevusDate} onChange={handleChange} placeholder="Date estimative mise en place" className={inputClass} style={fontStyle} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* ═══ LOTISSEMENT AVEC ASL (si Maison + Lotissement avec ASL) ═══ */}
             {formData.typeBien === 'Maison' && formData.maisonEnsembleOrganise === 'Lotissement avec ASL' && (
@@ -1640,6 +1720,45 @@ export default function EstimationEtape2Page() {
                 <input type="text" name="autresPrestations" value={formData.autresPrestations} onChange={handleChange} placeholder="Précisez d'autres prestations..." className={inputClass} style={fontStyle} />
               </div>
 
+              {/* Équipements premium */}
+              <div className="pt-6 mt-6 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Équipements premium</p>
+                <div className="grid md:grid-cols-3 gap-3 mt-4">
+                  {['Climatisation gainable', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
+                    <label key={option} className={getOptionClass(formData.equipementsPremium.includes(option))}>
+                      <input type="checkbox" checked={formData.equipementsPremium.includes(option)} onChange={() => handleCheckboxChange('equipementsPremium', option)} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bien Vendu */}
+              <div className="pt-6 mt-6 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Bien Vendu</p>
+                <div className="grid md:grid-cols-3 gap-3 mt-4">
+                  {['Vide', 'Partiellement meublé', 'Entièrement meublé'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.typeVenteVideMeuble === val)}>
+                      <input type="radio" name="typeVenteVideMeuble" value={val} checked={formData.typeVenteVideMeuble === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
+                </div>
+                {(formData.typeVenteVideMeuble === 'Partiellement meublé' || formData.typeVenteVideMeuble === 'Entièrement meublé') && (
+                  <div className="mt-3">
+                    <label className={labelClass} style={fontStyle}>Si meublé, type de mobilier :</label>
+                    <div className="grid md:grid-cols-3 gap-3 mt-2">
+                      {['Mobilier standard', 'Mobilier design / marques reconnues', 'Mobilier sur-mesure'].map((val) => (
+                        <label key={val} className={getOptionClass(formData.description === val)}>
+                          <input type="radio" name="description" value={val} checked={formData.description === val} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Prestations intérieures - Maison */}
               {formData.typeBien === 'Maison' && (
                 <div className="pt-6 mt-6 border-t border-white/10">
@@ -1661,224 +1780,6 @@ export default function EstimationEtape2Page() {
             </div>
                   </div>
                   
-          <div className="border-t border-white/10" />
-
-          {/* ═══════════ ÉTAT DÉTAILLÉ ═══════════ */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>État détaillé</h2>
-
-            {/* État extérieur - Maison uniquement */}
-            {formData.typeBien === 'Maison' && (
-              <div>
-                <p className={sectionTitleClass} style={fontStyle}>État extérieur</p>
-                <div className="grid md:grid-cols-3 gap-4 mt-4">
-                  {[
-                    { name: 'etatToiture', label: 'Toiture' },
-                    { name: 'etatFacade', label: 'Façade' },
-                    { name: 'etatTerrainExt', label: 'Terrain' },
-                  ].map((field) => (
-                    <div key={field.name}>
-                      <label className={labelClass} style={fontStyle}>{field.label}</label>
-                      <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
-                        <option value="" className="bg-black text-white">Sélectionnez...</option>
-                        <option value="À rénover" className="bg-black text-white">À rénover</option>
-                        <option value="À rafraîchir" className="bg-black text-white">À rafraîchir</option>
-                        <option value="Bon état" className="bg-black text-white">Bon état</option>
-                        <option value="Excellent état" className="bg-black text-white">Excellent état</option>
-                      </select>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Sécurité & Confort */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Sécurité & Confort</p>
-              <div className="grid md:grid-cols-3 gap-4 mt-4">
-                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
-                    <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.securiteConfort.includes('Résidence fermée') && (
-                <div className="mt-4 pt-4 border-t border-white/10">
-                  <p className={labelClass} style={fontStyle}>Accès résidence fermée (plusieurs réponses possibles)</p>
-                  <div className="grid md:grid-cols-3 gap-4 mt-2">
-                    {['Digicode', 'Clés', 'Badge'].map((option) => (
-                      <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
-                        <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* État intérieur */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>État intérieur</p>
-              <div className="grid md:grid-cols-2 gap-4 mt-4">
-                {[
-                  { name: 'etatMurs', label: 'Murs', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
-                  { name: 'etatSols', label: 'Sols', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
-                  { name: 'etatPlafonds', label: 'Plafonds', options: ['À rénover', 'À rafraîchir', 'Bon état', 'Excellent état'] },
-                  { name: 'etatMenuiserie', label: 'Menuiserie', options: ['À rénover', 'Passable', 'Bon état', 'Excellent état'] },
-                ].map((field) => (
-                  <div key={field.name}>
-                    <label className={labelClass} style={fontStyle}>{field.label}</label>
-                    <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
-                      <option value="" className="bg-black text-white">Sélectionnez...</option>
-                      {field.options.map((opt) => (
-                        <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Prestations détaillées */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Prestations détaillées</p>
-
-              {/* Standing de la résidence (Appartement uniquement) */}
-              {formData.typeBien === 'Appartement' && (
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Standing de la résidence</label>
-                    <div className="grid md:grid-cols-3 gap-3 mt-2">
-                      {['Standard', 'Bon standing', 'Haut de gamme'].map((val) => (
-                        <label key={val} className={getOptionClass(formData.standingResidence === val)}>
-                          <input type="radio" name="standingResidence" value={val} checked={formData.standingResidence === val} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Présence d&apos;un gardien ou concierge</label>
-                    <div className="flex gap-4 mt-2">
-                      {['oui', 'non'].map((val) => (
-                        <label key={val} className={getOptionClass(formData.gardienConcierge === val)}>
-                          <input type="radio" name="gardienConcierge" value={val} checked={formData.gardienConcierge === val} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Résidence fermée (plusieurs réponses possibles)</label>
-                    <p className="text-white/50 text-xs mb-2" style={fontStyle}>Portail ou barrière à l&apos;entrée, Digicode, Badge, Clé</p>
-                    <div className="grid md:grid-cols-2 gap-3 mt-2">
-                      {['Portail ou barrière à l\'entrée', 'Digicode', 'Badge', 'Clé'].map((opt) => (
-                        <label key={opt} className={getOptionClass(formData.residenceFermeeType.includes(opt))}>
-                          <input type="checkbox" checked={formData.residenceFermeeType.includes(opt)} onChange={() => handleCheckboxChange('residenceFermeeType', opt)} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{opt}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 1. Niveau global */}
-                  <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>1. Niveau global du bien</label>
-                <div className="grid md:grid-cols-4 gap-3 mt-2">
-                  {['Standard', 'Bon standing', 'Haut de gamme', 'Luxe / Exceptionnel'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.standing === val)}>
-                      <input type="radio" name="standing" value={val} checked={formData.standing === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-                  </div>
-                  
-              {/* 2. Matériaux & finitions */}
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>2. Matériaux & finitions</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Parquet massif / Point de Hongrie', 'Pierre naturelle / Marbre', 'Moulures / Hauteur sous plafond remarquable', 'Menuiseries sur-mesure', 'Cuisine sur-mesure', 'Aucun élément particulier'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.materiaux === val)}>
-                      <input type="radio" name="materiaux" value={val} checked={formData.materiaux === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* 3. Cuisine & électroménager */}
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>3. Cuisine</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Standard', 'Aménagée', 'Sur-mesure / Architecte'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.cuisineElectromenager === val)}>
-                      <input type="radio" name="cuisineElectromenager" value={val} checked={formData.cuisineElectromenager === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-                <label className={`${labelClass} mt-3`} style={fontStyle}>Électroménager</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Non inclus', 'Inclus (entrée / milieu de gamme)', 'Inclus (haut de gamme)'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.autresPrestations === val)}>
-                      <input type="radio" name="autresPrestations" value={val} checked={formData.autresPrestations === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-                <div className="mt-3">
-                  <label className={labelClass} style={fontStyle}>Marques principales (si connues)</label>
-                  <input type="text" name="marquesCuisine" value={formData.marquesCuisine} onChange={handleChange} placeholder="Ex: Miele, Siemens, Boffi..." className={inputClass} style={fontStyle} />
-                </div>
-              </div>
-
-              {/* 4. Bien vendu */}
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>4. Bien vendu</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Vide', 'Partiellement meublé', 'Entièrement meublé'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.typeVenteVideMeuble === val)}>
-                      <input type="radio" name="typeVenteVideMeuble" value={val} checked={formData.typeVenteVideMeuble === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-                {(formData.typeVenteVideMeuble === 'Partiellement meublé' || formData.typeVenteVideMeuble === 'Entièrement meublé') && (
-                  <div className="mt-3">
-                    <label className={labelClass} style={fontStyle}>Si meublé, type de mobilier :</label>
-                    <div className="grid md:grid-cols-3 gap-3 mt-2">
-                      {['Mobilier standard', 'Mobilier design / marques reconnues', 'Mobilier sur-mesure'].map((val) => (
-                        <label key={val} className={getOptionClass(formData.description === val)}>
-                          <input type="radio" name="description" value={val} checked={formData.description === val} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-              </div>
-                  
-              {/* 5. Équipements premium */}
-                  <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>5. Équipements premium</label>
-                <div className="grid md:grid-cols-3 gap-3 mt-2">
-                  {['Climatisation gainable', 'Domotique', 'Dressing sur-mesure', 'Cheminée', 'Terrasse / Rooftop', 'Piscine', 'Jacuzzi', 'Bassin', 'Fontaine', 'Salle de sport / Spa', 'Cave à vin', 'Aucun'].map((option) => (
-                    <label key={option} className={getOptionClass(formData.equipementsPremium.includes(option))}>
-                      <input type="checkbox" checked={formData.equipementsPremium.includes(option)} onChange={() => handleCheckboxChange('equipementsPremium', option)} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                    </label>
-                  ))}
-                  </div>
-                </div>
-
-                </div>
-              </div>
-
           <div className="border-t border-white/10" />
 
           {/* ═══════════ CHAUFFAGE & EAU CHAUDE ═══════════ */}
@@ -1995,10 +1896,249 @@ export default function EstimationEtape2Page() {
                   </div>
                 </div>
 
-          <div className="border-t border-white/10" />
+            {/* DPE */}
+            <div className="pt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Diagnostic de Performance Énergétique (DPE)</p>
+              <div className="mt-4">
+                <label className={labelClass} style={fontStyle}>Disposez-vous d&apos;un DPE valide (après juillet 2021) ?</label>
+                <div className="flex gap-4 mt-2">
+                  {['Oui', 'Non'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.dpeValide === val)}>
+                      <input type="radio" name="dpeValide" value={val} checked={formData.dpeValide === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                        </label>
+                  ))}
+                </div>
+              </div>
+
+              {formData.dpeValide === 'Oui' && (
+                <>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Classe énergétique DPE</label>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
+                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.dpe === option)}>
+                          <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
+                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.classeGes === option)}>
+                          <input type="radio" name="classeGes" value={option} checked={formData.classeGes === option} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {formData.dpeValide === 'Non' && (
+                <div className="mt-4">
+                  <p className="text-white/50 text-sm italic mb-3" style={fontStyle}>
+                    Si vous avez un DPE ancien, vous pouvez indiquer la classe à titre indicatif.
+                  </p>
+                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                    {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Non réalisé'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.dpe === option)}>
+                        <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                  )}
+                </div>
+
+            {/* Taxe foncière */}
+            <div className="pt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Taxe foncière</p>
+              <div className="mt-4">
+                <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
+                <input type="text" name="taxeFonciere" value={formData.taxeFonciere} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
+              </div>
+            </div>
+
+            {/* Standing de la résidence (Appartement uniquement) */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-6 border-t border-white/10 space-y-4">
+                <div>
+                  <label className={labelClass} style={fontStyle}>Standing de la résidence</label>
+                  <div className="grid md:grid-cols-3 gap-3 mt-2">
+                    {['Standard', 'Bon standing', 'Haut de gamme'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.standingResidence === val)}>
+                        <input type="radio" name="standingResidence" value={val} checked={formData.standingResidence === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass} style={fontStyle}>Présence d&apos;un gardien ou concierge</label>
+                  <div className="flex gap-4 mt-2">
+                    {['oui', 'non'].map((val) => (
+                      <label key={val} className={getOptionClass(formData.gardienConcierge === val)}>
+                        <input type="radio" name="gardienConcierge" value={val} checked={formData.gardienConcierge === val} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Sécurité & Confort */}
+            <div className="pt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Sécurité & Confort</p>
+              <div className="grid md:grid-cols-3 gap-4 mt-4">
+                {['Clôture', 'Vidéosurveillance', 'Interphone / Visiophone', 'Éclairage extérieur', 'Portail automatique', 'Résidence fermée', 'Résidence sécurisée', 'Gardien / Concierge', 'Alarme'].map((option) => (
+                  <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
+                    <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
+                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                  </label>
+                ))}
+              </div>
+              {formData.securiteConfort.includes('Résidence fermée') && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className={labelClass} style={fontStyle}>Accès résidence fermée (plusieurs réponses possibles)</p>
+                  <div className="grid md:grid-cols-3 gap-4 mt-2">
+                    {['Digicode', 'Clés', 'Badge'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.securiteConfort.includes(option))}>
+                        <input type="checkbox" checked={formData.securiteConfort.includes(option)} onChange={() => handleCheckboxChange('securiteConfort', option)} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Charges de copropriété - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-6 border-t border-white/10 space-y-6">
+                <div>
+                  <p className={sectionTitleClass} style={fontStyle}>Charges de copropriété</p>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Montant € TRIMESTRIEL</label>
+                    <input type="text" name="chargesCoproTrimestriel" value={formData.chargesCoproTrimestriel} onChange={handleChange} placeholder="Ex: 750 €" className={inputClass} style={fontStyle} />
+                  </div>
+                  <div className="mt-3">
+                    <label className={labelClass} style={fontStyle}>Ce qui est compris :</label>
+                    <div className="grid md:grid-cols-3 gap-3 mt-2">
+                      {['Chauffage', 'Eau chaude', 'Eau froide'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.chargesCoproContenu.includes(option))}>
+                          <input type="checkbox" checked={formData.chargesCoproContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproContenu', option)} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Travaux de copropriété - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-6 border-t border-white/10">
+                <h2 className={groupTitleClass} style={fontStyle}>Travaux de copropriété</h2>
+                <div className="space-y-6 mt-4">
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Votés et payés mais non encore réalisés (nature et coût)</label>
+                    <div className="grid md:grid-cols-2 gap-4 mt-2">
+                      <input type="text" name="travauxCoproVotesNature" value={formData.travauxCoproVotesNature} onChange={handleChange} placeholder="Nature des travaux" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproVotesCout" value={formData.travauxCoproVotesCout} onChange={handleChange} placeholder="Coût (€)" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Récemment effectués (nature, coût pour le copropriétaire, année)</label>
+                    <div className="grid md:grid-cols-3 gap-4 mt-2">
+                      <input type="text" name="travauxCoproRecentsDetail" value={formData.travauxCoproRecentsDetail} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproRecentsMontant" value={formData.travauxCoproRecentsMontant} onChange={handleChange} placeholder="Coût copropriétaire (€)" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproRecentsAnnee" value={formData.travauxCoproRecentsAnnee} onChange={handleChange} placeholder="Année" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClass} style={fontStyle}>Prévus mais non encore votés (nature, coût estimatif, date estimative)</label>
+                    <div className="grid md:grid-cols-3 gap-4 mt-2">
+                      <input type="text" name="travauxCoproPrevusNature" value={formData.travauxCoproPrevusNature} onChange={handleChange} placeholder="Nature" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproPrevusCout" value={formData.travauxCoproPrevusCout} onChange={handleChange} placeholder="Coût estimatif (€)" className={inputClass} style={fontStyle} />
+                      <input type="text" name="travauxCoproPrevusDate" value={formData.travauxCoproPrevusDate} onChange={handleChange} placeholder="Date estimative mise en place" className={inputClass} style={fontStyle} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Type de syndic - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-6 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Type de syndic</p>
+                <div className="flex gap-4 mt-4">
+                  {['Professionnel', 'Bénévole', 'Je ne sais pas'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.typeSyndic === val)}>
+                      <input type="radio" name="typeSyndic" value={val} checked={formData.typeSyndic === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Statut de la copropriété - Appartement */}
+            {formData.typeBien === 'Appartement' && (
+              <div className="pt-6 border-t border-white/10">
+                <p className={sectionTitleClass} style={fontStyle}>Statut de la copropriété</p>
+                <div className="grid md:grid-cols-2 gap-3 mt-4">
+                  {['Mise en péril', 'Mise en sécurité', 'Procédure entre copropriété et copropriétaires', 'Procédure copropriété et fournisseurs / entreprises extérieures', 'Aucun'].map((option) => (
+                    <label key={option} className={getOptionClass(formData.statutCopro === option)}>
+                      <input type="radio" name="statutCopro" value={option} checked={formData.statutCopro === option} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {formData.typeBien === 'Maison' && (
+            <>
+              <div className="border-t border-white/10" />
+              <div className="space-y-6">
+                {/* État extérieur - Maison uniquement */}
+                <div>
+                  <p className={sectionTitleClass} style={fontStyle}>État extérieur</p>
+                  <div className="grid md:grid-cols-3 gap-4 mt-4">
+                    {[
+                      { name: 'etatToiture', label: 'Toiture' },
+                      { name: 'etatFacade', label: 'Façade' },
+                      { name: 'etatTerrainExt', label: 'Terrain' },
+                    ].map((field) => (
+                      <div key={field.name}>
+                        <label className={labelClass} style={fontStyle}>{field.label}</label>
+                        <select name={field.name} value={(formData as any)[field.name]} onChange={handleChange} className={selectClass} style={fontStyle}>
+                          <option value="" className="bg-black text-white">Sélectionnez...</option>
+                          <option value="À rénover" className="bg-black text-white">À rénover</option>
+                          <option value="À rafraîchir" className="bg-black text-white">À rafraîchir</option>
+                          <option value="Bon état" className="bg-black text-white">Bon état</option>
+                          <option value="Excellent état" className="bg-black text-white">Excellent état</option>
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
 
           {/* ═══════════ ASSAINISSEMENT (Maison uniquement) ═══════════ */}
           {formData.typeBien === 'Maison' && (
+            <>
+              <div className="border-t border-white/10" />
             <div className="space-y-6">
               <h2 className={groupTitleClass} style={fontStyle}>Assainissement</h2>
 
@@ -2040,6 +2180,7 @@ export default function EstimationEtape2Page() {
                 </div>
               </div>
             </div>
+            </>
           )}
 
           <div className="border-t border-white/10" />
@@ -2090,183 +2231,6 @@ export default function EstimationEtape2Page() {
             )}
           </div>
 
-          <div className="border-t border-white/10" />
-
-          {/* ═══════════ CONFORT & ENVIRONNEMENT ═══════════ */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Confort & Environnement</h2>
-
-            {/* Exposition (plusieurs réponses possibles) */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Exposition (plusieurs réponses possibles)</p>
-              <div className="grid md:grid-cols-5 gap-4 mt-4">
-                {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.exposition.includes(option))}>
-                    <input type="checkbox" checked={formData.exposition.includes(option)} onChange={() => handleCheckboxChange('exposition', option)} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Vis-à-vis */}
-            <div className="pt-4 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Vis-à-vis</p>
-              <div className="grid md:grid-cols-4 gap-4 mt-4">
-                {['Important', 'Modéré', 'Faible', 'Aucun'].map((option) => (
-                  <label key={option} className={getOptionClass(formData.visAVis === option)}>
-                    <input type="radio" name="visAVis" value={option} checked={formData.visAVis === option} onChange={handleChange} className="mr-2 accent-white" />
-                    <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
-              </div>
-              {formData.visAVis && formData.visAVis !== 'Aucun' && (
-                <div className="grid md:grid-cols-2 gap-4 mt-4">
-                  <div>
-                    <label className={labelClass} style={fontStyle}>Distance du voisin le plus proche</label>
-                    <input type="text" name="distanceVisAVis" value={formData.distanceVisAVis} onChange={handleChange} placeholder="Ex: 5 mètres" className={inputClass} style={fontStyle} />
-                  </div>
-                </div>
-              )}
-            </div>
-                  </div>
-                  
-          <div className="border-t border-white/10" />
-
-          {/* ═══════════ CHARGES & DPE ═══════════ */}
-          <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Charges & DPE</h2>
-
-            {/* Taxe foncière */}
-                  <div>
-              <p className={sectionTitleClass} style={fontStyle}>Taxe foncière</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
-                <input type="text" name="taxeFonciere" value={formData.taxeFonciere} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
-              </div>
-            </div>
-
-            {/* Charges de copropriété - Appartement */}
-            {formData.typeBien === 'Appartement' && (
-              <div className="space-y-6">
-                <div>
-                  <p className={sectionTitleClass} style={fontStyle}>Type de syndic</p>
-                  <div className="flex gap-4 mt-4">
-                    {['Professionnel', 'Bénévole', 'Je ne sais pas'].map((val) => (
-                      <label key={val} className={getOptionClass(formData.typeSyndic === val)}>
-                        <input type="radio" name="typeSyndic" value={val} checked={formData.typeSyndic === val} onChange={handleChange} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className={sectionTitleClass} style={fontStyle}>Charges de copropriété</p>
-                  <div className="mt-4">
-                    <label className={labelClass} style={fontStyle}>Montant € TRIMESTRIEL</label>
-                    <input type="text" name="chargesCoproTrimestriel" value={formData.chargesCoproTrimestriel} onChange={handleChange} placeholder="Ex: 750 €" className={inputClass} style={fontStyle} />
-                  </div>
-                  <div className="mt-3">
-                    <label className={labelClass} style={fontStyle}>Ce qui est compris :</label>
-                    <div className="grid md:grid-cols-3 gap-3 mt-2">
-                      {['Chauffage', 'Eau chaude', 'Eau froide'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.chargesCoproContenu.includes(option))}>
-                          <input type="checkbox" checked={formData.chargesCoproContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproContenu', option)} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <p className={sectionTitleClass} style={fontStyle}>Statut de la copropriété</p>
-                  <div className="grid md:grid-cols-2 gap-3 mt-4">
-                    {['Mise en péril', 'Mise en sécurité', 'Procédure entre copropriété et copropriétaires', 'Procédure copropriété et fournisseurs / entreprises extérieures', 'Aucun'].map((option) => (
-                      <label key={option} className={getOptionClass(formData.statutCopro === option)}>
-                        <input type="radio" name="statutCopro" value={option} checked={formData.statutCopro === option} onChange={handleChange} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* DPE */}
-                      <div>
-              <p className={sectionTitleClass} style={fontStyle}>Diagnostic de Performance Énergétique (DPE)</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Disposez-vous d&apos;un DPE valide (après juillet 2021) ?</label>
-                <div className="flex gap-4 mt-2">
-                  {['Oui', 'Non'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.dpeValide === val)}>
-                      <input type="radio" name="dpeValide" value={val} checked={formData.dpeValide === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                  ))}
-                </div>
-              </div>
-
-              {formData.dpeValide === 'Oui' && (
-                <>
-                  <div className="mt-4">
-                    <label className={labelClass} style={fontStyle}>Classe énergétique DPE</label>
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
-                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.dpe === option)}>
-                          <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                  <div className="mt-4">
-                    <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
-                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.classeGes === option)}>
-                          <input type="radio" name="classeGes" value={option} checked={formData.classeGes === option} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                      </div>
-                    </div>
-                </>
-              )}
-
-              {formData.dpeValide === 'Non' && (
-                <div className="mt-4">
-                  <p className="text-white/50 text-sm italic mb-3" style={fontStyle}>
-                    Si vous avez un DPE ancien, vous pouvez indiquer la classe à titre indicatif.
-                  </p>
-                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
-                    {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Non réalisé'].map((option) => (
-                      <label key={option} className={getOptionClass(formData.dpe === option)}>
-                        <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                  )}
-                </div>
-
-            {/* PERCEPTION DU BIEN */}
-            <div className="pt-6 mt-6 border-t border-white/10">
-              <p className={sectionTitleClass} style={fontStyle}>Perception du bien</p>
-              <div className="space-y-4 mt-4">
-                <div>
-                  <label className={labelClass} style={fontStyle}>Selon vous, quel est l&apos;atout principal de votre bien ?</label>
-                  <input type="text" name="atoutPrincipal" value={formData.atoutPrincipal} onChange={handleChange} placeholder="Ex: Vue exceptionnelle, jardin privatif..." className={inputClass} style={fontStyle} />
-                </div>
-                <div>
-                  <label className={labelClass} style={fontStyle}>Selon vous, y a-t-il un élément qui pourrait influencer négativement sa valorisation ?</label>
-                  <input type="text" name="elementNegatifValorisation" value={formData.elementNegatifValorisation} onChange={handleChange} placeholder="Ex: Vis-à-vis, travaux à prévoir..." className={inputClass} style={fontStyle} />
-                </div>
-              </div>
-            </div>
-                  </div>
-                  
           <div className="border-t border-white/10" />
 
           {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { createAnalyseLead, uploadEstimationPhotos } from '@/lib/firebase-admin'
 
-const CODES_POSTAUX_DEDUCTIBLE = ['75001','75002','75003','75004','75005','75006','75007','75008','75009','75010','75011','75012','75013','75014','75015','75016','75017','75018','75019','75020','78100','78230','78110','78290','78400','78160','92500','92210','92150','92100','92200','78000','78150']
+const CODES_POSTAUX_ZONE_COUVERTE = ['78100', '78230', '78110', '78000', '78370', '78450', '78860', '78160', '75001', '75002', '75003', '75004', '75005', '75006', '75007', '75008', '75009', '75010', '75011', '75012', '75013', '75014', '75015', '75016', '75017', '75018', '75019', '75020', '92100', '92210', '92200']
 
 const APPARTEMENT_SOUS_CATEGORIES = ['Studio / type 1', 'T2', 'T3', 'T4', 'T5 et +', 'Duplex / Triplex', 'Atelier / Loft', 'Penthouse', 'Chambre de service', 'Autre à préciser']
 
@@ -167,13 +167,13 @@ export default function EstimationParisEtape2Page() {
     setSubmitting(true)
     setSubmitError('')
 
-    if (formData.typeBien === 'Appartement' && !formData.surfaceCarrez) {
-      setSubmitError('La surface Loi Carrez est obligatoire pour un appartement.')
+    if (!formData.adresseComplete?.trim()) {
+      setSubmitError('Veuillez renseigner l\'adresse complète du bien.')
       setSubmitting(false)
       return
     }
-    if (!formData.adresseComplete?.trim()) {
-      setSubmitError('Veuillez renseigner l\'adresse complète du bien.')
+    if (formData.typeBien === 'Appartement' && !formData.surfaceCarrez) {
+      setSubmitError('La surface Loi Carrez est obligatoire pour un appartement.')
       setSubmitting(false)
       return
     }
@@ -324,9 +324,9 @@ export default function EstimationParisEtape2Page() {
             <div>
               <label className={labelClass} style={fontStyle}>Code postal</label>
               <input type="text" name="codePostal" value={formData.codePostal} onChange={handleChange} placeholder="Ex: 78100" className={inputClass} style={fontStyle} />
-              {formData.codePostal.trim() && CODES_POSTAUX_DEDUCTIBLE.includes(formData.codePostal.trim()) && (
-                <p className="mt-2 text-xs italic text-white/40" style={fontStyle}>
-                  Montant intégralement déductible des honoraires en cas de signature d&apos;un mandat exclusif confié à l&apos;agence
+              {formData.codePostal.trim() && CODES_POSTAUX_ZONE_COUVERTE.includes(formData.codePostal.trim()) && (
+                <p className="mt-2 p-3 bg-white/5 border border-white/20 rounded-lg text-white/90 text-sm" style={fontStyle}>
+                  Bonne nouvelle : votre bien est situé dans les zones que nous couvrons. À ce titre, si vous souhaitez nous confier la mise en vente de votre bien ultérieurement, le montant de l&apos;estimation pourra être déduit de nos frais d&apos;agence
                 </p>
               )}
             </div>
