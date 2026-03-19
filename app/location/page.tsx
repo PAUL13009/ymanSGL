@@ -409,8 +409,10 @@ export default function LocationPage() {
               >
                 Demander mon dossier d&apos;estimation en ligne
               </a>
-              <Link
-                href="/devis-personnalise"
+              <a
+                href="https://calendly.com/paul-nogaro/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
@@ -420,7 +422,7 @@ export default function LocationPage() {
                 }}
               >
                 Prendre RDV avec Yman
-              </Link>
+              </a>
             </div>
           </div>
         </div>

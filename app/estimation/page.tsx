@@ -313,20 +313,6 @@ export default function EstimationPage() {
               </p>
                   </div>
 
-            {/* Encadré mise en avant */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-12 text-center">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 className="text-xl md:text-2xl font-bold text-white uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Investissement déductible
-                    </h3>
-                  </div>
-              <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Le montant du rapport d&apos;analyse est <span className="font-bold uppercase">intégralement remboursé</span> si vous nous confiez la vente de votre bien.
-              </p>
-            </div>
           </div>
         </FadeContent>
       </section>
@@ -527,8 +513,10 @@ export default function EstimationPage() {
             >
               Accéder à mon dossier d&apos;estimation en ligne
             </a>
-            <Link
-              href="/devis-personnalise"
+            <a
+              href="https://calendly.com/paul-nogaro/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
               style={{
                 fontFamily: 'var(--font-poppins), sans-serif',
@@ -538,7 +526,7 @@ export default function EstimationPage() {
               }}
             >
               Prendre rendez-vous avec Yman
-            </Link>
+            </a>
           </div>
         </div>
       </section>
