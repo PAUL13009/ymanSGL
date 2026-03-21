@@ -165,11 +165,12 @@ export default function VentePage() {
       />
       <main ref={mainRef} className="min-h-screen">
         <Navbar />
-        <Hero 
+        <Hero
           title="VENDRE AU PRIX DE L'ESTIMATION, L'ESPRIT LIBRE"
           subtitle="CONFIEZ VOTRE PATRIMOINE À UN AGENT IMMOBILIER POUR UNE TRANSACTION SÉCURISÉE, UN FILTRAGE RIGOUREUX DES ACQUÉREURS ET UNE VALORISATION FINANCIÈREMENT EXACTE"
           buttonText="Soumettre mon projet à l'estimation"
           buttonLink="/estimation#grille-tarifaire"
+          cursorPillLabel="VENDRE"
           imagePath="/images/herosectionimage.png"
           centered={true}
         />

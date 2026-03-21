@@ -13,6 +13,7 @@ import {
   deleteAnalyseLead,
   type AnalyseLeadWithId
 } from '@/lib/firebase-admin'
+import { getFormBlocs } from '@/lib/dashboard-form-config'
 import { Timestamp } from 'firebase/firestore'
 import Image from 'next/image'
 import PropertyForm from '@/components/PropertyForm'
@@ -320,6 +321,24 @@ export default function AdminDashboard() {
 
   const f = { fontFamily: 'var(--font-poppins), sans-serif' }
 
+  // Afficher la valeur d'un champ (string, number, boolean, array)
+  const formatFieldValue = (val: unknown): string => {
+    if (val === null || val === undefined) return ''
+    if (typeof val === 'boolean') return val ? 'Oui' : 'Non'
+    if (Array.isArray(val)) return val.join(', ')
+    if (typeof val === 'object' && val !== null && 'toDate' in val) {
+      return formatDate((val as { toDate: () => Date }).toDate())
+    }
+    return String(val)
+  }
+
+  const hasValue = (val: unknown): boolean => {
+    if (val === null || val === undefined) return false
+    if (val === '') return false
+    if (Array.isArray(val) && val.length === 0) return false
+    return true
+  }
+
   // ─── Loading ────────────────────────────────────────────
   if (loading) {
     return (
@@ -389,107 +408,78 @@ export default function AdminDashboard() {
           }`}>{estimation.status === 'nouveau' ? 'Nouveau' : estimation.status === 'en_cours' ? 'En cours' : estimation.status === 'accepte' ? 'Accepté' : 'Refusé'}</span>
               </div>
 
-        {/* Coordonnées */}
-        <div className="mb-3 pb-3 border-b border-white/10">
-          <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Coordonnées</h4>
-          <div className="space-y-0.5 text-xs sm:text-sm text-white/50" style={f}>
-            <p className="truncate"><strong className="text-white/70">Email:</strong> {estimation.email}</p>
-            <p><strong className="text-white/70">Tél:</strong> {estimation.telephone}</p>
-            {estimation.nom_dossier && <p><strong className="text-white/70">Dossier:</strong> <span className="text-amber-400 font-medium">{estimation.nom_dossier}</span></p>}
-            <p className="text-[10px] sm:text-xs text-white/30">{formatDate(estimation.created_at)}</p>
-          </div>
-                </div>
+        {/* Date de demande */}
+        <div className="mb-4 pb-4 border-b border-white/10">
+          <p className="text-[10px] sm:text-xs text-white/30" style={f}>{formatDate(estimation.created_at)}</p>
+        </div>
 
-        {/* Bien */}
-        {(estimation.localisation || estimation.type_bien) && (
-          <div className="mb-3 pb-3 border-b border-white/10">
-            <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Bien</h4>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs sm:text-sm text-white/50" style={f}>
-              {estimation.localisation && <p className="col-span-2 truncate"><strong className="text-white/70">Localisation:</strong> {estimation.localisation}</p>}
-              {estimation.ville && <p><strong className="text-white/70">Ville:</strong> {estimation.ville}</p>}
-              {estimation.type_bien && <p><strong className="text-white/70">Type:</strong> {estimation.type_bien}</p>}
-              {estimation.surface && <p><strong className="text-white/70">Surface:</strong> {estimation.surface} m²</p>}
-              {estimation.surface_terrain && <p><strong className="text-white/70">Terrain:</strong> {estimation.surface_terrain} m²</p>}
-              {estimation.annee_construction && <p><strong className="text-white/70">Année:</strong> {estimation.annee_construction}</p>}
-              {estimation.residence_type && <p><strong className="text-white/70">Usage:</strong> {estimation.residence_type}</p>}
-            </div>
-              </div>
-            )}
+        {/* Affichage structuré selon la trame du formulaire */}
+        {getFormBlocs(estimation.type_demande).map((bloc) => {
+          const fieldsWithValues = bloc.fields.filter(({ key }) => {
+            const val = (estimation as any)[key]
+            return hasValue(val)
+          })
+          if (fieldsWithValues.length === 0) return null
 
-        {/* Caractéristiques */}
-        {(estimation.nombre_pieces || estimation.nombre_chambres || estimation.nombre_salles_de_bain || estimation.etat_bien || estimation.exposition) && (
-          <div className="mb-3 pb-3 border-b border-white/10">
-            <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Caractéristiques</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-0.5 text-xs sm:text-sm text-white/50" style={f}>
-              {estimation.nombre_pieces && <p><strong className="text-white/70">Pièces:</strong> {estimation.nombre_pieces}</p>}
-              {estimation.nombre_chambres && <p><strong className="text-white/70">Chambres:</strong> {estimation.nombre_chambres}</p>}
-              {estimation.nombre_salles_de_bain && <p><strong className="text-white/70">SDB:</strong> {estimation.nombre_salles_de_bain}</p>}
-              {estimation.etage !== null && estimation.etage !== undefined && <p><strong className="text-white/70">Étage:</strong> {estimation.etage}</p>}
-              {estimation.etat_bien && <p><strong className="text-white/70">État:</strong> {estimation.etat_bien}</p>}
-              {estimation.exposition && <p><strong className="text-white/70">Expo:</strong> {estimation.exposition}</p>}
-              {estimation.stationnement && <p><strong className="text-white/70">Parking:</strong> {estimation.stationnement}</p>}
-              {estimation.exterieurs && estimation.exterieurs.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Ext.:</strong> {estimation.exterieurs.join(', ')}</p>}
-              {estimation.prestations && estimation.prestations.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Presta.:</strong> {estimation.prestations.join(', ')}</p>}
-              {estimation.dpe && <p><strong className="text-white/70">DPE:</strong> {estimation.dpe}</p>}
-              {estimation.classe_ges && <p><strong className="text-white/70">GES:</strong> {estimation.classe_ges}</p>}
-              {estimation.standing && <p><strong className="text-white/70">Standing:</strong> {estimation.standing}</p>}
-              {estimation.chauffage_type && <p><strong className="text-white/70">Chauffage:</strong> {estimation.chauffage_type}</p>}
-              {estimation.mitoyennete && <p><strong className="text-white/70">Mitoyenneté:</strong> {estimation.mitoyennete}</p>}
-              {estimation.vue && <p><strong className="text-white/70">Vue:</strong> {estimation.vue}</p>}
-              {estimation.luminosite && <p><strong className="text-white/70">Luminosité:</strong> {estimation.luminosite}/10</p>}
-              {estimation.luminosite_cour_uniquement && <p><strong className="text-white/70">Lum. cour:</strong> {estimation.luminosite_cour_uniquement}</p>}
-              {estimation.perte_surface_couloir && <p><strong className="text-white/70">Perte surf. couloir:</strong> {estimation.perte_surface_couloir}</p>}
-              {estimation.immeuble_classe && <p><strong className="text-white/70">Immeuble classé:</strong> {estimation.immeuble_classe}</p>}
-              {estimation.destination_lot && <p><strong className="text-white/70">Dest. lot:</strong> {estimation.destination_lot}</p>}
-              {estimation.ancien_local_commercial && <p><strong className="text-white/70">Ancien local commercial:</strong> {estimation.ancien_local_commercial}</p>}
-              {estimation.changement_usage && <p><strong className="text-white/70">Changement usage:</strong> {estimation.changement_usage}</p>}
-              {estimation.bien_ancien_lot && <p><strong className="text-white/70">Ancien lot:</strong> {estimation.bien_ancien_lot}</p>}
-              {estimation.travaux_energetiques && <p><strong className="text-white/70">Travaux énergétiques:</strong> {estimation.travaux_energetiques}</p>}
-              {estimation.loyer_encadrement && <p><strong className="text-white/70">Encadrement loyer:</strong> {estimation.loyer_encadrement}</p>}
-              {estimation.complement_loyer && <p><strong className="text-white/70">Complément loyer:</strong> {estimation.complement_loyer}</p>}
-              {estimation.nuisances_patrimoine && estimation.nuisances_patrimoine.length > 0 && <p className="col-span-2 sm:col-span-3"><strong className="text-white/70">Nuisances:</strong> {estimation.nuisances_patrimoine.join(', ')}</p>}
-            </div>
-                    </div>
-                  )}
-
-        {/* Projet de vente */}
-        {(estimation.delai_vente || estimation.prix_envisage || estimation.contexte_vente) && (
-          <div className="mb-3 pb-3 border-b border-white/10">
-            <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Projet de vente</h4>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs sm:text-sm text-white/50" style={f}>
-              {estimation.delai_vente && <p><strong className="text-white/70">Délai:</strong> {estimation.delai_vente}</p>}
-              {estimation.situation_actuelle && <p><strong className="text-white/70">Situation:</strong> {estimation.situation_actuelle}</p>}
-              {estimation.contexte_vente && <p className="col-span-2"><strong className="text-white/70">Contexte:</strong> {estimation.contexte_vente}</p>}
-              {estimation.profession_juridique && <p><strong className="text-white/70">Profession:</strong> <span className="text-amber-400">{estimation.profession_juridique}</span></p>}
-              {estimation.raison_demande_juridique && <p className="col-span-2"><strong className="text-white/70">Raison:</strong> {estimation.raison_demande_juridique}</p>}
-              {estimation.type_bail && <p><strong className="text-white/70">Bail:</strong> {estimation.type_bail}</p>}
-              {estimation.prix_envisage && <p className="col-span-2"><strong className="text-white/70">Prix:</strong> <span className="text-white font-semibold">{estimation.prix_envisage}</span></p>}
-              {estimation.ajustement_prix_echelle !== null && estimation.ajustement_prix_echelle !== undefined && <p><strong className="text-white/70">Ajust.:</strong> {estimation.ajustement_prix_echelle}/10</p>}
-                    </div>
-                    </div>
-        )}
-
-        {/* Message libre */}
-        {estimation.message_libre && (
-          <div className="mb-3 pb-3 border-b border-white/10">
-            <h4 className="font-semibold mb-1 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Message</h4>
-            <p className="text-xs sm:text-sm text-white/50 italic" style={f}>{estimation.message_libre}</p>
-                    </div>
-        )}
-
-        {/* Photos */}
-        {estimation.photos_urls && estimation.photos_urls.length > 0 && (
-          <div className="mb-3 pb-3 border-b border-white/10">
-            <h4 className="font-semibold mb-2 text-white/70 text-[10px] sm:text-xs uppercase tracking-wide" style={f}>Photos ({estimation.photos_urls.length})</h4>
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
-              {estimation.photos_urls.map((photoUrl, index) => (
-                <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-white/10">
-                  <img src={photoUrl} alt={`Photo ${index + 1}`} className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.open(photoUrl, '_blank')} />
-                </div>
-              ))}
+          return (
+            <div key={bloc.title} className="mb-4 pb-4 border-b border-white/10">
+              <h4 className="font-bold mb-3 text-white text-sm sm:text-base uppercase tracking-wide" style={f}>
+                {bloc.title}
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm text-white/70" style={f}>
+                {fieldsWithValues.map(({ key, label }) => {
+                  const val = (estimation as any)[key]
+                  if (key === 'photos_urls') {
+                    const urls = val as string[]
+                    return (
+                      <div key={key} className="col-span-2">
+                        <p className="font-medium text-white/70 mb-2" style={f}>{label} ({urls.length})</p>
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                          {urls.map((photoUrl, index) => (
+                            <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-white/10">
+                              <img src={photoUrl} alt={`Photo ${index + 1}`} className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.open(photoUrl, '_blank')} />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  }
+                  const formatted = formatFieldValue(val)
+                  const isPrix = key === 'prix_envisage' || key === 'loyer_mensuel' || key === 'loyer_hors_charges'
+                  return (
+                    <p key={key} className="break-words">
+                      <span className="text-white/50 font-medium">{label}:</span>{' '}
+                      <span className={isPrix ? 'text-white font-semibold' : ''}>{formatted}</span>
+                    </p>
+                  )
+                })}
               </div>
             </div>
-        )}
+          )
+        })}
+
+        {/* Champs hors structure (rétrocompatibilité) */}
+        {(() => {
+          const blocsKeys = getFormBlocs(estimation.type_demande).flatMap(b => b.fields.map(f => f.key))
+          const excludeKeys = ['id', 'read', 'status', 'notes', 'created_at', 'updated_at', ...blocsKeys]
+          const extraFields = Object.entries(estimation)
+            .filter(([key]) => !excludeKeys.includes(key))
+            .filter(([, val]) => hasValue(val)) as [string, unknown][]
+          if (extraFields.length === 0) return null
+          return (
+            <div className="mb-4 pb-4 border-b border-white/10">
+              <h4 className="font-bold mb-3 text-white text-sm sm:text-base uppercase tracking-wide" style={f}>Autres informations</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm text-white/70" style={f}>
+                {extraFields.map(([key, val]) => (
+                  <p key={key} className="break-words">
+                    <span className="text-white/50 font-medium">{key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}:</span>{' '}
+                    {formatFieldValue(val)}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
 
         {/* Notes */}
         <div className="pt-2">

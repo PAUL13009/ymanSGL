@@ -13,6 +13,7 @@ import Image from 'next/image'
 import { getLimitedProperties } from '@/lib/firebase-properties'
 import { useProximityContainer } from '@/components/ProximityProvider'
 import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
+import { useCursor } from '@/context/CursorContext'
 import { useScrollImageAnimation } from '@/hooks/useScrollImageAnimation'
 
 interface PropertyImage {
@@ -111,9 +112,7 @@ export default function Home() {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<string | number, number>>({})
-  const [isConfianceImageHovered, setIsConfianceImageHovered] = useState(false)
-  const [isConfianceButtonHovered, setIsConfianceButtonHovered] = useState(false)
-  const [hoveredPropertyId, setHoveredPropertyId] = useState<string | number | null>(null)
+  const cursor = useCursor()
   
   // Refs pour les boutons CTA avec animation au scroll sur mobile
   const catalogueButtonRef = useScrollButtonAnimation()
@@ -209,7 +208,7 @@ export default function Home() {
     <main ref={mainRef} className="min-h-screen bg-transparent relative" role="main">
       <Navbar />
       <Hero 
-        title="L'estimation immobilière nouvelle génération."
+        title="L'estimation immobilière nouvelle génération"
         subtitle="Un service 100% digitalisé qui délivre un dossier d'analyse structuré, précis et confidentiel conçu pour éclairer vos décisions patrimoniales — qu'il s'agisse d'une vente, d'une succession ou d'une simple réflexion sur la valeur de votre bien."
         buttonText="Demander mon dossier d'estimation"
         buttonSubtext="Estimation gratuite – sans engagement"
@@ -245,30 +244,10 @@ export default function Home() {
             <div className="mb-12 sm:mb-16 md:mb-20">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
                 <div className="flex-1">
-                  <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-3">
-                    <h2 id="biens-a-la-une" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-left uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <div className="mb-3">
+                    <h2 id="biens-a-la-une" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-left uppercase text-white leading-none" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Découvrez Nos Biens
                     </h2>
-                    <Link
-                      href="/catalogue"
-                      className="group/cta relative hidden sm:inline-flex items-center border border-white/60 px-6 py-3 rounded-lg transition-all duration-300 hover:border-white"
-                      style={{
-                        fontFamily: 'var(--font-poppins), sans-serif',
-                        fontSize: 'clamp(0.875rem, 1vw, 1rem)',
-                        textDecoration: 'none',
-                        letterSpacing: '0.5px',
-                        color: '#ffffff',
-                        fontWeight: 500,
-                        backgroundColor: 'transparent',
-                      }}
-                    >
-                      <span className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                        Sélection
-                      </span>
-                      <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm sm:text-base text-white/70 uppercase tracking-wider" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
@@ -300,15 +279,14 @@ export default function Home() {
               ) : (
                 displayProperties.slice(0, 4).map((property, index) => {
                   const mainImage = property.images && property.images.length > 0 ? property.images[0] : null
-                  const isHovered = hoveredPropertyId === property.id
                   
                   return (
                     <Link
                       key={property.id}
                       href={`/properties/${property.id}`}
-                      className="group relative block rounded-lg overflow-hidden aspect-square"
-                      onMouseEnter={() => setHoveredPropertyId(property.id)}
-                      onMouseLeave={() => setHoveredPropertyId(null)}
+                      className="group relative block rounded-lg overflow-hidden aspect-square transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10"
+                      onMouseEnter={() => cursor?.setOverPropertyCard(true)}
+                      onMouseLeave={() => cursor?.setOverPropertyCard(false)}
                     >
                       {mainImage ? (
                         <>
@@ -317,7 +295,7 @@ export default function Home() {
                               src={mainImage.src}
                               alt={mainImage.alt}
                               fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              className="object-cover"
                               loading="lazy"
                             />
                           </div>
@@ -325,38 +303,18 @@ export default function Home() {
                           {/* Overlay avec texte en bas à gauche */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
                             <div className="absolute bottom-6 left-6 right-6">
-                              <p className="text-xs sm:text-sm text-white/80 uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                              <p className="text-xs sm:text-sm text-white font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                                 L'AGENCE YL
                               </p>
-                              <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                                 {property.title}
                               </h3>
                               {property.location && (
-                                <p className="text-sm sm:text-base text-white/90" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                                <p className="text-sm sm:text-base text-white font-semibold" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                                   {property.location}
                                 </p>
                               )}
                             </div>
-                          </div>
-
-                          {/* CTA qui apparaît au survol — masqué sur mobile */}
-                          <div 
-                            className={`absolute inset-0 bg-black/80 hidden sm:flex items-center justify-center transition-all duration-500 ease-in-out ${
-                              isHovered ? 'opacity-100' : 'opacity-0'
-                            }`}
-                          >
-                            <span 
-                              className={`inline-block px-8 py-4 rounded-lg border-2 border-white text-white font-semibold transition-all duration-500 transform ${
-                                isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                              }`}
-                              style={{
-                                fontFamily: 'var(--font-poppins), sans-serif',
-                                fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)',
-                                transitionDelay: isHovered ? '0.1s' : '0s'
-                              }}
-                            >
-                              Voir les détails
-                            </span>
                           </div>
                         </>
                       ) : (
@@ -370,28 +328,24 @@ export default function Home() {
               )}
             </div>
 
-            {/* Bouton catalogue mobile - centré sous les cartes */}
-            <div className="flex sm:hidden justify-center mt-8">
+            {/* Bouton catalogue - centré en bas de la section */}
+            <div className="flex justify-center mt-12 sm:mt-16">
               <Link
                 href="/catalogue"
                 ref={catalogueButtonRef as React.RefObject<HTMLAnchorElement>}
-                className="group/cta relative inline-flex items-center border border-white/60 px-6 py-3 rounded-lg transition-all duration-300 hover:border-white"
+                aria-label="Voir tous les biens au catalogue"
+                className="cta-fill-hover group/cta inline-flex items-center justify-center bg-transparent backdrop-blur-sm text-white border-2 border-white/60 font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: '0.9rem',
+                  fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
                   textDecoration: 'none',
                   letterSpacing: '0.5px',
-                  color: '#ffffff',
-                  fontWeight: 500,
-                  backgroundColor: 'transparent',
                 }}
               >
-                <span className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                  Découvrir notre catalogue
+                <span className="cta-fill-text relative inline-flex items-center justify-center">
+                  <span className="cta-fill-text-white">Découvrir notre sélection</span>
+                  <span className="cta-fill-text-black">Découvrir notre sélection</span>
                 </span>
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
               </Link>
             </div>
           </div>
@@ -403,24 +357,45 @@ export default function Home() {
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-              {/* Colonne gauche : Texte */}
-              <div className="order-2 md:order-1 space-y-6 sm:space-y-8">
-                <h2 id="message-fondatrice" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Nous ne promettons pas l'impossible
-                </h2>
-                
-                <div className="space-y-4 sm:space-y-6">
-                  <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Nous privilégions les projets cohérents, avec des propriétaires impliqués et des objectifs réalistes.
-                  </p>
+              {/* Colonne gauche : Texte + CTA */}
+              <div className="order-2 md:order-1 space-y-6 sm:space-y-8 flex flex-col items-center md:items-start">
+                <div className="w-full">
+                  <h2 id="message-fondatrice" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    Nous ne promettons pas l'impossible
+                  </h2>
                   
-                  <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Chaque bien est étudié avant d'être accepté, afin de garantir une stratégie adaptée et un suivi sérieux.
-                  </p>
-                  
-                  <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-bold leading-relaxed uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                    Nous sélectionnons nos mandats pour garantir une vente au prix du marché.
-                  </p>
+                  <div className="space-y-4 sm:space-y-6 mt-6 sm:mt-8">
+                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Nous privilégions les projets cohérents, avec des propriétaires impliqués et des objectifs réalistes.
+                    </p>
+                    
+                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Chaque bien est étudié avant d'être accepté, afin de garantir une stratégie adaptée et un suivi sérieux.
+                    </p>
+                    
+                    <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-bold leading-relaxed uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                      Nous sélectionnons nos mandats pour garantir une vente au prix du marché.
+                    </p>
+                  </div>
+                </div>
+                {/* CTA centré sous le texte */}
+                <div className="flex justify-center w-full" style={{ marginTop: '1.8cm' }}>
+                  <Link
+                    href="/notre-methode"
+                    aria-label="Découvrir la méthode de l'Agence YL"
+                    className="cta-fill-hover group/cta inline-flex items-center justify-center bg-transparent backdrop-blur-sm text-white border-2 border-white/60 font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10"
+                    style={{
+                      fontFamily: 'var(--font-poppins), sans-serif',
+                      fontSize: 'clamp(0.9rem, 1.2vw, 1rem)',
+                      textDecoration: 'none',
+                      letterSpacing: '0.5px',
+                    }}
+                  >
+                    <span className="cta-fill-text relative inline-flex items-center justify-center">
+                      <span className="cta-fill-text-white">Découvrir notre approche</span>
+                      <span className="cta-fill-text-black">Découvrir notre approche</span>
+                    </span>
+                  </Link>
                 </div>
               </div>
               
@@ -428,43 +403,15 @@ export default function Home() {
               <div className="order-1 md:order-2">
                 <div className="relative">
                   {/* Image sans bordure blanche avec effet hover */}
-                  <div 
-                    className="relative aspect-[3/4] overflow-hidden group"
-                    onMouseEnter={() => setIsConfianceImageHovered(true)}
-                    onMouseLeave={() => setIsConfianceImageHovered(false)}
-                  >
+                  <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
                       src="/images/ymannew.png"
                       alt="Yman Lahlou, Experte Immobilier Agréé"
                       fill
-                      className={`object-contain transition-all duration-500 ${
-                        isConfianceImageHovered ? 'scale-105' : ''
-                      } ${
-                        isConfianceButtonHovered ? 'blur-md' : ''
-                      }`}
+                      className="object-contain"
                       priority
                       unoptimized={false}
                     />
-                    {/* Overlay avec bouton CTA au survol — masqué sur mobile */}
-                    <div className={`absolute inset-0 bg-black/60 hidden sm:flex items-center justify-center transition-all duration-500 ${
-                      isConfianceImageHovered ? 'opacity-100' : 'opacity-0'
-                    }`}>
-                      <Link
-                        href="/notre-methode"
-                        className={`transform transition-all duration-500 ${
-                          isConfianceImageHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                        }`}
-                        onMouseEnter={() => setIsConfianceButtonHovered(true)}
-                        onMouseLeave={() => setIsConfianceButtonHovered(false)}
-                      >
-                        <button
-                          className="px-6 py-3 sm:px-8 sm:py-4 bg-sable-50 text-black font-medium rounded-lg hover:bg-sable-100 transition-colors duration-300"
-                          style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-                        >
-                          Découvrir notre approche
-                        </button>
-                      </Link>
-                    </div>
                   </div>
                   {/* Caption en bas - centré */}
                   <div className="-mt-2 sm:-mt-3 p-3 sm:p-4 text-center">
@@ -479,29 +426,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Bouton mobile — centré en bas de la section */}
-            <div className="flex sm:hidden justify-center mt-8">
-              <Link
-                href="/notre-methode"
-                className="group/cta relative inline-flex items-center border border-white/60 px-6 py-3 rounded-lg transition-all duration-300 hover:border-white"
-                style={{
-                  fontFamily: 'var(--font-poppins), sans-serif',
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  letterSpacing: '0.5px',
-                  color: '#ffffff',
-                  fontWeight: 500,
-                  backgroundColor: 'transparent',
-                }}
-              >
-                <span className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                  Découvrir notre approche
-                </span>
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/cta:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
           </div>
         </FadeContent>
       </section>
@@ -512,15 +436,15 @@ export default function Home() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
               <h2 id="cta-final" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold leading-tight mb-10 sm:mb-14 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Sécurisez votre patrimoine dès aujourd'hui.
+                Sécurisez votre patrimoine dès aujourd'hui
               </h2>
             </FadeContent>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col gap-4 justify-center items-center">
               <a
                 ref={estimationButtonRef as any}
                 href="/estimation#grille-tarifaire"
                 aria-label="Accéder à mon dossier d'estimation en ligne"
-                className="inline-flex items-center justify-center bg-white text-black font-semibold px-8 py-4 rounded-lg hover:bg-white/90 transition-all duration-300"
+                className="cta-fill-hover group/cta inline-flex items-center justify-center bg-black text-white border-2 border-white font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/20"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
                   fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
@@ -528,13 +452,16 @@ export default function Home() {
                   letterSpacing: '0.5px',
                 }}
               >
-                Accéder à mon dossier d&apos;estimation en ligne
+                <span className="cta-fill-text relative inline-flex items-center justify-center">
+                  <span className="cta-fill-text-white">Accéder à mon dossier d&apos;estimation en ligne</span>
+                  <span className="cta-fill-text-black">Accéder à mon dossier d&apos;estimation en ligne</span>
+                </span>
               </a>
               <a
                 href="https://calendly.com/paul-nogaro/30min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-4 rounded-lg hover:bg-white hover:text-black transition-all duration-300"
+                className="cta-fill-hover group/cta inline-flex items-center justify-center bg-black border-2 border-white font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/20"
                 style={{
                   fontFamily: 'var(--font-poppins), sans-serif',
                   fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
@@ -542,7 +469,10 @@ export default function Home() {
                   letterSpacing: '0.5px',
                 }}
               >
-                Prendre RDV avec Yman
+                <span className="cta-fill-text relative inline-flex items-center justify-center">
+                  <span className="cta-fill-text-white">Prendre RDV avec Yman</span>
+                  <span className="cta-fill-text-black">Prendre RDV avec Yman</span>
+                </span>
               </a>
             </div>
           </div>

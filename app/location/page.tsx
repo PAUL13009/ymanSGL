@@ -66,6 +66,7 @@ export default function LocationPage() {
         subtitle="CONFIEZ LA RECHERCHE DE VOTRE LOCATAIRE À UN AGENT IMMOBILIER. DE LA STRATÉGIE DE LOYER À LA SIGNATURE DU BAIL, BÉNÉFICIEZ D'UNE SÉLECTION DRASTIQUE ET D'UN FORMALISME JURIDIQUE DE HAUT NIVEAU POUR VOTRE BIEN À SAINT-GERMAIN-EN-LAYE"
         buttonText="Trouver mon locataire idéal"
         buttonLink="#contact"
+        cursorPillLabel="LOUER"
         imagePath="/images/herosectionimage.png"
         centered={true}
       />

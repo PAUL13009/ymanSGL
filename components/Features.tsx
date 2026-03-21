@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import FadeContent from './FadeContent'
+import { useCursor } from '@/context/CursorContext'
 
 interface ServiceData {
   number: string
@@ -15,8 +15,10 @@ interface ServiceData {
   ctaText: string
 }
 
+const SERVICE_LABELS = ['ESTIMER', 'VENDRE', 'LOUER'] as const
+
 export default function Features() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const cursor = useCursor()
 
   const services: ServiceData[] = [
     {
@@ -32,7 +34,7 @@ export default function Features() {
       number: '02',
       image: "/images/vente.webp",
       imageAlt: "Stratégie de Mise en Vente - Agence YL",
-      title: "STRATÉGIE DE MISE EN VENTE",
+      title: "STRATÉGIE DE VENTE",
       description: "Un plan d'action sur mesure : de la valorisation de votre bien à la sélection rigoureuse d'acquéreurs qualifiés",
       link: "/vente",
       ctaText: "Vendre mon bien"
@@ -53,7 +55,7 @@ export default function Features() {
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Titre "NOS SERVICES" - très grand, aligné à gauche */}
-          <h2 id="services-title" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light mb-16 sm:mb-20 md:mb-24 text-white uppercase text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif', letterSpacing: '-0.02em' }}>
+          <h2 id="services-title" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none mb-16 sm:mb-20 md:mb-24 text-white uppercase text-left" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             NOS SERVICES
           </h2>
 
@@ -61,48 +63,21 @@ export default function Features() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
             {services.map((service, index) => (
               <div key={index} className="flex flex-col">
-                {/* Image - occupe environ 60-70% de l'espace vertical */}
-                <div 
-                  className="relative w-full h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] mb-8 sm:mb-10 overflow-hidden group cursor-pointer"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+                {/* Image - effet hover uniquement au survol de l'image */}
+                <Link
+                  href={service.link}
+                  className="relative block w-full h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] mb-8 sm:mb-10 overflow-hidden rounded-lg transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10"
+                  onMouseEnter={() => cursor?.setOverServiceImage(SERVICE_LABELS[index] ?? null)}
+                  onMouseLeave={() => cursor?.setOverServiceImage(null)}
                 >
                   <Image
                     src={service.image}
                     alt={service.imageAlt}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover"
                     loading="lazy"
                   />
-                  
-                  {/* Overlay avec CTA - apparaît au survol */}
-                  <div 
-                    className={`absolute inset-0 bg-black/60 flex items-center justify-center transition-all duration-500 ease-in-out ${
-                      hoveredIndex === index ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
-                    <Link
-                      href={service.link}
-                      className={`inline-flex items-center justify-center border border-white/80 px-8 py-4 rounded-3xl backdrop-blur-sm transition-all duration-500 hover:border-white hover:shadow-lg hover:shadow-white/20 transform ${
-                        hoveredIndex === index ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                      }`}
-                      style={{
-                        fontFamily: 'var(--font-poppins), sans-serif',
-                        fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)',
-                        textDecoration: 'none',
-                        letterSpacing: '0.5px',
-                        color: '#ffffff',
-                        fontWeight: 500,
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        transitionDelay: hoveredIndex === index ? '0.1s' : '0s'
-                      }}
-                    >
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">
-                        {service.ctaText}
-                      </span>
-                    </Link>
-                  </div>
-                </div>
+                </Link>
 
                 {/* Numéro - très grand */}
                 <div className="mb-5 sm:mb-6">

@@ -863,14 +863,14 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Confort & Environnement</h2>
 
             {/* Exposition (plusieurs réponses possibles) */}
-            <div>
+                      <div>
               <p className={sectionTitleClass} style={fontStyle}>Exposition (plusieurs réponses possibles)</p>
               <div className="grid md:grid-cols-5 gap-4 mt-4">
                 {['Nord', 'Sud', 'Est', 'Ouest', 'Traversant'].map((option) => (
                   <label key={option} className={getOptionClass(formData.exposition.includes(option))}>
                     <input type="checkbox" checked={formData.exposition.includes(option)} onChange={() => handleCheckboxChange('exposition', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                        </label>
                 ))}
               </div>
             </div>
@@ -1290,7 +1290,7 @@ export default function EstimationEtape2Page() {
                       <label className={labelClass} style={fontStyle}>Superficie (m²)</label>
                       <input type="text" name="surfaceStationnement" value={formData.surfaceStationnement} onChange={handleChange} placeholder="Ex: 15 m²" className={inputClass} style={fontStyle} />
                 </div>
-                  </div>
+              </div>
                 )}
               </div>
             )}
@@ -1322,8 +1322,8 @@ export default function EstimationEtape2Page() {
                   </div>
                 ))}
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Niveau global du bien */}
             <div className="pt-4 border-t border-white/10">
               <label className={labelClass} style={fontStyle}>Niveau global du bien</label>
@@ -1524,7 +1524,7 @@ export default function EstimationEtape2Page() {
             <div className="pt-4 border-t border-white/10">
               <p className={sectionTitleClass} style={fontStyle}>Lotissement avec ASL — Informations juridiques</p>
                       <div className="space-y-4 mt-4">
-                <div>
+                        <div>
                     <label className={labelClass} style={fontStyle}>Montant des charges ANNUELLES (€)</label>
                     <input type="text" name="chargesASL" value={formData.chargesASL} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
                   </div>
@@ -1535,22 +1535,22 @@ export default function EstimationEtape2Page() {
                         <label key={option} className={getOptionClass(formData.chargesASLContenu.includes(option))}>
                           <input type="checkbox" checked={formData.chargesASLContenu.includes(option)} onChange={() => handleCheckboxChange('chargesASLContenu', option)} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
+                          </label>
                       ))}
-                    </div>
+                        </div>
                   </div>
 
-                  <div>
+                        <div>
                     <label className={labelClass} style={fontStyle}>Y a-t-il des travaux effectués récemment dans le lotissement ?</label>
                     <div className="flex gap-4 mt-2">
                       {['Oui', 'Non', 'Je ne sais pas'].map((val) => (
                         <label key={val} className={getOptionClass(formData.travauxASLRecents === val)}>
                           <input type="radio" name="travauxASLRecents" value={val} checked={formData.travauxASLRecents === val} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
+                          </label>
                       ))}
-                    </div>
-                  </div>
+                          </div>
+                        </div>
                   {formData.travauxASLRecents === 'Oui' && (
                         <div className="grid md:grid-cols-2 gap-4">
                         <div>
@@ -1591,9 +1591,9 @@ export default function EstimationEtape2Page() {
                           <option value="Plus de 2 ans" className="bg-black text-white">Plus de 2 ans</option>
                           <option value="Date non communiquée" className="bg-black text-white">Date non communiquée</option>
                         </select>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   <div>
                     <label className={labelClass} style={fontStyle}>Y a-t-il des travaux prévus dans le lotissement mais non encore votés ?</label>
@@ -1604,8 +1604,8 @@ export default function EstimationEtape2Page() {
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
                           </label>
                       ))}
-                          </div>
-                        </div>
+                  </div>
+                </div>
                         <div>
                   <label className={labelClass} style={fontStyle}>Procédure en cours</label>
                   <input type="text" name="procedureEnCoursASL" value={formData.procedureEnCoursASL} onChange={handleChange} placeholder="Ex: Contentieux, litige..." className={inputClass} style={fontStyle} />
@@ -1622,7 +1622,7 @@ export default function EstimationEtape2Page() {
                 <div>
                   <label className={labelClass} style={fontStyle}>Nombre de lots</label>
                   <input type="text" name="nombreLotsCoproHorizontale" value={formData.nombreLotsCoproHorizontale} onChange={handleChange} placeholder="Ex: 12" className={inputClass} style={fontStyle} />
-                </div>
+                  </div>
                 <div>
                   <label className={labelClass} style={fontStyle}>Charges annuelles (€)</label>
                   <input type="text" name="chargesCoproHorizontale" value={formData.chargesCoproHorizontale} onChange={handleChange} placeholder="Ex: 2 000 €" className={inputClass} style={fontStyle} />
@@ -1711,15 +1711,15 @@ export default function EstimationEtape2Page() {
                   <label key={option} className={getOptionClass(formData.prestations.includes(option))}>
                     <input type="checkbox" checked={formData.prestations.includes(option)} onChange={() => handleCheckboxChange('prestations', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
-                ))}
+                      </label>
+                    ))}
                   </div>
                   
-              <div className="mt-4">
+                  <div className="mt-4">
                 <label className={labelClass} style={fontStyle}>Autres prestations</label>
                 <input type="text" name="autresPrestations" value={formData.autresPrestations} onChange={handleChange} placeholder="Précisez d'autres prestations..." className={inputClass} style={fontStyle} />
-              </div>
-
+                  </div>
+                  
               {/* Équipements premium */}
               <div className="pt-6 mt-6 border-t border-white/10">
                 <p className={sectionTitleClass} style={fontStyle}>Équipements premium</p>
@@ -1752,11 +1752,11 @@ export default function EstimationEtape2Page() {
                         <label key={val} className={getOptionClass(formData.description === val)}>
                           <input type="radio" name="description" value={val} checked={formData.description === val} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                        </label>
-                      ))}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               {/* Prestations intérieures - Maison */}
@@ -1794,10 +1794,10 @@ export default function EstimationEtape2Page() {
                   <label key={val} className={getOptionClass(formData.chauffageType === val)}>
                     <input type="radio" name="chauffageType" value={val} checked={formData.chauffageType === val} onChange={handleChange} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                  </label>
+                    </label>
                 ))}
-              </div>
                   </div>
+                </div>
                   
             {/* Production chauffage conditionnelle */}
             {formData.chauffageType === 'Collectif' && (
@@ -1860,7 +1860,7 @@ export default function EstimationEtape2Page() {
                   <option value="Autre" className="bg-black text-white">Autre à préciser</option>
                   <option value="Inconnue" className="bg-black text-white">Inconnue</option>
                 </select>
-              </div>
+                  </div>
             )}
             {formData.eauChaudeType === 'Individuelle' && (
               <div>
@@ -1883,7 +1883,7 @@ export default function EstimationEtape2Page() {
             )}
 
             {/* Ancienneté */}
-            <div>
+                  <div>
               <label className={labelClass} style={fontStyle}>Année d&apos;installation</label>
               <div className="grid md:grid-cols-4 gap-3 mt-2">
                 {['Moins de 5 ans', '5 à 10 ans', 'Plus de 10 ans', 'Inconnue'].map((val) => (
@@ -1909,8 +1909,8 @@ export default function EstimationEtape2Page() {
                         </label>
                   ))}
                 </div>
-              </div>
-
+                  </div>
+                  
               {formData.dpeValide === 'Oui' && (
                 <>
                   <div className="mt-4">
@@ -1920,10 +1920,10 @@ export default function EstimationEtape2Page() {
                         <label key={option} className={getOptionClass(formData.dpe === option)}>
                           <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
                   <div className="mt-4">
                     <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
                     <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
@@ -1933,7 +1933,7 @@ export default function EstimationEtape2Page() {
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
                         </label>
                       ))}
-                    </div>
+              </div>
                   </div>
                 </>
               )}
@@ -1962,19 +1962,19 @@ export default function EstimationEtape2Page() {
                 <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
                 <input type="text" name="taxeFonciere" value={formData.taxeFonciere} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Standing de la résidence (Appartement uniquement) */}
             {formData.typeBien === 'Appartement' && (
               <div className="pt-6 border-t border-white/10 space-y-4">
-                <div>
+                  <div>
                   <label className={labelClass} style={fontStyle}>Standing de la résidence</label>
                   <div className="grid md:grid-cols-3 gap-3 mt-2">
                     {['Standard', 'Bon standing', 'Haut de gamme'].map((val) => (
                       <label key={val} className={getOptionClass(formData.standingResidence === val)}>
                         <input type="radio" name="standingResidence" value={val} checked={formData.standingResidence === val} onChange={handleChange} className="mr-2 accent-white" />
                         <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                      </label>
+                    </label>
                     ))}
                   </div>
                 </div>
@@ -1985,11 +1985,11 @@ export default function EstimationEtape2Page() {
                       <label key={val} className={getOptionClass(formData.gardienConcierge === val)}>
                         <input type="radio" name="gardienConcierge" value={val} checked={formData.gardienConcierge === val} onChange={handleChange} className="mr-2 accent-white" />
                         <span className="text-white text-sm capitalize" style={fontStyle}>{val}</span>
-                      </label>
-                    ))}
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
             )}
 
             {/* Sécurité & Confort */}
@@ -2016,12 +2016,12 @@ export default function EstimationEtape2Page() {
                   </div>
                 </div>
               )}
-            </div>
-
+                  </div>
+                  
             {/* Charges de copropriété - Appartement */}
             {formData.typeBien === 'Appartement' && (
               <div className="pt-6 border-t border-white/10 space-y-6">
-                <div>
+                  <div>
                   <p className={sectionTitleClass} style={fontStyle}>Charges de copropriété</p>
                   <div className="mt-4">
                     <label className={labelClass} style={fontStyle}>Montant € TRIMESTRIEL</label>
@@ -2034,7 +2034,7 @@ export default function EstimationEtape2Page() {
                         <label key={option} className={getOptionClass(formData.chargesCoproContenu.includes(option))}>
                           <input type="checkbox" checked={formData.chargesCoproContenu.includes(option)} onChange={() => handleCheckboxChange('chargesCoproContenu', option)} className="mr-2 accent-white" />
                           <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
+                    </label>
                       ))}
                     </div>
                   </div>
@@ -2083,10 +2083,10 @@ export default function EstimationEtape2Page() {
                     <label key={val} className={getOptionClass(formData.typeSyndic === val)}>
                       <input type="radio" name="typeSyndic" value={val} checked={formData.typeSyndic === val} onChange={handleChange} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
             )}
 
             {/* Statut de la copropriété - Appartement */}
@@ -2110,7 +2110,7 @@ export default function EstimationEtape2Page() {
               <div className="border-t border-white/10" />
               <div className="space-y-6">
                 {/* État extérieur - Maison uniquement */}
-                <div>
+                      <div>
                   <p className={sectionTitleClass} style={fontStyle}>État extérieur</p>
                   <div className="grid md:grid-cols-3 gap-4 mt-4">
                     {[
@@ -2149,13 +2149,13 @@ export default function EstimationEtape2Page() {
                     <label key={val} className={getOptionClass(formData.assainissementType === val)}>
                       <input type="radio" name="assainissementType" value={val} checked={formData.assainissementType === val} onChange={handleChange} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
+                        </label>
                   ))}
                 </div>
               </div>
 
               {formData.assainissementType === 'Non-collectif (Fosse septique)' && (
-                <div className="grid md:grid-cols-2 gap-4">
+                        <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass} style={fontStyle}>Validité diagnostic SPANC</label>
                     <select name="spancValidite" value={formData.spancValidite} onChange={handleChange} className={selectClass} style={fontStyle}>
@@ -2175,10 +2175,10 @@ export default function EstimationEtape2Page() {
                     <label key={val} className={getOptionClass(formData.raccordabilite === val)}>
                       <input type="radio" name="raccordabilite" value={val} checked={formData.raccordabilite === val} onChange={handleChange} className="mr-2 accent-white" />
                       <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
             </div>
             </>
           )}
@@ -2190,17 +2190,17 @@ export default function EstimationEtape2Page() {
             <h2 className={groupTitleClass} style={fontStyle}>Situation Juridique & Technique</h2>
 
             {/* Juridique */}
-            <div>
+                      <div>
               <p className={sectionTitleClass} style={fontStyle}>Juridique</p>
               <div className="grid md:grid-cols-2 gap-3 mt-4">
                 {['Servitudes (passage, vue, canalisation...)', 'Droit de passage', 'Mitoyenneté particulière', 'Indivision', 'Usufruit', 'Nue-propriété', 'Procédure en cours', 'Litige avec voisin', 'Hypothèque en cours', 'Saisie ou procédure bancaire', 'Aucune situation particulière'].map((option) => (
                   <label key={option} className={getOptionClass(formData.situationJuridiqueTechnique.includes(option))}>
                     <input type="checkbox" checked={formData.situationJuridiqueTechnique.includes(option)} onChange={() => handleCheckboxChange('situationJuridiqueTechnique', option)} className="mr-2 accent-white" />
                     <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                  </label>
+                        </label>
                 ))}
-              </div>
-                  </div>
+                      </div>
+                    </div>
                   
             {/* Technique et urbanistique */}
             <div className="pt-4 border-t border-white/10">
@@ -2213,7 +2213,7 @@ export default function EstimationEtape2Page() {
                   </label>
                 ))}
               </div>
-            </div>
+                </div>
 
             {/* Si copropriété / Lotissement / ASL — visible uniquement pour Maison */}
             {formData.typeBien === 'Maison' && (
@@ -2229,8 +2229,8 @@ export default function EstimationEtape2Page() {
               </div>
             </div>
             )}
-          </div>
-
+                  </div>
+                  
           <div className="border-t border-white/10" />
 
           {/* ═══════════ PROJET DE VENTE (suite) ═══════════ */}

@@ -1608,6 +1608,74 @@ export default function LocationFormulaireEtape2Page() {
                 ))}
               </div>
             </div>
+
+            {/* DPE */}
+            <div className="pt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Diagnostic de Performance Énergétique (DPE)</p>
+              <div className="mt-4">
+                <label className={labelClass} style={fontStyle}>Disposez-vous d&apos;un DPE valide (après juillet 2021) ?</label>
+                <div className="flex gap-4 mt-2">
+                  {['Oui', 'Non'].map((val) => (
+                    <label key={val} className={getOptionClass(formData.dpeValide === val)}>
+                      <input type="radio" name="dpeValide" value={val} checked={formData.dpeValide === val} onChange={handleChange} className="mr-2 accent-white" />
+                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {formData.dpeValide === 'Oui' && (
+                <>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Classe énergétique DPE</label>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
+                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.dpe === option)}>
+                          <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
+                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
+                        <label key={option} className={getOptionClass(formData.classeGes === option)}>
+                          <input type="radio" name="classeGes" value={option} checked={formData.classeGes === option} onChange={handleChange} className="mr-2 accent-white" />
+                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {formData.dpeValide === 'Non' && (
+                <div className="mt-4">
+                  <p className="text-white/50 text-sm italic mb-3" style={fontStyle}>
+                    Si vous avez un DPE ancien, vous pouvez indiquer la classe à titre indicatif.
+                  </p>
+                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                    {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Non réalisé'].map((option) => (
+                      <label key={option} className={getOptionClass(formData.dpe === option)}>
+                        <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
+                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Taxe foncière */}
+            <div className="pt-6 border-t border-white/10">
+              <p className={sectionTitleClass} style={fontStyle}>Taxe foncière</p>
+              <div className="mt-4">
+                <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
+                <input type="text" name="taxeFonciere" value={formData.taxeFonciere} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
+              </div>
+            </div>
           </div>
 
           <div className="border-t border-white/10" />
@@ -1756,18 +1824,9 @@ export default function LocationFormulaireEtape2Page() {
 
           <div className="border-t border-white/10" />
 
-          {/* ═══════════ CHARGES & DPE ═══════════ */}
+          {/* ═══════════ CHARGES ═══════════ */}
           <div className="space-y-6">
-            <h2 className={groupTitleClass} style={fontStyle}>Charges & DPE</h2>
-
-            {/* Taxe foncière */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Taxe foncière</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Montant annuel (€)</label>
-                <input type="text" name="taxeFonciere" value={formData.taxeFonciere} onChange={handleChange} placeholder="Ex: 1 500 €" className={inputClass} style={fontStyle} />
-              </div>
-            </div>
+            <h2 className={groupTitleClass} style={fontStyle}>Charges</h2>
 
             {/* Charges de copropriété */}
             <div>
@@ -1787,65 +1846,6 @@ export default function LocationFormulaireEtape2Page() {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* DPE */}
-            <div>
-              <p className={sectionTitleClass} style={fontStyle}>Diagnostic de Performance Énergétique (DPE)</p>
-              <div className="mt-4">
-                <label className={labelClass} style={fontStyle}>Disposez-vous d&apos;un DPE valide (après juillet 2021) ?</label>
-                <div className="flex gap-4 mt-2">
-                  {['Oui', 'Non'].map((val) => (
-                    <label key={val} className={getOptionClass(formData.dpeValide === val)}>
-                      <input type="radio" name="dpeValide" value={val} checked={formData.dpeValide === val} onChange={handleChange} className="mr-2 accent-white" />
-                      <span className="text-white text-sm" style={fontStyle}>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {formData.dpeValide === 'Oui' && (
-                <>
-                  <div className="mt-4">
-                    <label className={labelClass} style={fontStyle}>Classe énergétique DPE</label>
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
-                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.dpe === option)}>
-                          <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <label className={labelClass} style={fontStyle}>Classe GES (Gaz à Effet de Serre)</label>
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mt-2">
-                      {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((option) => (
-                        <label key={option} className={getOptionClass(formData.classeGes === option)}>
-                          <input type="radio" name="classeGes" value={option} checked={formData.classeGes === option} onChange={handleChange} className="mr-2 accent-white" />
-                          <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {formData.dpeValide === 'Non' && (
-                <div className="mt-4">
-                  <p className="text-white/50 text-sm italic mb-3" style={fontStyle}>
-                    Si vous avez un DPE ancien, vous pouvez indiquer la classe à titre indicatif.
-                  </p>
-                  <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
-                    {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Non réalisé'].map((option) => (
-                      <label key={option} className={getOptionClass(formData.dpe === option)}>
-                        <input type="radio" name="dpe" value={option} checked={formData.dpe === option} onChange={handleChange} className="mr-2 accent-white" />
-                        <span className="text-white text-sm" style={fontStyle}>{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 

@@ -65,7 +65,7 @@ export default function EstimationJuridiqueFormulairePage() {
       <div className="w-full max-w-xl">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-wide mb-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-            Estimation Activités juridiques
+            Estimation Professionnels du droit et du chiffre
           </h1>
           <p className="text-white/50 text-sm uppercase tracking-widest" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             Étape 1 / 2 — Vos coordonnées

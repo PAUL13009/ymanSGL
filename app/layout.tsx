@@ -3,6 +3,8 @@ import { Poppins, Playfair_Display } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import { ProximityProvider } from '@/components/ProximityProvider'
+import CustomCursor from '@/components/CustomCursor'
+import { CursorProvider } from '@/context/CursorContext'
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -91,9 +93,12 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <ProximityProvider>
-          {children}
-        </ProximityProvider>
+        <CursorProvider>
+          <CustomCursor />
+          <ProximityProvider>
+            {children}
+          </ProximityProvider>
+        </CursorProvider>
       </body>
     </html>
   )

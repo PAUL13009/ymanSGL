@@ -9,6 +9,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getAllProperties } from '@/lib/firebase-properties'
 import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
+import { useCursor } from '@/context/CursorContext'
 
 interface PropertyImage {
   src: string
@@ -39,6 +40,7 @@ interface Filters {
 }
 
 export default function CataloguePage() {
+  const cursor = useCursor()
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState<Record<string | number, number>>({})
@@ -416,7 +418,9 @@ export default function CataloguePage() {
                       <Link
                         key={bien.id}
                         href={`/properties/${bien.id}`}
-                        className="group relative block rounded-lg overflow-hidden aspect-square"
+                        className="group relative block rounded-lg overflow-hidden aspect-square transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10"
+                        onMouseEnter={() => cursor?.setOverPropertyCard(true)}
+                        onMouseLeave={() => cursor?.setOverPropertyCard(false)}
                       >
                         {mainImage ? (
                           <div className="absolute inset-0">
@@ -424,7 +428,7 @@ export default function CataloguePage() {
                               src={mainImage.src}
                               alt={mainImage.alt || bien.title}
                               fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              className="object-cover"
                               loading="lazy"
                             />
                           </div>
@@ -435,24 +439,16 @@ export default function CataloguePage() {
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
                           <div className="absolute bottom-6 left-6 right-6">
-                            <p className="text-xs sm:text-sm text-white/80 uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                            <p className="text-xs sm:text-sm text-white font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                               L&apos;AGENCE YL
                             </p>
-                            <h3 className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                               {bien.title}
                             </h3>
-                            <p className="text-sm sm:text-base text-white/90" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                            <p className="text-sm sm:text-base text-white font-semibold" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                               {bien.location}
                             </p>
                           </div>
-                        </div>
-                        <div className="absolute inset-0 bg-black/80 flex items-center justify-center transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
-                          <span
-                            className="inline-block px-8 py-4 rounded-lg border-2 border-white text-white font-semibold transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100"
-                            style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: 'clamp(0.9rem, 1.2vw, 1.125rem)' }}
-                          >
-                            Voir les détails
-                          </span>
                         </div>
                       </Link>
                     )
