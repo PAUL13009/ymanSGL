@@ -7,7 +7,10 @@ import FadeContent from '@/components/FadeContent'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useProximityContainer } from '@/components/ProximityProvider'
+import { useCursor } from '@/context/CursorContext'
+
 export default function LocationPage() {
+  const cursor = useCursor()
   const mainRef = useRef<HTMLElement>(null)
   const containerRef = useProximityContainer()
   const [expandedBar, setExpandedBar] = useState<number | null>(null)
@@ -318,69 +321,75 @@ export default function LocationPage() {
       </section>
 
       {/* SECTION 5 — GRILLE TARIFAIRE LOCATION */}
-      <section id="grille-tarifaire-location" className="relative z-10 px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="grille-tarifaire-location-title">
+      <section id="grille-tarifaire-location" className="relative z-10 px-4 sm:px-6 lg:px-8 py-24 bg-black" aria-labelledby="grille-tarifaire-location-title">
         <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
           <div className="max-w-6xl mx-auto">
-            <div className="mb-12 text-center">
-              <div className="w-16 h-1 bg-white mb-6 mx-auto" aria-hidden="true" role="presentation"></div>
-              <h2 id="grille-tarifaire-location-title" className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 leading-tight uppercase text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Nos formules d&apos;estimation
+            <div className="mb-[3cm] -ml-2 sm:-ml-4 md:-ml-6 lg:-ml-8" style={{ marginBottom: '3cm' }}>
+              <h2 id="grille-tarifaire-location-title" className="leading-tight text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif', fontSize: 'clamp(4.5rem, 12vw, 12rem)', fontWeight: 750 }}>
+                Nos tarifs
               </h2>
-              <p className="text-base md:text-lg text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                Estimation immobilière — Valeur locative
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               {/* Card 1 — Location Essentielle */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="mb-8">
-                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Essentielle</h3>
-                  <div className="flex items-baseline justify-center gap-1 mb-3">
-                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>35€</span>
-                    <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
-                        </div>
-                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Hors Paris Intramuros</p>
-                      </div>
+              <div
+                className="cta-fill-hover-parent group bg-black rounded-2xl border border-white/10 p-8 md:p-10 flex flex-col text-left hover:border-white/20 hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10 transition-all duration-300"
+                onMouseEnter={() => cursor?.setOverPropertyCard(true)}
+                onMouseLeave={() => cursor?.setOverPropertyCard(false)}
+              >
                 <div className="mb-6">
-                  <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Mise en location sereine</span>
-                        </div>
-                <ul className="space-y-3 flex-1 w-full flex flex-col items-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion stratégique</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité du dossier</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
-                      </ul>
-                <a href="/location/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Confier ma recherche de locataire
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>35€</span>
+                    <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Essentielle</h3>
+                  <p className="text-sm font-normal text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Hors Paris Intramuros · Mise en location sereine</p>
+                </div>
+                <hr className="border-white/10 mb-6" />
+                <ul className="space-y-4 flex-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion stratégique</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité du dossier</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
+                </ul>
+                <a href="/location/formulaire" className="cta-fill-hover mt-8 flex w-full items-center justify-center py-3.5 rounded-xl border border-white text-white font-semibold transition-colors duration-300 text-sm relative overflow-hidden" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <span className="cta-fill-text relative inline-flex items-center justify-center">
+                    <span className="cta-fill-text-white">Confier ma recherche de locataire</span>
+                    <span className="cta-fill-text-black">Confier ma recherche de locataire</span>
+                  </span>
                 </a>
-                <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
+                <p className="mt-4 text-sm text-white/60 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
 
               {/* Card 2 — Location Paris */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 p-8 md:p-10 flex flex-col items-center text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="mb-8">
-                  <h3 className="text-lg font-bold text-white uppercase tracking-wide mb-2" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Paris</h3>
-                  <div className="flex items-baseline justify-center gap-1 mb-3">
-                    <span className="text-5xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>59€</span>
-                    <span className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
-                  </div>
-                  <p className="text-sm text-white/50" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Paris Intramuros</p>
-                </div>
+              <div
+                className="cta-fill-hover-parent group bg-black rounded-2xl border border-white/10 p-8 md:p-10 flex flex-col text-left hover:border-white/20 hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10 transition-all duration-300"
+                onMouseEnter={() => cursor?.setOverPropertyCard(true)}
+                onMouseLeave={() => cursor?.setOverPropertyCard(false)}
+              >
                 <div className="mb-6">
-                  <span className="inline-block bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Marché parisien exigeant</span>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>59€</span>
+                    <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Location Paris</h3>
+                  <p className="text-sm font-normal text-white/60" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Particuliers · Paris Intramuros · Marché parisien exigeant</p>
                 </div>
-                <ul className="space-y-3 flex-1 w-full flex flex-col items-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion (micro-marché)</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité renforcé</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités Paris (DPE, loyer encadré…)</li>
-                  <li className="flex items-center justify-center gap-3 text-sm text-white/70"><svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
+                <hr className="border-white/10 mb-6" />
+                <ul className="space-y-4 flex-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Valorisation &amp; diffusion (micro-marché)</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Audit de solvabilité renforcé</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Bail conforme + État des lieux</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Spécificités Paris (DPE, loyer encadré…)</li>
+                  <li className="flex items-start gap-3 text-sm font-semibold text-white"><svg className="w-5 h-5 text-white flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>Guide de gestion bailleur</li>
                 </ul>
-                <a href="/location/paris/formulaire" className="mt-8 block w-full text-center py-3.5 rounded-xl border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-colors duration-300 text-sm" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  Confier ma recherche de locataire
+                <a href="/location/paris/formulaire" className="cta-fill-hover mt-8 flex w-full items-center justify-center py-3.5 rounded-xl border border-white text-white font-semibold transition-colors duration-300 text-sm relative overflow-hidden" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                  <span className="cta-fill-text relative inline-flex items-center justify-center">
+                    <span className="cta-fill-text-white">Confier ma recherche de locataire</span>
+                    <span className="cta-fill-text-black">Confier ma recherche de locataire</span>
+                  </span>
                 </a>
-                <p className="mt-4 text-sm text-white/70 text-center font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
+                <p className="mt-4 text-sm text-white/60 text-center" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Dossier remis en 24h (jours ouvrés)</p>
               </div>
             </div>
           </div>

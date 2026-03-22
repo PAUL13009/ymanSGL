@@ -121,3 +121,11 @@
   clip-path: inset(0 0 0 0);
 }
 
+/* CTA fill au survol du parent (carte) */
+.cta-fill-hover-parent:hover .cta-fill-hover::before {
+  transform: scaleX(1);
+}
+.cta-fill-hover-parent:hover .cta-fill-hover .cta-fill-text-black {
+  clip-path: inset(0 0 0 0);
+}
+

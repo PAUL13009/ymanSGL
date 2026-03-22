@@ -259,6 +259,7 @@
 .sm-panel-itemLabel {
   display: block;
   transform-origin: left center;
+  text-transform: uppercase;
 }
 
 .sm-socials {

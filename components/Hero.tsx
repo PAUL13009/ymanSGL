@@ -8,7 +8,7 @@ import { useScrollButtonAnimation } from '@/hooks/useScrollButtonAnimation'
 import { useCursor } from '@/context/CursorContext'
 
 interface HeroProps {
-  title?: string
+  title?: React.ReactNode
   subtitle?: string
   microText?: string
   buttonText?: string
@@ -102,7 +102,7 @@ export default function Hero({
             /* Layout centré avec bouton en dessous */
             <div className="flex flex-col items-center text-center gap-6 md:gap-8">
               <div className="mb-4 sm:mb-6">
-                <h1 id="hero-title" className="font-bold tracking-tight text-white leading-tight uppercase whitespace-nowrap" style={{ fontSize: 'clamp(0.875rem, 2.8vw, 2.75rem)' }}>
+                <h1 id="hero-title" className="font-bold tracking-tight text-white leading-tight uppercase" style={{ fontSize: 'clamp(0.875rem, 2.8vw, 2.75rem)' }}>
                   {title}
                 </h1>
               </div>
@@ -125,8 +125,6 @@ export default function Hero({
                     buttonText === "Voir les biens" ? "Voir les biens immobiliers à vendre et à louer à Marseille" :
                     buttonText
                   }
-                  onMouseEnter={() => cursorPillLabel && cursor?.setOverServiceImage(cursorPillLabel)}
-                  onMouseLeave={() => cursorPillLabel && cursor?.setOverServiceImage(null)}
                   className="cta-fill-hover group/cta inline-flex items-center justify-center bg-transparent backdrop-blur-sm text-white border-2 border-white/60 font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10 cursor-pointer"
                   style={{
                     fontFamily: 'var(--font-poppins), sans-serif',
@@ -172,8 +170,6 @@ export default function Hero({
                     buttonText === "Voir les biens" ? "Voir les biens immobiliers à vendre et à louer à Marseille" :
                     buttonText
                   }
-                  onMouseEnter={() => cursorPillLabel && cursor?.setOverServiceImage(cursorPillLabel)}
-                  onMouseLeave={() => cursorPillLabel && cursor?.setOverServiceImage(null)}
                   className={`cta-fill-hover group/cta inline-flex items-center justify-center bg-transparent backdrop-blur-sm text-white border-2 border-white/60 font-semibold px-8 py-4 rounded-lg uppercase transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-white/10 cursor-pointer ${mobileCenter ? 'self-center sm:self-auto' : ''}`}
                   style={{
                     fontFamily: 'var(--font-poppins), sans-serif',

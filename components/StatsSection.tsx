@@ -74,9 +74,9 @@ export default function StatsSection() {
   return (
     <section className="pt-16 pb-20 sm:pt-20 sm:pb-24 md:pt-24 md:pb-28 font-sans relative z-10" aria-labelledby="estimation-comparison" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
       <FadeContent duration={1000} ease="power2.out" threshold={0.2}>
-        {/* Header — titre et sous-titre à gauche */}
+        {/* Header — titre et sous-titre plaqués à gauche */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 -ml-4 sm:-ml-6 lg:-ml-12 xl:-ml-16">
             <div>
               <p className="text-sm text-white/50 mb-3 uppercase tracking-widest" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>0 - 4</p>
               <h2 id="estimation-comparison" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-none uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>

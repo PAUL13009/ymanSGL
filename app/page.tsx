@@ -245,7 +245,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
                 <div className="flex-1">
                   <div className="mb-3">
-                    <h2 id="biens-a-la-une" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-left uppercase text-white leading-none" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <h2 id="biens-a-la-une" className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] font-bold text-left uppercase text-white leading-none" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Découvrez Nos Biens
                     </h2>
                   </div>
@@ -365,11 +365,11 @@ export default function Home() {
                   </h2>
                   
                   <div className="space-y-4 sm:space-y-6 mt-6 sm:mt-8">
-                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Nous privilégions les projets cohérents, avec des propriétaires impliqués et des objectifs réalistes.
                     </p>
                     
-                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
+                    <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed uppercase" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                       Chaque bien est étudié avant d'être accepté, afin de garantir une stratégie adaptée et un suivi sérieux.
                     </p>
                     
