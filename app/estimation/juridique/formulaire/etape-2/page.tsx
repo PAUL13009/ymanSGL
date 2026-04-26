@@ -537,7 +537,7 @@ export default function EstimationJuridiqueEtape2Page() {
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                 {photoPreviews.map((p, i) => (
                   <div key={i} className="relative group aspect-square rounded-lg overflow-hidden border border-white/10">
-                    <Image src={p} alt={`Photo ${i+1}`} fill className="object-cover" />
+                    <Image src={p} alt={`Photo ${i+1}`} fill unoptimized className="object-cover" />
                     <button type="button" onClick={() => handlePhotoRemove(i)} className="absolute top-1 right-1 w-6 h-6 bg-black/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-500">
                       <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>

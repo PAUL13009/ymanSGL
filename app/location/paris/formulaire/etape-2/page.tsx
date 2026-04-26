@@ -745,6 +745,7 @@ export default function LocationParisFormulaireEtape2Page() {
                       src={preview}
                       alt={`Photo ${index + 1}`}
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                     <button

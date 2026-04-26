@@ -282,6 +282,7 @@ export interface AnalyseLead {
   stationnement_ferme?: string | null
   surface_stationnement?: string | null
   etat_bien?: string | null
+  distribution_logement?: string | null
   travaux_recents?: boolean | null
   nature_travaux?: string | null
   annee_travaux?: number | null
@@ -315,14 +316,74 @@ export interface AnalyseLead {
 
   // Phase refonte: nouveaux champs communs
   annee_construction?: string | null
+  piscine?: boolean | null
+  piscine_annee?: number | null
+  piscine_implantation?: string | null
+  piscine_chauffee?: boolean | null
+  piscine_equipements?: string[] | null
+  procedure_en_cours_maison?: boolean | null
+  maison_stationnement_lieu?: string | null
+  maison_garage_independant?: boolean | null
+  maison_garage_independant_format?: string | null
+  maison_garage_sous_sol?: boolean | null
+  maison_auvent?: boolean | null
+  maison_aire_non_couverte?: boolean | null
+  maison_aire_non_couverte_sol?: string | null
+  maison_stationnement_exterieur?: string[] | null
+  maison_terrain_clos?: boolean | null
+  maison_type_cloture?: string | null
+  maison_portail?: boolean | null
+  maison_type_portail?: string | null
+  maison_systeme_acces?: string[] | null
+  maison_alarme_exterieur?: boolean | null
+  maison_cameras_exterieur?: boolean | null
+  maison_eclairage_exterieur?: string | null
+  maison_eclairage_exterieur_preciser?: string | null
+  maison_perimetre_autre?: string | null
+  maison_veranda_present?: boolean | null
+  maison_veranda_superficie?: string | null
+  maison_veranda_chauffee?: boolean | null
+  maison_veranda_nature?: string | null
+  maison_veranda_usage?: string | null
+  maison_veranda_urb_obtenue?: string | null
+  maison_veranda_urb_type?: string | null
+  maison_veranda_urb_type_autre?: string | null
+  maison_veranda_urb_travaux_conformes?: string | null
+  maison_veranda_urb_regularisee?: string | null
+  maison_extension_present?: boolean | null
+  maison_extension_superficie?: string | null
+  maison_extension_chauffee?: boolean | null
+  maison_extension_nature?: string | null
+  maison_extension_usage?: string | null
+  maison_extension_urb_obtenue?: string | null
+  maison_extension_urb_type?: string | null
+  maison_extension_urb_type_autre?: string | null
+  maison_extension_urb_travaux_conformes?: string | null
+  maison_extension_urb_regularisee?: string | null
+  maison_dependance_present?: boolean | null
+  maison_dependance_nombre?: string | null
+  maison_dependance_superficie?: string | null
+  maison_dependance_nature?: string | null
+  maison_dependance_usage?: string | null
+  maison_dependance_autorisation_urb?: string | null
   etat_toiture?: string | null
   etat_facade?: string | null
   etat_terrain_ext?: string | null
+  etat_murs_exterieurs?: string | null
+  etat_exterieur_terrain?: string | null
+  prestations_exterieures_maison?: string[] | null
+  prestations_exterieures_maison_autres?: string | null
   etat_murs?: string | null
   etat_sols?: string | null
   etat_plafonds?: string | null
   etat_menuiserie?: string | null
   securite_confort?: string[] | null
+  nombre_lots_immeuble?: string | null
+  etat_parties_communes_immeuble?: string | null
+  commerces_rdc_immeuble?: boolean | null
+  immeuble_securite_confort?: string[] | null
+  alarme?: boolean | null
+  porte_blindee?: boolean | null
   standing?: string | null
   materiaux?: string | null
   cuisine_electromenager?: string | null
@@ -378,6 +439,28 @@ export interface AnalyseLead {
   // Spécificités Paris
   surface_carrez?: string | null
   luminosite?: number | null
+  hauteur_plafond?: string | null
+  moulures_plafond?: boolean | null
+  materiau_sols?: string | null
+  murs_finitions?: string | null
+  menuiseries_materiau?: string | null
+  fenetres_sur_mesure?: boolean | null
+  ouvertures_type?: string | null
+  ouvertures_sur_mesure?: boolean | null
+  salle_de_bain_niveau?: string | null
+  salle_de_bain_double_vasque?: boolean | null
+  cuisine_ouverte?: boolean | null
+  cuisine_semi_equipee_ou_equipee?: string | null
+  cuisine_sur_mesure?: boolean | null
+  electromenager_inclus?: boolean | null
+  electromenager_gamme?: string | null
+  prestations_inter_principales?: string[] | null
+  prestations_inter_principales_autres?: string | null
+  prestations_inter_premium?: string[] | null
+  prestations_inter_premium_autres?: string | null
+  maison_annexes_interieures?: string | null
+  maison_annexes_interieures_autre?: string | null
+  maison_potentiel_particulier?: string | null
   luminosite_cour_uniquement?: string | null
   combles_rattachables?: string | null
   plan_etoile?: string | null
@@ -435,17 +518,23 @@ export const createAnalyseLead = async (leadData: AnalyseLead): Promise<string> 
 
 // Uploader des photos pour une estimation
 export const uploadEstimationPhotos = async (
-  files: File[], 
+  files: File[],
   leadId: string,
-  onProgress?: (uploaded: number, total: number) => void
+  onProgress?: (uploaded: number, total: number) => void,
+  /** Sous-dossier dans estimations/{leadId}/ (ex: exterieur, interieur) */
+  subfolder?: string
 ): Promise<string[]> => {
   const urls: string[] = []
-  
+  const prefix = subfolder?.replace(/^\/+|\/+$/g, '') || ''
+
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     const timestamp = Date.now()
     const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
-    const storageRef = ref(storage, `estimations/${leadId}/${timestamp}_${i}_${safeName}`)
+    const path = prefix
+      ? `estimations/${leadId}/${prefix}/${timestamp}_${i}_${safeName}`
+      : `estimations/${leadId}/${timestamp}_${i}_${safeName}`
+    const storageRef = ref(storage, path)
     
     const snapshot = await uploadBytes(storageRef, file)
     const downloadURL = await getDownloadURL(snapshot.ref)

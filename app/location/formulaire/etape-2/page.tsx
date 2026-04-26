@@ -169,12 +169,23 @@ export default function LocationFormulaireEtape2Page() {
   const [acceptPrivacy, setAcceptPrivacy] = useState(false)
 
   useEffect(() => {
-    const etape1 = sessionStorage.getItem('location_essentielle_etape1')
-    if (!etape1) {
-      router.push('/location/formulaire')
-      return
+    try {
+      const etape1 = sessionStorage.getItem('location_essentielle_etape1')
+      if (!etape1 || etape1 === 'null') {
+        router.replace('/location/formulaire')
+        return
+      }
+      const parsed = JSON.parse(etape1) as Record<string, unknown>
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        sessionStorage.removeItem('location_essentielle_etape1')
+        router.replace('/location/formulaire')
+        return
+      }
+      setEtape1Data(parsed)
+    } catch {
+      sessionStorage.removeItem('location_essentielle_etape1')
+      router.replace('/location/formulaire')
     }
-    setEtape1Data(JSON.parse(etape1))
   }, [router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -192,7 +203,8 @@ export default function LocationFormulaireEtape2Page() {
 
   const handleCheckboxChange = (name: string, value: string) => {
     setFormData(prev => {
-      const currentArray = prev[name as keyof typeof prev] as string[]
+      const raw = prev[name as keyof typeof prev]
+      const currentArray = Array.isArray(raw) ? (raw as string[]) : []
       const newArray = currentArray.includes(value)
         ? currentArray.filter(item => item !== value)
         : [...currentArray, value]
@@ -693,6 +705,7 @@ export default function LocationFormulaireEtape2Page() {
                       src={preview}
                       alt={`Photo ${index + 1}`}
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                     <button

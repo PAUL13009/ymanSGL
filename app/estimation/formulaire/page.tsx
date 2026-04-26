@@ -35,8 +35,10 @@ export default function EstimationFormulairePage() {
     }
 
     try {
-      // Envoyer les données partielles à Firebase
-      await createAnalyseLead({
+      sessionStorage.setItem('estimation_etape1', JSON.stringify(formData))
+      router.push('/estimation/formulaire/etape-2')
+
+      createAnalyseLead({
         civilite: formData.civilite || null,
         prenom: formData.prenom,
         nom: formData.nom,
@@ -44,14 +46,13 @@ export default function EstimationFormulairePage() {
         email: formData.email,
         type_demande: 'estimation_partielle_essentielle',
         status: 'nouveau'
+      }).catch((err) => {
+        console.error('Erreur enregistrement lead étape 1 (non bloquant):', err)
       })
-
-      // Sauvegarder en sessionStorage pour l'étape 2
-      sessionStorage.setItem('estimation_etape1', JSON.stringify(formData))
-      router.push('/estimation/formulaire/etape-2')
     } catch (error: any) {
       console.error('Erreur:', error)
       setSubmitError('Une erreur est survenue. Veuillez réessayer.')
+    } finally {
       setSubmitting(false)
     }
   }
