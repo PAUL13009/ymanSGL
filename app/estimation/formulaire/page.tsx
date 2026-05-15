@@ -63,9 +63,9 @@ export default function EstimationFormulairePage() {
   }
 
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center px-4">
+    <main className="min-h-[100dvh] bg-black flex flex-col items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 lg:py-28">
       <div className="w-full max-w-xl">
-        <div className="text-center mb-10">
+        <div className="text-center mb-12 sm:mb-14">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-wide mb-4" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
             Demander une estimation
           </h1>
@@ -106,12 +106,20 @@ export default function EstimationFormulairePage() {
             </div>
           </div>
 
-          <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-            Le formulaire prendra environ 5 min à être rempli.
-          </p>
-          <p className="text-white text-base mt-4 max-w-lg mx-auto leading-relaxed font-medium" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-            Afin de maximiser la précision de l'estimation de la valeur de votre bien, veuillez préparer s'il vous plaît des photos de votre bien.
-          </p>
+          <div className="mt-8 text-left rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 sm:px-6 sm:py-5 max-w-lg mx-auto">
+            <p
+              className="text-white text-base leading-relaxed font-semibold mb-3"
+              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+            >
+              Le formulaire prendra environ 10 minutes.
+            </p>
+            <p
+              className="text-white text-base leading-relaxed font-semibold"
+              style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
+            >
+              Afin de maximiser la précision de votre analyse, les photos extérieures et intérieures de votre bien vous seront demandées.
+            </p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -223,6 +231,8 @@ export default function EstimationFormulairePage() {
             {submitting ? 'Envoi en cours...' : 'Continuer'}
           </button>
         </form>
+        {/* Espace réservé en bas pour éviter que le CTA ne touche le bord de l’écran */}
+        <div className="h-6 sm:h-8 shrink-0" aria-hidden />
       </div>
     </main>
   )
