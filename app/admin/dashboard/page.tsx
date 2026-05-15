@@ -429,7 +429,7 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm text-white/70" style={f}>
                 {fieldsWithValues.map(({ key, label }) => {
                   const val = (estimation as any)[key]
-                  if (key === 'photos_urls') {
+                  if (key === 'photos_urls' || key === 'photos_interieur_urls') {
                     const urls = val as string[]
                     return (
                       <div key={key} className="col-span-2">

@@ -46,7 +46,10 @@ const ESTIMATION_BLOCS: BlocConfig[] = [
   },
   {
     title: 'Photos du bien',
-    fields: [{ key: 'photos_urls', label: 'Photos' }],
+    fields: [
+      { key: 'photos_urls', label: 'Photos extérieur' },
+      { key: 'photos_interieur_urls', label: 'Photos intérieur' },
+    ],
   },
   {
     title: 'Confort & Environnement',
@@ -1011,21 +1014,33 @@ const ESTIMATION_JURIDIQUE_BLOCS: BlocConfig[] = [
   },
 ]
 
-// Config par type de demande
+// Config par type de demande (alignée sur chaque `type_demande` en base + étapes 1 partielles)
 export function getFormBlocs(typeDemande: string | undefined): BlocConfig[] {
-  switch (typeDemande) {
-    case 'estimation':
-      return ESTIMATION_BLOCS
-    case 'estimation_investisseur':
-      return ESTIMATION_INVESTISSEUR_BLOCS
-    case 'estimation_paris':
-      return PARIS_URBAIN_BLOCS
-    case 'estimation_juridique':
-      return ESTIMATION_JURIDIQUE_BLOCS
-    case 'recherche_locataire_essentielle':
-    case 'recherche_locataire_paris':
-      return LOCATION_BLOCS
-    default:
-      return ESTIMATION_BLOCS // fallback
+  const t = typeDemande ?? ''
+  // Estimation essentielle : complète ou partielle (étape 1)
+  if (
+    t === 'estimation' ||
+    t === 'estimation_partielle' ||
+    t === 'estimation_partielle_essentielle'
+  ) {
+    return ESTIMATION_BLOCS
   }
+  // Investisseur
+  if (t === 'estimation_investisseur' || t === 'estimation_partielle_investisseur') {
+    return ESTIMATION_INVESTISSEUR_BLOCS
+  }
+  // Paris / urbain
+  if (t === 'estimation_paris' || t === 'estimation_partielle_paris') {
+    return PARIS_URBAIN_BLOCS
+  }
+  // Juridique
+  if (t === 'estimation_juridique' || t === 'estimation_partielle_juridique') {
+    return ESTIMATION_JURIDIQUE_BLOCS
+  }
+  // Location
+  if (t === 'recherche_locataire_essentielle' || t === 'recherche_locataire_paris') {
+    return LOCATION_BLOCS
+  }
+  // Fallback (anciens enregistrements ou types hors grille)
+  return ESTIMATION_BLOCS
 }
