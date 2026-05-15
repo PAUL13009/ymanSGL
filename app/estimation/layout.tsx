@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
 
+const PREVIEW =
+  'Mon dossier d’estimation immobilière en ligne / Prix réel du marché'
+
 export const metadata: Metadata = {
-  title: 'Estimation immobilière gratuite Marseille | Prix réel du marché - L\'Agence YL',
-  description: 'Estimation immobilière gratuite à Marseille basée sur les ventes réelles du marché. Analyse précise du bien et du secteur pour un prix vendable et réaliste. Expertise 6e-15e arrondissements.',
+  title: PREVIEW,
+  description: PREVIEW,
   alternates: {
     canonical: 'https://www.lagenceyl.fr/estimation',
   },
   openGraph: {
-    title: 'Estimation immobilière gratuite Marseille | Prix réel du marché',
-    description: 'Estimation immobilière gratuite à Marseille basée sur les ventes réelles du marché. Analyse précise du bien et du secteur pour un prix vendable et réaliste.',
+    title: PREVIEW,
+    description: PREVIEW,
     type: 'website',
     locale: 'fr_FR',
     url: 'https://www.lagenceyl.fr/estimation',
