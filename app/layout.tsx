@@ -22,23 +22,25 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Agence immobilière Marseille | Estimation, vente et location - L\'Agence YL',
-  description: 'Agence immobilière Marseille : estimation immobilière gratuite, vente et location accompagnées. Expertise locale, méthode structurée pour projets immobiliers clairs à Marseille et environs.',
+  title: 'Agence d\'expertise immobilière Marq | Région parisienne - L\'Agence YL',
+  description:
+    'Agence d\'expertise immobilière à Marq, en région parisienne. Estimation, vente et location accompagnées. Méthode structurée et analyse de marché pour des projets immobiliers clairs.',
   keywords: [
-    'estimation immobilière Marseille',
-    'vente immobilière Marseille',
-    'agence immobilière 6e arrondissement',
-    'estimation bien immobilier Vauban',
-    'vendre appartement Marseille',
-    'vendre maison Marseille',
-    'prix immobilier Marseille',
+    'expertise immobilière Marq',
+    'agence expertise immobilière région parisienne',
+    'estimation immobilière Marq',
+    'estimation immobilière Île-de-France',
+    'vente immobilière Marq',
+    'location immobilière Marq',
+    'prix immobilier Marq',
     'marché immobilier local',
-    'vendeur particulier Marseille',
-    'estimation réaliste bien immobilier'
+    'estimation réaliste bien immobilier',
+    'L\'Agence YL',
   ],
   openGraph: {
-    title: 'Agence immobilière Marseille | Estimation, vente et location - L\'Agence YL',
-    description: 'Agence immobilière Marseille : estimation immobilière gratuite, vente et location accompagnées. Expertise locale, méthode structurée pour projets immobiliers clairs à Marseille et environs.',
+    title: 'Agence d\'expertise immobilière Marq | Région parisienne - L\'Agence YL',
+    description:
+      'Agence d\'expertise immobilière à Marq, en région parisienne. Estimation, vente et location accompagnées. Méthode structurée et analyse de marché pour des projets immobiliers clairs.',
     type: 'website',
     locale: 'fr_FR',
     siteName: "L'Agence YL",
