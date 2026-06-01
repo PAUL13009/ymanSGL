@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createAnalyseLead } from '@/lib/firebase-admin'
+import FormulaireFormuleBanner from '@/components/estimation/FormulaireFormuleBanner'
 
 export default function EstimationInvestisseurFormulairePage() {
   const router = useRouter()
@@ -72,6 +73,9 @@ export default function EstimationInvestisseurFormulairePage() {
           <p className="text-white/50 text-sm uppercase tracking-widest" style={fontStyle}>
             Étape 1 / 2 — Vos coordonnées
           </p>
+
+          <FormulaireFormuleBanner formule="investisseur" />
+
           <p className="text-white text-base mt-6 max-w-lg mx-auto leading-relaxed font-medium" style={fontStyle}>
             Le formulaire prendra environ 5 min à être rempli.
           </p>

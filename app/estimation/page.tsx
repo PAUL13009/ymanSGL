@@ -9,6 +9,7 @@ import FadeContent from '@/components/FadeContent'
 import ScrollRevealText from '@/components/ScrollRevealText'
 import { useProximityContainer } from '@/components/ProximityProvider'
 import { useCursor } from '@/context/CursorContext'
+import { ESTIMATION_FORMULES } from '@/lib/estimation-pricing'
 
 export default function EstimationPage() {
   const cursor = useCursor()
@@ -351,7 +352,7 @@ export default function EstimationPage() {
               >
                 <div className="mb-6">
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>79€</span>
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>{ESTIMATION_FORMULES.essentielle.prixEuros}€</span>
                     <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Essentielle</h3>
@@ -398,7 +399,7 @@ export default function EstimationPage() {
                     </span>
                   </div>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>139€</span>
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>{ESTIMATION_FORMULES.urbain.prixEuros}€</span>
                     <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Urbain</h3>
@@ -447,7 +448,7 @@ export default function EstimationPage() {
               >
                 <div className="mb-6">
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>189€</span>
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>{ESTIMATION_FORMULES.investisseur.prixEuros}€</span>
                     <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>Investissement</h3>
@@ -494,7 +495,7 @@ export default function EstimationPage() {
               >
                 <div className="mb-6">
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>249€</span>
+                    <span className="text-5xl md:text-6xl font-bold text-white" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>{ESTIMATION_FORMULES.juridique.prixEuros}€</span>
                     <span className="text-sm font-normal text-white/80" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>TTC</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>

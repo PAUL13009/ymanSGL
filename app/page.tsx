@@ -405,7 +405,7 @@ export default function Home() {
                   {/* Image sans bordure blanche avec effet hover */}
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <Image
-                      src="/images/ymannew.png"
+                      src="/images/yman.png"
                       alt="Yman Lahlou, Experte Immobilier Agréé"
                       fill
                       className="object-contain"

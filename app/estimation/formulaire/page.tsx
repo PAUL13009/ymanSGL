@@ -3,11 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createAnalyseLead } from '@/lib/firebase-admin'
-
-const ESTIMATION_ESSENTIELLE = {
-  label: 'Estimation Essentielle',
-  prixEuros: '79',
-} as const
+import FormulaireFormuleBanner from '@/components/estimation/FormulaireFormuleBanner'
 
 export default function EstimationFormulairePage() {
   const router = useRouter()
@@ -73,38 +69,7 @@ export default function EstimationFormulairePage() {
             Étape 1 / 2 — Vos coordonnées
           </p>
 
-          <div
-            className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 sm:px-8 sm:py-6 text-left backdrop-blur-sm"
-            aria-label={`${ESTIMATION_ESSENTIELLE.label}, tarif`}
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-              <div className="space-y-1">
-                <p
-                  className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-white/45"
-                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-                >
-                  Formule sélectionnée
-                </p>
-                <p
-                  className="text-xl sm:text-2xl font-semibold text-white tracking-tight"
-                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-                >
-                  {ESTIMATION_ESSENTIELLE.label}
-                </p>
-              </div>
-              <div className="flex items-baseline gap-2 shrink-0 sm:ml-auto">
-                <span
-                  className="text-4xl sm:text-5xl font-bold text-white tabular-nums"
-                  style={{ fontFamily: 'var(--font-poppins), sans-serif' }}
-                >
-                  {ESTIMATION_ESSENTIELLE.prixEuros}€
-                </span>
-                <span className="text-sm font-normal text-white/75" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
-                  TTC
-                </span>
-              </div>
-            </div>
-          </div>
+          <FormulaireFormuleBanner formule="essentielle" />
 
           <div className="mt-8 text-left rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 sm:px-6 sm:py-5 max-w-lg mx-auto">
             <p

@@ -256,7 +256,7 @@ export default function AProposPage() {
               <div>
                 <div className="relative h-[450px] sm:h-[500px] md:h-[600px] overflow-hidden rounded-lg">
                 <Image
-                    src="/images/ymannew.png"
+                    src="/images/yman.png"
                     alt="Yman Lahlou, Experte Immobilier Agréé à Saint-Germain-en-Laye"
                   fill
                   className="object-cover"
