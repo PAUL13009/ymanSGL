@@ -36,7 +36,6 @@ export default function Navbar() {
     { label: 'Accueil', link: '/', ariaLabel: 'Aller à la page d\'accueil' },
     { label: 'Mon dossier d\'estimation', link: '/estimation', ariaLabel: 'Aller à la page Mon dossier d\'estimation' },
     { label: 'Vendre à Saint-Germain-en-Laye & Environs', link: '/vente', ariaLabel: 'Vendre à Saint-Germain-en-Laye et environs' },
-    { label: 'Louer à Saint-Germain-en-Laye & Environs', link: '/location', ariaLabel: 'Louer à Saint-Germain-en-Laye et environs' },
     { label: 'Notre Méthode', link: '/notre-methode', ariaLabel: 'Aller à la page Notre méthode' },
     { label: 'Notre Sélection', link: '/catalogue', ariaLabel: 'Aller à notre sélection des biens' },
     { label: 'A propos', link: '/a-propos', ariaLabel: 'Aller à la page A propos' },
@@ -73,28 +72,29 @@ export default function Navbar() {
     }
   }, [])
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const panel = panelRef.current
-      const preContainer = preLayersRef.current
-      const plusH = plusHRef.current
-      const plusV = plusVRef.current
-      const icon = iconRef.current
-      if (!panel || !plusH || !plusV || !icon) return
+  const initMenuClosed = useCallback(() => {
+    const panel = panelRef.current
+    const preContainer = preLayersRef.current
+    const plusH = plusHRef.current
+    const plusV = plusVRef.current
+    const icon = iconRef.current
+    if (!panel || !plusH || !plusV || !icon) return
 
-      let preLayers: HTMLElement[] = []
-      if (preContainer) {
-        preLayers = Array.from(preContainer.querySelectorAll('.sm-prelayer')) as HTMLElement[]
-      }
-      preLayerElsRef.current = preLayers
+    let preLayers: HTMLElement[] = []
+    if (preContainer) {
+      preLayers = Array.from(preContainer.querySelectorAll('.sm-prelayer')) as HTMLElement[]
+    }
+    preLayerElsRef.current = preLayers
 
-      gsap.set([panel, ...preLayers], { xPercent: 100 })
-      gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 })
-      gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 })
-      gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' })
-    })
-    return () => ctx.revert()
+    gsap.set([panel, ...preLayers], { xPercent: 100 })
+    gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 })
+    gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 })
+    gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' })
   }, [])
+
+  useLayoutEffect(() => {
+    initMenuClosed()
+  }, [initMenuClosed])
 
   const buildOpenTimeline = useCallback(() => {
     const panel = panelRef.current
@@ -254,46 +254,14 @@ export default function Navbar() {
     }
   }, [menuOpen, playClose, animateIcon])
 
-  // Détection du curseur à l'extrémité droite pour ouvrir le menu automatiquement (uniquement sur desktop)
+  // Fermer le menu à chaque changement de page
   useEffect(() => {
-    // Désactiver cette fonctionnalité sur mobile
-    if (isMobile) return
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const windowWidth = window.innerWidth
-      const mouseX = e.clientX
-      const threshold = 50 // Distance en pixels depuis le bord droit pour déclencher l'ouverture
-      
-      // Si le curseur est proche du bord droit (dans les 50px)
-      if (mouseX >= windowWidth - threshold && !menuOpen) {
-        setMenuOpen(true)
-        playOpen()
-        animateIcon(true)
-      }
-    }
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [menuOpen, playOpen, animateIcon, isMobile])
-
-  // Fermeture automatique du menu quand le curseur quitte le menu
-  useEffect(() => {
-    if (!menuOpen) return
-
-    const panel = panelRef.current
-    if (!panel) return
-
-    const handleMouseLeave = () => {
-      setMenuOpen(false)
-      playClose()
-      animateIcon(false)
-    }
-
-    panel.addEventListener('mouseleave', handleMouseLeave)
-    return () => {
-      panel.removeEventListener('mouseleave', handleMouseLeave)
-    }
-  }, [menuOpen, playClose, animateIcon])
+    setMenuOpen(false)
+    playClose()
+    animateIcon(false)
+    initMenuClosed()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- uniquement au changement de route
+  }, [pathname])
 
   return (
     <div data-open={menuOpen || undefined}>
@@ -352,6 +320,7 @@ export default function Navbar() {
         id="staggered-menu-panel"
         ref={panelRef as any}
         className="staggered-menu-panel"
+        data-menu-open={menuOpen ? 'true' : 'false'}
         aria-hidden={!menuOpen}
         role="navigation"
         aria-label="Menu de navigation"

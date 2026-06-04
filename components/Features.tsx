@@ -15,7 +15,7 @@ interface ServiceData {
   ctaText: string
 }
 
-const SERVICE_LABELS = ['ESTIMER', 'VENDRE', 'LOUER'] as const
+const SERVICE_LABELS = ['ESTIMER', 'VENDRE'] as const
 
 export default function Features() {
   const cursor = useCursor()
@@ -38,15 +38,6 @@ export default function Features() {
       description: "Un plan d'action sur mesure : de la valorisation de votre bien à la sélection rigoureuse d'acquéreurs qualifiés",
       link: "/vente",
       ctaText: "Vendre mon bien"
-    },
-    {
-      number: '03',
-      image: "/images/locationyl.jpg",
-      imageAlt: "Mise en location - Agence YL",
-      title: "MISE EN LOCATION",
-      description: "Accompagnement complet pour la mise en location de votre patrimoine. Recherche de locataire, suivi du dossier jusqu'à l'état des lieux d'entrée et la remise des clés.",
-      link: "/location",
-      ctaText: "Louer mon bien"
     },
   ]
 
@@ -87,7 +78,7 @@ export default function Features() {
               <div className="mb-12 -ml-8 sm:-ml-12 lg:-ml-16 xl:-ml-20">
                 <h2 id="services-title" className="text-8xl xl:text-9xl 2xl:text-[14rem] font-extrabold leading-none text-white uppercase inline-block tracking-tight" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>
                   NOS SERVICES
-                  <sup className="text-xl xl:text-2xl font-normal ml-1 align-super">(3)</sup>
+                  <sup className="text-xl xl:text-2xl font-normal ml-1 align-super">(2)</sup>
                 </h2>
               </div>
 

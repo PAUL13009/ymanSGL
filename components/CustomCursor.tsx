@@ -1,34 +1,57 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useCursor } from '@/context/CursorContext'
 
+function detectFinePointer(): boolean {
+  if (typeof window === 'undefined') return false
+  const fine = window.matchMedia('(pointer: fine)').matches
+  const hover = window.matchMedia('(hover: hover)').matches
+  // Fallback desktop : évite curseur invisible si matchMedia est trop strict
+  const desktopFallback = window.innerWidth >= 1024 && !('ontouchstart' in window)
+  return (fine && hover) || desktopFallback
+}
+
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: -100, y: -100 })
+  const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
   const [hasPointer, setHasPointer] = useState(false)
+  const visibleRef = useRef(false)
   const cursorCtx = useCursor()
   const pillText = cursorCtx?.servicePillLabel ?? (cursorCtx?.overPropertyCard ? 'VOIR' : null)
   const showPill = pillText !== null
 
   useEffect(() => {
-    const isPointerDevice = window.matchMedia('(pointer: fine)').matches
-    const hasHover = window.matchMedia('(hover: hover)').matches
-    setHasPointer(isPointerDevice && hasHover)
+    const enabled = detectFinePointer()
+    setHasPointer(enabled)
+    document.documentElement.classList.toggle('custom-cursor-enabled', enabled)
+    return () => {
+      document.documentElement.classList.remove('custom-cursor-enabled')
+    }
   }, [])
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     setPosition({ x: e.clientX, y: e.clientY })
-    if (!isVisible) setIsVisible(true)
-  }, [isVisible])
+    if (!visibleRef.current) {
+      visibleRef.current = true
+      setIsVisible(true)
+    }
+  }, [])
 
-  const handleMouseEnter = useCallback(() => setIsVisible(true), [])
-  const handleMouseLeave = useCallback(() => setIsVisible(false), [])
+  const handleMouseEnter = useCallback(() => {
+    visibleRef.current = true
+    setIsVisible(true)
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    visibleRef.current = false
+    setIsVisible(false)
+  }, [])
 
   useEffect(() => {
     if (!hasPointer) return
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     document.documentElement.addEventListener('mouseenter', handleMouseEnter)
     document.documentElement.addEventListener('mouseleave', handleMouseLeave)
 

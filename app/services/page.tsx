@@ -22,13 +22,6 @@ export default function ServicesPage() {
       description: "UN PLAN D'ACTION SUR MESURE : DE LA VALORISATION DE VOTRE BIEN À LA SÉLECTION RIGOUREUSE D'ACQUÉREURS QUALIFIÉS",
       link: "/vente",
     },
-    {
-      image: "/images/locationyl.jpg",
-      imageAlt: "Mise en location - Agence YL",
-      title: "MISE EN LOCATION",
-      description: "ACCOMPAGNEMENT COMPLET POUR LA MISE EN LOCATION DE VOTRE PATRIMOINE. RECHERCHE DE LOCATAIRE, SUIVI DU DOSSIER JUSQU'À L'ÉTAT DES LIEUX D'ENTRÉE ET LA REMISE DES CLÉS.",
-      link: "/location",
-    },
   ]
 
   return (

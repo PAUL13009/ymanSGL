@@ -7,10 +7,10 @@
     scroll-behavior: smooth;
   }
   
-  /* Curseur personnalisé unique — aucun curseur système n'apparaît */
-  *,
-  *::before,
-  *::after {
+  /* Masquer le curseur système uniquement quand le curseur personnalisé est actif */
+  html.custom-cursor-enabled *,
+  html.custom-cursor-enabled *::before,
+  html.custom-cursor-enabled *::after {
     cursor: none !important;
   }
 
