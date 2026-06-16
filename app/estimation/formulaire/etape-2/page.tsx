@@ -1328,7 +1328,7 @@ export default function EstimationEtape2Page() {
       console.log('Données enregistrées avec succès (photos incluses), ID:', leadId)
 
       sessionStorage.removeItem('estimation_etape1')
-      window.location.href = 'https://buy.stripe.com/eVq5kD518640ccR9FVeQM00'
+      window.location.href = 'https://buy.stripe.com/14A7sLbpw4ZW7WB2dteQM06'
     } catch (error: any) {
       console.error('Erreur:', error)
       let errorMessage = 'Une erreur est survenue. Veuillez réessayer.'

@@ -342,7 +342,7 @@ export default function EstimationInvestisseurEtape2Page() {
       await createAnalyseLead(completeData)
 
       sessionStorage.removeItem('estimation_investisseur_etape1')
-      window.location.href = 'https://buy.stripe.com/14A6oH9ho7841yd05leQM02'
+      window.location.href = 'https://buy.stripe.com/6oU4gzbpw9gc2Ch2dteQM08'
     } catch (error: any) {
       console.error('Erreur:', error)
       setSubmitError(error.message || 'Une erreur est survenue. Veuillez réessayer.')

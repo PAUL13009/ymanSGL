@@ -287,7 +287,7 @@ export default function EstimationParisEtape2Page() {
       setUploadProgress('Enregistrement...')
       await createAnalyseLead(d)
       sessionStorage.removeItem('estimation_paris_etape1')
-      window.location.href = 'https://buy.stripe.com/5kQbJ13X48c8dgVaJZeQM01'
+      window.location.href = 'https://buy.stripe.com/5kQ6oH8dk2ROccRdWbeQM07'
     } catch (err: any) {
       setSubmitError(err.message || 'Une erreur est survenue.')
       setSubmitting(false)

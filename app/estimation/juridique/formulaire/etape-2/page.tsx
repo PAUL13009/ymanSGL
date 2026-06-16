@@ -276,7 +276,7 @@ export default function EstimationJuridiqueEtape2Page() {
       setUploadProgress('Enregistrement...')
       await createAnalyseLead(d)
       sessionStorage.removeItem('estimation_juridique_etape1')
-      window.location.href = 'https://buy.stripe.com/6oUfZhbpw8c86Sxg4jeQM03'
+      window.location.href = 'https://buy.stripe.com/5kQ3cvfFM2ROb8N3hxeQM09'
     } catch (err: any) {
       setSubmitError(err.message || 'Une erreur est survenue.')
       setSubmitting(false)
